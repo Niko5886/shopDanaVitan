@@ -21,7 +21,7 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-3" aria-label="Към началото">
           <span className="h-10 w-10 rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.9),rgba(0,0,0,0.8))]" />
           <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-white/60">Dana`|`Vitan</p>
+            <p className="text-sm uppercase tracking-[0.3em] text-white/60">Dana Vitan</p>
           </div>
         </Link>
         <nav className="hidden items-center gap-8 text-sm uppercase tracking-[0.2em] text-white/70 md:flex">
