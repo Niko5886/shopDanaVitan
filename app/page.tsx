@@ -37,9 +37,9 @@ export default function Home() {
                     <a
                       key={item.id}
                       href={item.href}
-                      className="group block rounded-3xl border border-white/10 bg-white/5 p-6 hover:scale-105 transform-gpu transition h-40 sm:h-48 flex items-center justify-center"
+                      className="group block rounded-3xl border border-white/10 bg-white/5 p-4 hover:scale-105 transform-gpu transition h-28 sm:h-32 flex items-center justify-center"
                     >
-                      <div className="text-2xl font-semibold text-white uppercase tracking-[0.15em] text-center">
+                      <div className="text-xl font-semibold text-white uppercase tracking-[0.12em] text-center">
                         {item.title}
                       </div>
                     </a>
