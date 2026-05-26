@@ -241,50 +241,6 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="stories" className="scroll-mt-28 px-6 pb-20">
-            <div className="mx-auto w-full max-w-6xl">
-              <div className="flex flex-wrap items-end justify-between gap-6">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-white/60">Истории</p>
-                  <h2 className="mt-3 text-3xl font-semibold text-white">
-                    Отзиви от клиенти
-                  </h2>
-                </div>
-                <p className="max-w-md text-sm text-white/60">
-                  Жените, които носят нашите визии, обичат вниманието към детайла и
-                  усещането за лична история.
-                </p>
-              </div>
-              <div className="mt-10 grid gap-6 lg:grid-cols-3">
-                {[
-                  {
-                    name: "Мария, София",
-                    text: "" +
-                      "Всяка нишка беше изпипана. Получих визия, която ме кара да се чувствам уверена.",
-                  },
-                  {
-                    name: "Елица, Пловдив",
-                    text: "Бърза комуникация, изключителен вкус и точна доставка с Еконт.",
-                  },
-                  {
-                    name: "Диана, Варна",
-                    text: "Ателие Nosiya превърна идеята ми в нещо истински модерно.",
-                  },
-                ].map((story) => (
-                  <div
-                    key={story.name}
-                    className="rounded-3xl border border-white/10 bg-white/5 p-6"
-                  >
-                    <p className="text-sm text-white/70">“{story.text}”</p>
-                    <p className="mt-4 text-xs uppercase tracking-[0.3em] text-white/50">
-                      {story.name}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
           <section id="contacts" className="scroll-mt-28 px-6 pb-24">
             <div className="mx-auto w-full max-w-6xl rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(122,12,31,0.75),rgba(8,8,8,0.95))] p-10">
               <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
