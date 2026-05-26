@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bg" className={`${manrope.variable} ${playfair.variable} h-full scroll-smooth antialiased`}>
-      <body className="min-h-full flex flex-col bg-[color:var(--background)]">
+      <body className="min-h-full flex flex-col overflow-x-hidden bg-[color:var(--background)]">
         <Header />
         {children}
       </body>
