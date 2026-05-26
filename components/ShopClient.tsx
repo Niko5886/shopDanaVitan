@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react";
 import type { ProductWithImages } from "../data/products";
 import Image from "next/image";
+import Lightbox from "./Lightbox";
 
 type Props = {
   products: ProductWithImages[];
@@ -9,14 +10,22 @@ type Props = {
 
 const CATEGORIES = ["Поли", "Рокли", "Ризи", "Топове", "Сака", "Аксесоари"];
 
-function ProductCard({ p }: { p: ProductWithImages }) {
+function ProductCard({ p, openLightbox }: { p: ProductWithImages; openLightbox: (images: string[], i?: number) => void }) {
   const images = p.images ?? (p.thumb ? [p.thumb] : []);
   const [idx, setIdx] = useState(0);
+
+  // default focal point (center top-ish) or per-image focalPoints
+  const focalFor = (i: number) => {
+    if (p.focalPoints && p.focalPoints[i]) {
+      return `${p.focalPoints[i].x}% ${p.focalPoints[i].y}%`;
+    }
+    return "50% 30%";
+  };
 
   if (images.length === 0) {
     return (
       <div className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
-        <div className="relative h-44 w-full bg-white/5" />
+        <div className="relative aspect-[3/4] w-full bg-white/5" />
         <div className="p-6">
           <div className="mt-2 flex items-center justify-between">
             <div>
@@ -32,19 +41,37 @@ function ProductCard({ p }: { p: ProductWithImages }) {
 
   return (
     <div className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
-      <div className="relative h-52 w-full bg-black">
-        <Image src={images[idx]} alt={p.title} fill sizes="(max-width: 1024px) 50vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+      <div
+        className="relative w-full aspect-[3/4] bg-black cursor-pointer"
+        onClick={() => openLightbox(images, idx)}
+        role="button"
+        aria-label={`Отвори ${p.title}`}
+      >
+        <Image
+          src={images[idx]}
+          alt={p.title}
+          fill
+          sizes="(max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          style={{ objectPosition: focalFor(idx) }}
+        />
 
         {/* arrows */}
         <button
-          onClick={() => setIdx((i) => (i - 1 + images.length) % images.length)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIdx((i) => (i - 1 + images.length) % images.length);
+          }}
           className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 group-hover:opacity-100 transition"
           aria-label="prev"
         >
           ‹
         </button>
         <button
-          onClick={() => setIdx((i) => (i + 1) % images.length)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIdx((i) => (i + 1) % images.length);
+          }}
           className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 group-hover:opacity-100 transition"
           aria-label="next"
         >
@@ -54,7 +81,14 @@ function ProductCard({ p }: { p: ProductWithImages }) {
         {/* thumbnail strip */}
         <div className="absolute left-1/2 bottom-2 -translate-x-1/2 flex gap-2 rounded-full bg-black/30 p-1 px-2 opacity-90">
           {images.map((im, i) => (
-            <button key={im} onClick={() => setIdx(i)} className={`h-8 w-12 overflow-hidden rounded ${i === idx ? "ring-2 ring-[color:var(--accent)]" : "opacity-70 hover:opacity-100"}`}>
+            <button
+              key={im}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIdx(i);
+              }}
+              className={`h-8 w-12 overflow-hidden rounded ${i === idx ? "ring-2 ring-[color:var(--accent)]" : "opacity-70 hover:opacity-100"}`}
+            >
               <Image src={im} alt={`${p.title} ${i + 1}`} width={48} height={32} className="object-cover" />
             </button>
           ))}
@@ -78,6 +112,9 @@ export default function ShopClient({ products }: Props) {
   const [selected, setSelected] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImages, setLightboxImages] = useState<string[]>([]);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
   const [drawer, setDrawer] = useState(false);
   const perPage = 9;
 
@@ -99,6 +136,12 @@ export default function ShopClient({ products }: Props) {
   function toggleCategory(cat: string) {
     setPage(1);
     setSelected((s) => (s.includes(cat) ? s.filter((x) => x !== cat) : [...s, cat]));
+  }
+
+  function openLightbox(images: string[], index = 0) {
+    setLightboxImages(images);
+    setLightboxIndex(index);
+    setLightboxOpen(true);
   }
 
   return (
@@ -158,9 +201,17 @@ export default function ShopClient({ products }: Props) {
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {pageItems.map((p) => (
-          <ProductCard key={p.id} p={p} />
+          <ProductCard key={p.id} p={p} openLightbox={openLightbox} />
         ))}
       </div>
+
+      {lightboxOpen && (
+        <Lightbox
+          images={lightboxImages}
+          initialIndex={lightboxIndex}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
 
       <div className="mt-8 flex items-center justify-center gap-3">
         <button

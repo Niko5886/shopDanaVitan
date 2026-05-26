@@ -6,7 +6,7 @@ export type Product = {
   note?: string;
 };
 
-export type ProductWithImages = Product & { images?: string[]; thumb?: string };
+export type ProductWithImages = Product & { images?: string[]; thumb?: string; focalPoints?: { x: number; y: number }[] };
 
 export const products: ProductWithImages[] = [
   // Трите карти, всяка съдържа 3 реални снимки от imgDana (1-3, 4-6, 7-9)
@@ -22,6 +22,11 @@ export const products: ProductWithImages[] = [
       "/assets/imgDana/product-03.webp",
     ],
     thumb: "/assets/imgDana/product-01-thumb.webp",
+    focalPoints: [
+      { x: 50, y: 30 },
+      { x: 50, y: 30 },
+      { x: 50, y: 30 },
+    ],
   },
   {
     id: "card-2",
@@ -35,6 +40,11 @@ export const products: ProductWithImages[] = [
       "/assets/imgDana/product-06.webp",
     ],
     thumb: "/assets/imgDana/product-04-thumb.webp",
+    focalPoints: [
+      { x: 50, y: 30 },
+      { x: 50, y: 30 },
+      { x: 50, y: 30 },
+    ],
   },
   {
     id: "card-3",
@@ -48,6 +58,11 @@ export const products: ProductWithImages[] = [
       "/assets/imgDana/product-09.webp",
     ],
     thumb: "/assets/imgDana/product-07-thumb.webp",
+    focalPoints: [
+      { x: 50, y: 30 },
+      { x: 50, y: 30 },
+      { x: 50, y: 30 },
+    ],
   },
 
   // Останалите продукти остават като отдельни артикули (без multiple images)
