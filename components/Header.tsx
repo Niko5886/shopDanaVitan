@@ -7,8 +7,7 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <span className="h-10 w-10 rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.9),rgba(0,0,0,0.8))]" />
           <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-white/60">Atelie</p>
-            <p className="text-lg font-semibold text-white">Nosiya</p>
+            <p className="text-sm uppercase tracking-[0.3em] text-white/60">Dana`|`Vitan</p>
           </div>
         </div>
         <nav className="hidden items-center gap-8 text-sm uppercase tracking-[0.2em] text-white/70 md:flex">

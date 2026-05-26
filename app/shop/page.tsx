@@ -2,7 +2,7 @@ import ShopClient from "../../components/ShopClient";
 import { products } from "../../data/products";
 
 export const metadata = {
-  title: "Магазин — Atelie Nosiya",
+  title: "Магазин — Dana`|`Vitan",
 };
 
 export default function ShopPage() {

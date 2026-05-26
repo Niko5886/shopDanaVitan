@@ -14,7 +14,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Atelie Nosiya | Бутикови дрехи и стилизирани носии",
+  title: "Dana`|`Vitan | Бутикови дрехи и стилизирани носии",
   description:
     "Бутикови дрехи, стилизирани носии и аксесоари с ръчна изработка и персонална консултация.",
 };

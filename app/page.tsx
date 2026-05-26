@@ -331,7 +331,7 @@ export default function Home() {
 
         <footer className="border-t border-white/10 px-6 py-10">
           <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-6 text-xs uppercase tracking-[0.3em] text-white/50">
-            <span>© 2026 Atelie Nosiya</span>
+            <span>© 2026 Dana`|`Vitan</span>
             <div className="flex flex-wrap gap-6">
               <span>Политика за доставка</span>
               <span>Връщане и замяна</span>
