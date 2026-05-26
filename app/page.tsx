@@ -30,35 +30,18 @@ export default function Home() {
                 </div>
                 <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-3">
                   {[
-                    {
-                      id: "etho",
-                      title: "Etho",
-                      desc: "Колекция с етно мотиви — лимитирани серии",
-                      href: "/brand/etho",
-                    },
-                    {
-                      id: "afro",
-                      title: "Afro",
-                      desc: "Модерни силуети с афро вдъхновение",
-                      href: "/brand/afro",
-                    },
-                    {
-                      id: "casual",
-                      title: "Casual",
-                      desc: "Ежедневни визии за комфорт и стил",
-                      href: "/brand/casual",
-                    },
+                    { id: "etho", title: "Etho", href: "/brand/etho" },
+                    { id: "afro", title: "Afro", href: "/brand/afro" },
+                    { id: "casual", title: "Casual", href: "/brand/casual" },
                   ].map((item) => (
                     <a
                       key={item.id}
                       href={item.href}
-                      className="group block rounded-3xl border border-white/10 bg-white/5 p-6 hover:scale-105 transform-gpu transition"
+                      className="group block rounded-3xl border border-white/10 bg-white/5 p-6 hover:scale-105 transform-gpu transition h-40 sm:h-48 flex items-center justify-center"
                     >
-                      <div className="text-xs uppercase tracking-[0.3em] text-white/60">
+                      <div className="text-2xl font-semibold text-white uppercase tracking-[0.15em] text-center">
                         {item.title}
                       </div>
-                      <h3 className="mt-2 text-2xl font-semibold text-white">{item.title}</h3>
-                      <p className="mt-3 text-sm text-white/60">{item.desc}</p>
                     </a>
                   ))}
                 </div>
