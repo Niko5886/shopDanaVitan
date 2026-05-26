@@ -16,9 +16,9 @@ export default function Home() {
                 </h1>
                 <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-3">
                   {[
-                    { id: "etho", title: "Etho", href: "/brand/etho" },
-                    { id: "afro", title: "Afro", href: "/brand/afro" },
-                    { id: "casual", title: "Casual", href: "/brand/casual" },
+                    { id: "etho", title: "Етно", href: "/brand/etho" },
+                    { id: "afro", title: "Афро", href: "/brand/afro" },
+                    { id: "casual", title: "Кежуал", href: "/brand/casual" },
                   ].map((item) => (
                     <a
                       key={item.id}
@@ -37,12 +37,12 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="px-6 pb-20">
+          <section id="shop" className="scroll-mt-28 px-6 pb-20">
             <div className="mx-auto w-full max-w-6xl">
               <div className="flex flex-wrap items-end justify-between gap-6">
                 <div>
                   <p className="text-xs uppercase tracking-[0.3em] text-white/60">
-                    НАЧАЛО
+                    МАГАЗИН
                   </p>
                   <h2 className="mt-3 text-3xl font-semibold text-white">
                     Колекции, които разказват история
@@ -95,83 +95,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="products" className="scroll-mt-28 px-6 pb-20">
-            <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/60">МАГАЗИН</p>
-                <h2 className="mt-4 text-3xl font-semibold text-white">
-                  Селекция за вечерни ритуали и модерни събития
-                </h2>
-                <div className="mt-8 grid gap-6 sm:grid-cols-2">
-                  {[
-                    {
-                      title: "Рокля " + "Розова нишка",
-                      price: "690 лв.",
-                      note: "Сатен, бордо кант",
-                    },
-                    {
-                      title: "Елек " + "Тъмна шевица",
-                      price: "420 лв.",
-                      note: "Ръчна бродерия",
-                    },
-                    {
-                      title: "Комплект " + "Залез",
-                      price: "980 лв.",
-                      note: "Вълна и коприна",
-                    },
-                    {
-                      title: "Пелерина " + "Ателие",
-                      price: "350 лв.",
-                      note: "Лимитирана серия",
-                    },
-                  ].map((product) => (
-                    <div
-                      key={product.title}
-                      className="rounded-2xl border border-white/10 bg-black/30 p-5"
-                    >
-                      <div className="h-24 rounded-xl bg-[linear-gradient(150deg,rgba(122,12,31,0.55),rgba(0,0,0,0.85))]" />
-                      <div className="mt-4 flex items-center justify-between">
-                        <p className="text-sm font-semibold text-white">
-                          {product.title}
-                        </p>
-                        <span className="text-xs text-white/70">{product.price}</span>
-                      </div>
-                      <p className="text-xs text-white/60">{product.note}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-6">
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-                  <p className="text-xs uppercase tracking-[0.3em] text-white/60">Персонализация</p>
-                  <h3 className="mt-4 text-2xl font-semibold text-white">
-                    Твоят стил, нашата изработка
-                  </h3>
-                  <p className="mt-3 text-sm text-white/60">
-                    Работим по индивидуални размери, цветови комбинации и детайли,
-                    които подчертават характера на всяка клиентка.
-                  </p>
-                  <div className="mt-6 flex flex-wrap gap-3 text-xs uppercase tracking-[0.3em] text-white/60">
-                    <span className="rounded-full border border-white/10 px-4 py-2">Консултация</span>
-                    <span className="rounded-full border border-white/10 px-4 py-2">Скици</span>
-                    <span className="rounded-full border border-white/10 px-4 py-2">Проба</span>
-                  </div>
-                </div>
-                <div className="rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(122,12,31,0.7),rgba(6,6,6,0.95))] p-8">
-                  <p className="text-xs uppercase tracking-[0.3em] text-white/80">Нова услуга</p>
-                  <h3 className="mt-3 text-2xl font-semibold text-white">
-                    Виртуална проба с видео консултация
-                  </h3>
-                  <p className="mt-3 text-sm text-white/80">
-                    За клиенти извън София — бърза оценка на размери и стилистична
-                    насока, преди да стартира изработката.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section className="px-6 pb-20">
+          <section id="about" className="scroll-mt-28 px-6 pb-20">
             <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
               <div className="space-y-6">
                 <p className="text-xs uppercase tracking-[0.3em] text-white/60">ЗА НАС</p>
