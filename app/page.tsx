@@ -22,7 +22,7 @@ export default function Home() {
                     Към магазина
                   </a>
                   <a
-                    className="rounded-full border border-white/20 px-6 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:border-white/50"
+                    className="rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:bg-[color:var(--accent-strong)]"
                     href="#craft"
                   >
                     Виж процеса
