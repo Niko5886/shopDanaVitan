@@ -14,20 +14,6 @@ export default function Home() {
                 <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
                   Бутикови дрехи и стилизирани носии, създадени да впечатляват
                 </h1>
-                <div className="flex flex-wrap items-center justify-center gap-4">
-                  <a
-                    className="rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:bg-[color:var(--accent-strong)]"
-                    href="#shop"
-                  >
-                    Към магазина
-                  </a>
-                  <a
-                    className="rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:bg-[color:var(--accent-strong)]"
-                    href="#craft"
-                  >
-                    Виж процеса
-                  </a>
-                </div>
                 <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-3">
                   {[
                     { id: "etho", title: "Etho", href: "/brand/etho" },
@@ -51,7 +37,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="shop" className="scroll-mt-28 px-6 pb-20">
+          <section className="px-6 pb-20">
             <div className="mx-auto w-full max-w-6xl">
               <div className="flex flex-wrap items-end justify-between gap-6">
                 <div>
@@ -185,7 +171,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="craft" className="scroll-mt-28 px-6 pb-20">
+          <section className="px-6 pb-20">
             <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
               <div className="space-y-6">
                 <p className="text-xs uppercase tracking-[0.3em] text-white/60">ЗА НАС</p>
