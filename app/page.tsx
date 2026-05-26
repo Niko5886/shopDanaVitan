@@ -8,22 +8,17 @@ export default function Home() {
         
 
         <main className="relative z-10">
-          <section id="home" className="scroll-mt-28 px-6 pb-20 pt-28 sm:pt-32">
-            <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-10 text-center">
-              <div className="space-y-8 motion-safe:animate-[reveal_0.8s_ease-out]">
-                <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.3em] text-white/70">
-                  Нов сезон 2026
-                  <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]" />
-                  Лимитирана серия
-                </div>
-                <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
-                  Бутикови дрехи и стилизирани носии, създадени да впечатляват
-                </h1>
+          <section id="home" className="scroll-mt-28 px-6 pb-20 pt-20 sm:pt-24">
+            <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 text-center">
+              <div className="space-y-6 motion-safe:animate-[reveal_0.8s_ease-out]">
                 <p className="mx-auto max-w-2xl text-lg leading-8 text-white/70">
                   Дизайнерката изпипва всеки детайл и работи с внимание към клиента. Всяка
                   визия е ръчно изработена, с персонализирана кройка и бордо акцент,
                   който подчертава характера на стила.
                 </p>
+                <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
+                  Бутикови дрехи и стилизирани носии, създадени да впечатляват
+                </h1>
                 <div className="flex flex-wrap items-center justify-center gap-4">
                   <a
                     className="rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:bg-[color:var(--accent-strong)]"
