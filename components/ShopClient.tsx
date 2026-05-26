@@ -149,19 +149,6 @@ export default function ShopClient({ products }: Props) {
   return (
     <div className="mx-auto w-full max-w-6xl">
       <div className="mb-4 flex items-center gap-3">
-        <div className="hidden sm:flex items-center gap-3">
-          <input
-            value={query}
-            onChange={(e) => {
-              setPage(1);
-              setQuery(e.target.value);
-            }}
-            placeholder="Търсене..."
-            className="rounded-full px-4 py-2 bg-white/5 placeholder:text-white/50 text-white outline-none"
-          />
-          <p className="text-sm text-white/60">Показани: {filtered.length}</p>
-        </div>
-
         <button className="sm:hidden rounded px-3 py-2 bg-white/5 text-white/80" onClick={() => setDrawer(true)}>
           Филтри
         </button>
@@ -188,7 +175,7 @@ export default function ShopClient({ products }: Props) {
               <h3 className="text-lg font-semibold text-white">Филтри</h3>
               <button onClick={() => setDrawer(false)} className="text-white/70">Затвори</button>
             </div>
-            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Търсене" className="w-full rounded px-3 py-2 bg-white/5 text-white mb-3" />
+            
             <div className="flex flex-col gap-2">
               {CATEGORIES.map((cat) => (
                 <label key={cat} className="inline-flex items-center gap-2">
