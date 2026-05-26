@@ -1,65 +1,377 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="min-h-screen text-[color:var(--foreground)]">
+      <div className="relative overflow-hidden">
+        <div className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.35),rgba(0,0,0,0))] blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-48 right-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.2),rgba(0,0,0,0))] blur-3xl" />
+
+        <header className="sticky top-0 z-20 border-b border-white/10 bg-black/70 backdrop-blur">
+          <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
+            <div className="flex items-center gap-3">
+              <span className="h-10 w-10 rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.9),rgba(0,0,0,0.8))]" />
+              <div>
+                <p className="text-sm uppercase tracking-[0.3em] text-white/60">Atelie</p>
+                <p className="text-lg font-semibold text-white">Nosiya</p>
+              </div>
+            </div>
+            <nav className="hidden items-center gap-8 text-sm uppercase tracking-[0.2em] text-white/70 md:flex">
+              <a className="transition hover:text-white" href="#shop">
+                НАЧАЛО
+              </a>
+              <a className="transition hover:text-white" href="#products">
+                МАГАЗИН
+              </a>
+              <a className="transition hover:text-white" href="#craft">
+                ЗА НАС
+              </a>
+              <a className="transition hover:text-white" href="#stories">
+                Истории
+              </a>
+              <a className="transition hover:text-white" href="#contacts">
+                Контакти
+              </a>
+            </nav>
+            <div className="flex items-center gap-4">
+              <span className="hidden text-sm text-white/60 sm:inline">
+                Доставка с Еконт и Спиди
+              </span>
+            </div>
+          </div>
+        </header>
+
+        <main className="relative z-10">
+          <section id="home" className="scroll-mt-28 px-6 pb-20 pt-28 sm:pt-32">
+            <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-10 text-center">
+              <div className="space-y-8 motion-safe:animate-[reveal_0.8s_ease-out]">
+                <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.3em] text-white/70">
+                  Нов сезон 2026
+                  <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]" />
+                  Лимитирана серия
+                </div>
+                <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
+                  Бутикови дрехи и стилизирани носии, създадени да впечатляват
+                </h1>
+                <p className="mx-auto max-w-2xl text-lg leading-8 text-white/70">
+                  Дизайнерката изпипва всеки детайл и работи с внимание към клиента. Всяка
+                  визия е ръчно изработена, с персонализирана кройка и бордо акцент,
+                  който подчертава характера на стила.
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                  <a
+                    className="rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:bg-[color:var(--accent-strong)]"
+                    href="#shop"
+                  >
+                    Към магазина
+                  </a>
+                  <a
+                    className="rounded-full border border-white/20 px-6 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:border-white/50"
+                    href="#craft"
+                  >
+                    Виж процеса
+                  </a>
+                </div>
+                <div className="grid grid-cols-2 gap-6 text-sm text-white/60 sm:grid-cols-4">
+                  <div>
+                    <p className="text-xl font-semibold text-white">120+</p>
+                    <p>Бутикови модела</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-semibold text-white">24ч</p>
+                    <p>Консултация</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-semibold text-white">100%</p>
+                    <p>Ръчна изработка</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-semibold text-white">Еконт/Спиди</p>
+                    <p>Бърза доставка</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="shop" className="scroll-mt-28 px-6 pb-20">
+            <div className="mx-auto w-full max-w-6xl">
+              <div className="flex flex-wrap items-end justify-between gap-6">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                    НАЧАЛО
+                  </p>
+                  <h2 className="mt-3 text-3xl font-semibold text-white">
+                    Колекции, които разказват история
+                  </h2>
+                </div>
+                <p className="max-w-md text-sm text-white/60">
+                  От ритуалната нишка до модерната линия — всяка серия е ограничена и
+                  създадена за клиенти, които търсят характер и стил.
+                </p>
+              </div>
+              <div className="mt-10 grid gap-6 lg:grid-cols-3">
+                {[
+                  {
+                    title: "Стилизирани носии",
+                    text: "Традиционни мотиви с градски силует.",
+                    tag: "Лимитирана",
+                  },
+                  {
+                    title: "Бутикови проекти",
+                    text: "Персонални дрехи по ваша идея.",
+                    tag: "По поръчка",
+                  },
+                  {
+                    title: "Аксесоари",
+                    text: "Бижута, колани и акценти с бордо шевица.",
+                    tag: "Нови",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="group rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-white/30"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs uppercase tracking-[0.3em] text-white/60">
+                        {item.tag}
+                      </span>
+                      <span className="text-[color:var(--accent)]">●</span>
+                    </div>
+                    <div className="mt-6 h-32 rounded-2xl bg-[linear-gradient(135deg,rgba(122,12,31,0.55),rgba(12,12,12,0.95))]" />
+                    <h3 className="mt-6 text-xl font-semibold text-white">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-white/60">{item.text}</p>
+                    <button className="mt-6 text-xs uppercase tracking-[0.3em] text-white/70 transition group-hover:text-white">
+                      Разгледай
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section id="products" className="scroll-mt-28 px-6 pb-20">
+            <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+                <p className="text-xs uppercase tracking-[0.3em] text-white/60">МАГАЗИН</p>
+                <h2 className="mt-4 text-3xl font-semibold text-white">
+                  Селекция за вечерни ритуали и модерни събития
+                </h2>
+                <div className="mt-8 grid gap-6 sm:grid-cols-2">
+                  {[
+                    {
+                      title: "Рокля " + "Розова нишка",
+                      price: "690 лв.",
+                      note: "Сатен, бордо кант",
+                    },
+                    {
+                      title: "Елек " + "Тъмна шевица",
+                      price: "420 лв.",
+                      note: "Ръчна бродерия",
+                    },
+                    {
+                      title: "Комплект " + "Залез",
+                      price: "980 лв.",
+                      note: "Вълна и коприна",
+                    },
+                    {
+                      title: "Пелерина " + "Ателие",
+                      price: "350 лв.",
+                      note: "Лимитирана серия",
+                    },
+                  ].map((product) => (
+                    <div
+                      key={product.title}
+                      className="rounded-2xl border border-white/10 bg-black/30 p-5"
+                    >
+                      <div className="h-24 rounded-xl bg-[linear-gradient(150deg,rgba(122,12,31,0.55),rgba(0,0,0,0.85))]" />
+                      <div className="mt-4 flex items-center justify-between">
+                        <p className="text-sm font-semibold text-white">
+                          {product.title}
+                        </p>
+                        <span className="text-xs text-white/70">{product.price}</span>
+                      </div>
+                      <p className="text-xs text-white/60">{product.note}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-6">
+                <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+                  <p className="text-xs uppercase tracking-[0.3em] text-white/60">Персонализация</p>
+                  <h3 className="mt-4 text-2xl font-semibold text-white">
+                    Твоят стил, нашата изработка
+                  </h3>
+                  <p className="mt-3 text-sm text-white/60">
+                    Работим по индивидуални размери, цветови комбинации и детайли,
+                    които подчертават характера на всяка клиентка.
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-3 text-xs uppercase tracking-[0.3em] text-white/60">
+                    <span className="rounded-full border border-white/10 px-4 py-2">Консултация</span>
+                    <span className="rounded-full border border-white/10 px-4 py-2">Скици</span>
+                    <span className="rounded-full border border-white/10 px-4 py-2">Проба</span>
+                  </div>
+                </div>
+                <div className="rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(122,12,31,0.7),rgba(6,6,6,0.95))] p-8">
+                  <p className="text-xs uppercase tracking-[0.3em] text-white/80">Нова услуга</p>
+                  <h3 className="mt-3 text-2xl font-semibold text-white">
+                    Виртуална проба с видео консултация
+                  </h3>
+                  <p className="mt-3 text-sm text-white/80">
+                    За клиенти извън София — бърза оценка на размери и стилистична
+                    насока, преди да стартира изработката.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="craft" className="scroll-mt-28 px-6 pb-20">
+            <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="space-y-6">
+                <p className="text-xs uppercase tracking-[0.3em] text-white/60">ЗА НАС</p>
+                <h2 className="text-3xl font-semibold text-white">
+                  Модерна кройка, традиционна емоция
+                </h2>
+                <p className="text-sm text-white/60">
+                  Всяка визия преминава през внимателен процес, в който художествената
+                  идея се превръща в силует, а бордо акцентът подчертава индивидуалността.
+                </p>
+                <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                  <p className="text-sm text-white/70">Материали</p>
+                  <p className="mt-2 text-xl font-semibold text-white">
+                    Вълна, коприна, лен, ръчно бродирани панели
+                  </p>
+                </div>
+              </div>
+              <div className="grid gap-5">
+                {[
+                  {
+                    step: "01",
+                    title: "Разговор и идея",
+                    text: "Стилистична консултация и избор на мотиви.",
+                  },
+                  {
+                    step: "02",
+                    title: "Кройка и текстил",
+                    text: "Подбор на материя и изработка на прототип.",
+                  },
+                  {
+                    step: "03",
+                    title: "Ръчна декорация",
+                    text: "Бродерия, кант и финални бордо акценти.",
+                  },
+                  {
+                    step: "04",
+                    title: "Финален силует",
+                    text: "Проба, корекции и доставка до клиента.",
+                  },
+                ].map((step) => (
+                  <div
+                    key={step.step}
+                    className="flex gap-5 rounded-2xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <span className="text-xs uppercase tracking-[0.3em] text-[color:var(--accent)]">
+                      {step.step}
+                    </span>
+                    <div>
+                      <p className="text-base font-semibold text-white">{step.title}</p>
+                      <p className="text-sm text-white/60">{step.text}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section id="stories" className="scroll-mt-28 px-6 pb-20">
+            <div className="mx-auto w-full max-w-6xl">
+              <div className="flex flex-wrap items-end justify-between gap-6">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-white/60">Истории</p>
+                  <h2 className="mt-3 text-3xl font-semibold text-white">
+                    Отзиви от клиенти
+                  </h2>
+                </div>
+                <p className="max-w-md text-sm text-white/60">
+                  Жените, които носят нашите визии, обичат вниманието към детайла и
+                  усещането за лична история.
+                </p>
+              </div>
+              <div className="mt-10 grid gap-6 lg:grid-cols-3">
+                {[
+                  {
+                    name: "Мария, София",
+                    text: "" +
+                      "Всяка нишка беше изпипана. Получих визия, която ме кара да се чувствам уверена.",
+                  },
+                  {
+                    name: "Елица, Пловдив",
+                    text: "Бърза комуникация, изключителен вкус и точна доставка с Еконт.",
+                  },
+                  {
+                    name: "Диана, Варна",
+                    text: "Ателие Nosiya превърна идеята ми в нещо истински модерно.",
+                  },
+                ].map((story) => (
+                  <div
+                    key={story.name}
+                    className="rounded-3xl border border-white/10 bg-white/5 p-6"
+                  >
+                    <p className="text-sm text-white/70">“{story.text}”</p>
+                    <p className="mt-4 text-xs uppercase tracking-[0.3em] text-white/50">
+                      {story.name}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section id="contacts" className="scroll-mt-28 px-6 pb-24">
+            <div className="mx-auto w-full max-w-6xl rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(122,12,31,0.75),rgba(8,8,8,0.95))] p-10">
+              <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-white/80">Запитване</p>
+                  <h2 className="mt-3 text-3xl font-semibold text-white">
+                    Готова ли си за новата си визия?
+                  </h2>
+                  <p className="mt-4 text-sm text-white/80">
+                    Изпрати запитване и ще получиш персонална консултация в рамките на 24
+                    часа. Доставяме в цялата страна с Еконт или Спиди.
+                  </p>
+                </div>
+                <div className="space-y-4 text-sm text-white/80">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-white/70">Контакти</p>
+                    <p className="mt-2">atelier@nosia.bg</p>
+                    <p>+359 888 123 456</p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-white/70">Ателие</p>
+                    <p className="mt-2">ул. Стил 12, София</p>
+                    <p>Пон - Съб: 10:00 - 19:00</p>
+                  </div>
+                  <button className="mt-4 w-full rounded-full bg-black/70 px-6 py-3 text-xs uppercase tracking-[0.3em] text-white transition hover:bg-black">
+                    Изпрати запитване
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <footer className="border-t border-white/10 px-6 py-10">
+          <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-6 text-xs uppercase tracking-[0.3em] text-white/50">
+            <span>© 2026 Atelie Nosiya</span>
+            <div className="flex flex-wrap gap-6">
+              <span>Политика за доставка</span>
+              <span>Връщане и замяна</span>
+              <span>Лична консултация</span>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }
