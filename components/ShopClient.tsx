@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import type { Product } from "../data/products";
+import Image from "next/image";
 
 type Props = {
   products: Product[];
@@ -51,14 +52,24 @@ export default function ShopClient({ products }: Props) {
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {pageItems.map((p) => (
-          <div key={p.id} className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <div className="h-44 w-full rounded-lg bg-[linear-gradient(150deg,rgba(122,12,31,0.55),rgba(0,0,0,0.85))]" />
-            <div className="mt-4 flex items-center justify-between">
-              <div>
-                <p className="text-base font-semibold text-white">{p.title}</p>
-                <p className="text-xs text-white/60">{p.note}</p>
+          <div key={p.id} className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+            <div className="relative h-44 w-full">
+              <Image
+                src={p.thumb ?? '/assets/imgDana/product-01-thumb.webp'}
+                alt={p.title}
+                fill
+                sizes="(max-width: 1024px) 50vw, 33vw"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
+            <div className="p-6">
+              <div className="mt-2 flex items-center justify-between">
+                <div>
+                  <p className="text-base font-semibold text-white">{p.title}</p>
+                  <p className="text-xs text-white/60">{p.note}</p>
+                </div>
+                <span className="text-sm text-white/70">{p.price}</span>
               </div>
-              <span className="text-sm text-white/70">{p.price}</span>
             </div>
           </div>
         ))}
