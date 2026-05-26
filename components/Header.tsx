@@ -17,7 +17,7 @@ export default function Header() {
           <Link className="transition hover:text-white" href="/shop">
             МАГАЗИН
           </Link>
-          <Link className="transition hover:text-white" href="#craft">
+          <Link className="transition hover:text-white" href="/about">
             ЗА НАС
           </Link>
           <Link className="transition hover:text-white" href="#stories">
