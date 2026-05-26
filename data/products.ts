@@ -4,13 +4,33 @@ export type Product = {
   category: "Поли" | "Рокли" | "Ризи" | "Топове" | "Сака" | "Аксесоари";
   price: string;
   note?: string;
+  description: string;
+  sizes: string[];
 };
 
 export type ProductWithImages = Product & { images?: string[]; thumb?: string; focalPoints?: { x: number; y: number }[] };
 
+const SIZE_BY_CATEGORY: Record<Product["category"], string[]> = {
+  Поли: ["S", "M", "L"],
+  Рокли: ["XS", "S", "M", "L"],
+  Ризи: ["S", "M", "L", "XL"],
+  Топове: ["XS", "S", "M"],
+  Сака: ["S", "M", "L"],
+  Аксесоари: ["Един размер"],
+};
+
+function createProduct(product: Omit<ProductWithImages, "description" | "sizes">): ProductWithImages {
+  return {
+    ...product,
+    sizes: SIZE_BY_CATEGORY[product.category],
+    description:
+      `${product.note ?? "Бутиково изделие"} — изчистен силует, премиум завършек и бордо акценти, създадени за уверено присъствие.`,
+  };
+}
+
 export const products: ProductWithImages[] = [
   // Трите карти, всяка съдържа 3 реални снимки от imgDana (1-3, 4-6, 7-9)
-  {
+  createProduct({
     id: "card-1",
     title: "Колекция Единица",
     category: "Рокли",
@@ -27,8 +47,8 @@ export const products: ProductWithImages[] = [
       { x: 50, y: 30 },
       { x: 50, y: 30 },
     ],
-  },
-  {
+  }),
+  createProduct({
     id: "card-2",
     title: "Колекция Две",
     category: "Поли",
@@ -45,8 +65,8 @@ export const products: ProductWithImages[] = [
       { x: 50, y: 30 },
       { x: 50, y: 30 },
     ],
-  },
-  {
+  }),
+  createProduct({
     id: "card-3",
     title: "Колекция Три",
     category: "Топове",
@@ -63,16 +83,16 @@ export const products: ProductWithImages[] = [
       { x: 50, y: 30 },
       { x: 50, y: 30 },
     ],
-  },
+  }),
 
   // Останалите продукти остават като отдельни артикули (без multiple images)
-  { id: "p10", title: "Риза Леко", category: "Ризи", price: "150 лв.", note: "Модерен крой" },
-  { id: "p11", title: "Сака Ателие", category: "Сака", price: "720 лв.", note: "Персонализирана" },
-  { id: "p12", title: "Шал Бордо", category: "Аксесоари", price: "60 лв.", note: "Копринен" },
-  { id: "p13", title: "Рокля Ритуал", category: "Рокли", price: "1200 лв.", note: "Лимитирана" },
-  { id: "p14", title: "Пола Традиция", category: "Поли", price: "300 лв.", note: "Ръчна бродерия" },
-  { id: "p15", title: "Топ Фина", category: "Топове", price: "130 лв.", note: "Коприна" },
-  { id: "p16", title: "Риза Елеганс", category: "Ризи", price: "180 лв.", note: "Натурални нишки" },
-  { id: "p17", title: "Сака Град", category: "Сака", price: "650 лв.", note: "Съвременен силует" },
-  { id: "p18", title: "Гривна Ръчна", category: "Аксесоари", price: "80 лв.", note: "Медно и кожа" },
+  createProduct({ id: "p10", title: "Риза Леко", category: "Ризи", price: "150 лв.", note: "Модерен крой" }),
+  createProduct({ id: "p11", title: "Сака Ателие", category: "Сака", price: "720 лв.", note: "Персонализирана" }),
+  createProduct({ id: "p12", title: "Шал Бордо", category: "Аксесоари", price: "60 лв.", note: "Копринен" }),
+  createProduct({ id: "p13", title: "Рокля Ритуал", category: "Рокли", price: "1200 лв.", note: "Лимитирана" }),
+  createProduct({ id: "p14", title: "Пола Традиция", category: "Поли", price: "300 лв.", note: "Ръчна бродерия" }),
+  createProduct({ id: "p15", title: "Топ Фина", category: "Топове", price: "130 лв.", note: "Коприна" }),
+  createProduct({ id: "p16", title: "Риза Елеганс", category: "Ризи", price: "180 лв.", note: "Натурални нишки" }),
+  createProduct({ id: "p17", title: "Сака Град", category: "Сака", price: "650 лв.", note: "Съвременен силует" }),
+  createProduct({ id: "p18", title: "Гривна Ръчна", category: "Аксесоари", price: "80 лв.", note: "Медно и кожа" }),
 ];

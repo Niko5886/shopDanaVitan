@@ -22,12 +22,17 @@ export default function Lightbox({ images, initialIndex = 0, onClose }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [images.length, onClose]);
 
-  useEffect(() => {
-    // reset zoom when image changes
-    setZoom(false);
-  }, [idx]);
-
   if (!images || images.length === 0) return null;
+
+  const prevImage = () => {
+    setZoom(false);
+    setIdx((i) => (i - 1 + images.length) % images.length);
+  };
+
+  const nextImage = () => {
+    setZoom(false);
+    setIdx((i) => (i + 1) % images.length);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -40,14 +45,14 @@ export default function Lightbox({ images, initialIndex = 0, onClose }: Props) {
 
         <button
           className="absolute left-2 top-1/2 -translate-y-1/2 z-20 rounded-full bg-black/40 p-2 text-white"
-          onClick={() => setIdx((i) => (i - 1 + images.length) % images.length)}
+          onClick={prevImage}
           aria-label="Previous"
         >
           ‹
         </button>
         <button
           className="absolute right-2 top-1/2 -translate-y-1/2 z-20 rounded-full bg-black/40 p-2 text-white"
-          onClick={() => setIdx((i) => (i + 1) % images.length)}
+          onClick={nextImage}
           aria-label="Next"
         >
           ›
@@ -66,7 +71,10 @@ export default function Lightbox({ images, initialIndex = 0, onClose }: Props) {
           {images.map((im, i) => (
             <button
               key={im}
-              onClick={() => setIdx(i)}
+              onClick={() => {
+                setZoom(false);
+                setIdx(i);
+              }}
               className={`h-16 w-24 overflow-hidden rounded ${i === idx ? "ring-2 ring-[color:var(--accent)]" : "opacity-70 hover:opacity-100"}`}
             >
               <Image src={im} alt={`thumb ${i + 1}`} width={96} height={64} className="object-cover" />

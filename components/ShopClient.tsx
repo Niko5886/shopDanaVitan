@@ -1,8 +1,8 @@
 "use client";
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { ProductWithImages } from "../data/products";
 import Image from "next/image";
-import Lightbox from "./Lightbox";
 
 type Props = {
   products: ProductWithImages[];
@@ -10,7 +10,7 @@ type Props = {
 
 const CATEGORIES = ["Поли", "Рокли", "Ризи", "Топове", "Сака", "Аксесоари"];
 
-function ProductCard({ p, openLightbox }: { p: ProductWithImages; openLightbox: (images: string[], i?: number) => void }) {
+function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (id: string) => void }) {
   const images = p.images ?? (p.thumb ? [p.thumb] : []);
   const [idx, setIdx] = useState(0);
 
@@ -24,8 +24,27 @@ function ProductCard({ p, openLightbox }: { p: ProductWithImages; openLightbox: 
 
   if (images.length === 0) {
     return (
-      <div className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
-        <div className="relative aspect-[3/4] w-full bg-white/5" />
+      <div
+        className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-white/30 cursor-pointer"
+        onClick={() => openProduct(p.id)}
+        role="link"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openProduct(p.id);
+          }
+        }}
+      >
+        <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(122,12,31,0.82),rgba(18,12,13,0.98)_58%,rgba(0,0,0,1))]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(122,12,31,0.2),transparent_42%)] opacity-80" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-6 text-center">
+            <p className="text-xs uppercase tracking-[0.35em] text-white/60">{p.category}</p>
+            <p className="text-xl font-semibold uppercase tracking-[0.14em] text-white">{p.title}</p>
+            <p className="max-w-[14rem] text-xs leading-6 text-white/65">{p.note}</p>
+          </div>
+        </div>
         <div className="p-6">
           <div className="mt-2 flex items-center justify-between">
             <div>
@@ -40,12 +59,21 @@ function ProductCard({ p, openLightbox }: { p: ProductWithImages; openLightbox: 
   }
 
   return (
-    <div className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+    <div
+      className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-white/30 cursor-pointer"
+      onClick={() => openProduct(p.id)}
+      role="link"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openProduct(p.id);
+        }
+      }}
+    >
       <div
-        className="relative w-full aspect-[3/4] bg-black cursor-pointer"
-        onClick={() => openLightbox(images, idx)}
-        role="button"
-        aria-label={`Отвори ${p.title}`}
+        className="relative aspect-[3/4] w-full bg-black"
+        aria-label={`Отвори детайли за ${p.title}`}
       >
         <Image
           src={images[idx]}
@@ -103,28 +131,27 @@ function ProductCard({ p, openLightbox }: { p: ProductWithImages; openLightbox: 
           </div>
           <span className="text-sm text-white/70">{p.price}</span>
         </div>
+        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-white/50 transition group-hover:text-white/80">
+          Разгледай продукта
+        </p>
       </div>
     </div>
   );
 }
 
 export default function ShopClient({ products }: Props) {
+  const router = useRouter();
   const [selected, setSelected] = useState<string[]>([]);
   const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxImages, setLightboxImages] = useState<string[]>([]);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
   const [drawer, setDrawer] = useState(false);
   const perPage = 9;
 
   const filtered = useMemo(() => {
     return products.filter((p) => {
       if (selected.length > 0 && !selected.includes(p.category)) return false;
-      if (query && !p.title.toLowerCase().includes(query.toLowerCase())) return false;
       return true;
     });
-  }, [products, selected, query]);
+  }, [products, selected]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
 
@@ -140,10 +167,8 @@ export default function ShopClient({ products }: Props) {
     setSelected((s) => (s.length === 1 && s[0] === cat ? [] : [cat]));
   }
 
-  function openLightbox(images: string[], index = 0) {
-    setLightboxImages(images);
-    setLightboxIndex(index);
-    setLightboxOpen(true);
+  function openProduct(id: string) {
+    router.push(`/shop/${id}`);
   }
 
   return (
@@ -190,17 +215,9 @@ export default function ShopClient({ products }: Props) {
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {pageItems.map((p) => (
-          <ProductCard key={p.id} p={p} openLightbox={openLightbox} />
+          <ProductCard key={p.id} p={p} openProduct={openProduct} />
         ))}
       </div>
-
-      {lightboxOpen && (
-        <Lightbox
-          images={lightboxImages}
-          initialIndex={lightboxIndex}
-          onClose={() => setLightboxOpen(false)}
-        />
-      )}
 
       <div className="mt-8 flex items-center justify-center gap-3">
         <button
