@@ -39,9 +39,9 @@ export default function Home() {
                       href={item.href}
                       className="group relative block rounded-3xl border border-white/10 bg-white/5 p-4 hover:scale-105 transform-gpu transition h-28 sm:h-32 flex items-center justify-center overflow-hidden"
                     >
-                      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(122,12,31,0.78),rgba(14,10,11,0.98)_58%,rgba(0,0,0,1))]" />
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(122,12,31,0.24),transparent_42%)] opacity-80" />
-                      <div className="text-xl font-semibold text-white uppercase tracking-[0.12em] text-center">
+                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(122,12,31,0.78),rgba(14,10,11,0.98)_58%,rgba(0,0,0,1))]" />
+                      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(122,12,31,0.24),transparent_42%)] opacity-80" />
+                      <div className="relative z-10 text-xl font-semibold text-white uppercase tracking-[0.12em] text-center">
                         {item.title}
                       </div>
                     </a>
