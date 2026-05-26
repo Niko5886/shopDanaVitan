@@ -28,7 +28,6 @@ export default function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
-          <span className="hidden text-sm text-white/60 sm:inline">Доставка с Еконт и Спиди</span>
         </div>
       </div>
     </header>
