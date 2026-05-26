@@ -28,23 +28,39 @@ export default function Home() {
                     Виж процеса
                   </a>
                 </div>
-                <div className="grid grid-cols-2 gap-6 text-sm text-white/60 sm:grid-cols-4">
-                  <div>
-                    <p className="text-xl font-semibold text-white">120+</p>
-                    <p>Бутикови модела</p>
-                  </div>
-                  <div>
-                    <p className="text-xl font-semibold text-white">24ч</p>
-                    <p>Консултация</p>
-                  </div>
-                  <div>
-                    <p className="text-xl font-semibold text-white">100%</p>
-                    <p>Ръчна изработка</p>
-                  </div>
-                  <div>
-                    <p className="text-xl font-semibold text-white">Еконт/Спиди</p>
-                    <p>Бърза доставка</p>
-                  </div>
+                <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-3">
+                  {[
+                    {
+                      id: "etho",
+                      title: "Etho",
+                      desc: "Колекция с етно мотиви — лимитирани серии",
+                      href: "/brand/etho",
+                    },
+                    {
+                      id: "afro",
+                      title: "Afro",
+                      desc: "Модерни силуети с афро вдъхновение",
+                      href: "/brand/afro",
+                    },
+                    {
+                      id: "casual",
+                      title: "Casual",
+                      desc: "Ежедневни визии за комфорт и стил",
+                      href: "/brand/casual",
+                    },
+                  ].map((item) => (
+                    <a
+                      key={item.id}
+                      href={item.href}
+                      className="group block rounded-3xl border border-white/10 bg-white/5 p-6 hover:scale-105 transform-gpu transition"
+                    >
+                      <div className="text-xs uppercase tracking-[0.3em] text-white/60">
+                        {item.title}
+                      </div>
+                      <h3 className="mt-2 text-2xl font-semibold text-white">{item.title}</h3>
+                      <p className="mt-3 text-sm text-white/60">{item.desc}</p>
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
