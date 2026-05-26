@@ -135,7 +135,9 @@ export default function ShopClient({ products }: Props) {
 
   function toggleCategory(cat: string) {
     setPage(1);
-    setSelected((s) => (s.includes(cat) ? s.filter((x) => x !== cat) : [...s, cat]));
+    // single-select behavior: clicking a category selects it alone;
+    // clicking the active category again clears the selection.
+    setSelected((s) => (s.length === 1 && s[0] === cat ? [] : [cat]));
   }
 
   function openLightbox(images: string[], index = 0) {
