@@ -20,9 +20,6 @@ export default function Header() {
           <Link className="transition hover:text-white" href="/about">
             ЗА НАС
           </Link>
-          <Link className="transition hover:text-white" href="#stories">
-            Истории
-          </Link>
           <Link className="transition hover:text-white" href="/contacts">
             Контакти
           </Link>
