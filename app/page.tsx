@@ -11,7 +11,6 @@ export default function Home() {
           <section id="home" className="scroll-mt-28 px-6 pb-20 pt-20 sm:pt-24">
             <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 text-center">
               <div className="space-y-6 motion-safe:animate-[reveal_0.8s_ease-out]">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/60">НАЧАЛО</p>
                 <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
                   Бутикови дрехи и стилизирани носии, създадени да впечатляват
                 </h1>
