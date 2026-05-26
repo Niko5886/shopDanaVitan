@@ -5,39 +5,7 @@ export default function Home() {
         <div className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.35),rgba(0,0,0,0))] blur-3xl" />
         <div className="pointer-events-none absolute -bottom-48 right-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.2),rgba(0,0,0,0))] blur-3xl" />
 
-        <header className="sticky top-0 z-20 border-b border-white/10 bg-black/70 backdrop-blur">
-          <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
-            <div className="flex items-center gap-3">
-              <span className="h-10 w-10 rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.9),rgba(0,0,0,0.8))]" />
-              <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-white/60">Atelie</p>
-                <p className="text-lg font-semibold text-white">Nosiya</p>
-              </div>
-            </div>
-            <nav className="hidden items-center gap-8 text-sm uppercase tracking-[0.2em] text-white/70 md:flex">
-              <a className="transition hover:text-white" href="#shop">
-                НАЧАЛО
-              </a>
-              <a className="transition hover:text-white" href="#products">
-                МАГАЗИН
-              </a>
-              <a className="transition hover:text-white" href="#craft">
-                ЗА НАС
-              </a>
-              <a className="transition hover:text-white" href="#stories">
-                Истории
-              </a>
-              <a className="transition hover:text-white" href="#contacts">
-                Контакти
-              </a>
-            </nav>
-            <div className="flex items-center gap-4">
-              <span className="hidden text-sm text-white/60 sm:inline">
-                Доставка с Еконт и Спиди
-              </span>
-            </div>
-          </div>
-        </header>
+        
 
         <main className="relative z-10">
           <section id="home" className="scroll-mt-28 px-6 pb-20 pt-28 sm:pt-32">
