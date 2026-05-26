@@ -157,7 +157,7 @@ export default function Home() {
             <div className="mx-auto w-full max-w-6xl rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(122,12,31,0.75),rgba(8,8,8,0.95))] p-10">
               <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-white/80">Запитване</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-white/80">КОНТАКТИ</p>
                   <h2 className="mt-3 text-3xl font-semibold text-white">
                     Готова ли си за новата си визия?
                   </h2>
