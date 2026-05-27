@@ -13,34 +13,15 @@ export default function Home() {
 
 
         <main className="relative z-10">
-          <section id="home" data-reveal-section className="reveal-section home-hero scroll-mt-28 snap-start px-6 pb-20 pt-20 sm:pt-24 lg:min-h-[calc(100vh-84px)]">
-            <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 text-center">
-              <div className="space-y-6 motion-safe:animate-[reveal_0.8s_ease-out]">
+          <section id="home" data-reveal-section className="reveal-section home-hero scroll-mt-28 snap-start px-6 pb-20 pt-20 sm:pt-24 lg:min-h-[calc(100vh-84px)] flex flex-col">
+            <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 text-center h-full">
+              <div className="flex-1 flex items-center motion-safe:animate-[reveal_0.8s_ease-out]">
                 <h1 className="reveal-item reveal-delay-1 mx-auto max-w-4xl text-4xl font-semibold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
                   Бутикови дрехи и стилизирани носии, създадени да впечатляват
                 </h1>
-                <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-3">
-                  {[
-                    { id: "etho", title: "Етно", href: "/brand/etho" },
-                    { id: "afro", title: "Афро", href: "/brand/afro" },
-                    { id: "casual", title: "Кежуал", href: "/brand/casual" },
-                  ].map((item, idx) => (
-                    <a
-                      key={item.id}
-                      href={item.href}
-                      className={`group reveal-item relative block h-28 overflow-hidden rounded-3xl hero-category p-4 transition-transform duration-300 hover:scale-105 sm:h-32 flex items-center justify-center ${
-                        idx === 0 ? "reveal-delay-2" : idx === 1 ? "reveal-delay-3" : "reveal-delay-4"
-                      }`}
-                    >
-                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(122,12,31,0.45),rgba(14,10,11,0.65)_58%,rgba(0,0,0,0.8))]" />
-                      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.04),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(122,12,31,0.14),transparent_42%)] opacity-70" />
-                      <div className="relative z-10 text-xl font-semibold text-white uppercase tracking-[0.12em] text-center">
-                        {item.title}
-                      </div>
-                    </a>
-                  ))}
-                </div>
               </div>
+
+              {/* category cards removed as requested */}
             </div>
           </section>
 
