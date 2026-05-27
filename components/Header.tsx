@@ -28,39 +28,31 @@ export default function Header() {
     if (pathname !== "/") return;
 
     const sectionIds = ["home", "shop", "about", "contacts"] as const;
-    const sections = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => Boolean(el));
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    const handleScroll = () => {
+      const line = 120; // px from viewport top — section becomes active when its top scrolls past here
+      let current: typeof sectionIds[number] = "home";
 
-        const top = visible[0];
-        if (!top) return;
-
-        const id = top.target.id as "home" | "shop" | "about" | "contacts";
-        setActiveSection(id);
-
-        const newHash = `#${id}`;
-        if (window.location.hash !== newHash) {
-          window.history.replaceState(null, "", newHash);
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= line) {
+          current = id;
         }
-      },
-      {
-        root: null,
-        threshold: [0.35, 0.6, 0.8],
-      },
-    );
+      }
 
-    sections.forEach((section) => observer.observe(section));
+      setActiveSection(current);
 
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-      observer.disconnect();
+      const newHash = `#${current}`;
+      if (window.location.hash !== newHash) {
+        window.history.replaceState(null, "", newHash);
+      }
     };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
   const linkClass = (href: string) => {
