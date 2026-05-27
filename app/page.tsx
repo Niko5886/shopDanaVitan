@@ -2,6 +2,7 @@ import Link from "next/link";
 import ShopClient from "../components/ShopClient";
 import SectionRevealObserver from "../components/SectionRevealObserver";
 import HeroContent from "../components/HeroContent";
+import CategoryCards from "../components/home/CategoryCards";
 import { products } from "../data/products";
 
 export default function Home() {
@@ -14,12 +15,19 @@ export default function Home() {
 
 
         <main className="relative z-10">
-          <section id="home" data-reveal-section className="reveal-section home-hero scroll-mt-28 snap-start px-6 pb-20 pt-20 sm:pt-24 lg:min-h-[calc(100vh-84px)] flex flex-col">
-            <div className="mx-auto flex w-full max-w-5xl flex-col h-full">
+          <section id="home" data-reveal-section className="reveal-section home-hero scroll-mt-28 snap-start px-6 pt-20 sm:pt-24 lg:min-h-[calc(100vh-84px)] flex flex-col">
+            {/* Горна зона — расте и притиска съдържанието надолу */}
+            <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col">
               <div className="flex-1" />
-              <div className="pb-16">
+              {/* Hero текст — долу вдясно */}
+              <div className="pb-6">
                 <HeroContent />
               </div>
+            </div>
+
+            {/* Категорийни карти — в самото дъно на секцията */}
+            <div className="flex justify-center pb-6 pt-2">
+              <CategoryCards />
             </div>
           </section>
 
