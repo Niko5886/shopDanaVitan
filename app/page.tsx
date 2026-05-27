@@ -43,9 +43,7 @@ export default function Home() {
               <div className="mx-auto w-full max-w-6xl">
                 <h2 className="reveal-item reveal-delay-1 mb-4 text-3xl font-semibold text-white">МАГАЗИН</h2>
               </div>
-              <div className="reveal-item reveal-delay-2">
-                <ShopClient products={products} />
-              </div>
+              <ShopClient products={products} />
             </main>
           </section>
 
