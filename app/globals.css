@@ -120,3 +120,21 @@ body {
   position: relative;
   z-index: 1;
 }
+
+/* Visual treatment for the three hero category cards to keep background visible */
+.hero-category {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px) saturate(1.02);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+}
+
+.hero-category:hover {
+  background-color: rgba(122, 12, 31, 0.12);
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* Ensure the category labels remain readable */
+.hero-category .z-10 {
+  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}

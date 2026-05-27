@@ -28,12 +28,12 @@ export default function Home() {
                     <a
                       key={item.id}
                       href={item.href}
-                      className={`group reveal-item relative block h-28 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-4 transition transform-gpu hover:scale-105 sm:h-32 flex items-center justify-center ${
+                      className={`group reveal-item relative block h-28 overflow-hidden rounded-3xl hero-category p-4 transition-transform duration-300 hover:scale-105 sm:h-32 flex items-center justify-center ${
                         idx === 0 ? "reveal-delay-2" : idx === 1 ? "reveal-delay-3" : "reveal-delay-4"
                       }`}
                     >
-                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(122,12,31,0.78),rgba(14,10,11,0.98)_58%,rgba(0,0,0,1))]" />
-                      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(122,12,31,0.24),transparent_42%)] opacity-80" />
+                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(122,12,31,0.45),rgba(14,10,11,0.65)_58%,rgba(0,0,0,0.8))]" />
+                      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.04),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(122,12,31,0.14),transparent_42%)] opacity-70" />
                       <div className="relative z-10 text-xl font-semibold text-white uppercase tracking-[0.12em] text-center">
                         {item.title}
                       </div>
