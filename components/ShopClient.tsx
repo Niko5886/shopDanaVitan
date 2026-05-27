@@ -25,7 +25,34 @@ const SLUG_TO_CATEGORY: Record<string, string> = Object.fromEntries(
   Object.entries(CATEGORY_TO_SLUG).map(([k, v]) => [v, k])
 );
 
+// Placeholder карта — приглушен вид, не е кликаема
+function PlaceholderCard() {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-dashed border-white/5 bg-white/[0.02]">
+      <div className="relative aspect-[3/4] w-full flex flex-col items-center justify-center gap-3 bg-black/10">
+        {/* DV монограм — watermark */}
+        <span className="select-none font-serif text-8xl font-bold text-white/8 leading-none">
+          DV
+        </span>
+        <p className="text-[10px] uppercase tracking-widest text-white/20">Очаквайте скоро</p>
+      </div>
+      <div className="p-6">
+        <div className="mt-2 flex items-center justify-between">
+          <div>
+            <p className="text-base font-semibold text-white/25">Очаквайте скоро</p>
+            <p className="text-xs text-white/15">Скоро в колекцията</p>
+          </div>
+        </div>
+        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-white/20">Скоро</p>
+      </div>
+    </div>
+  );
+}
+
 function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (id: string) => void }) {
+  // Placeholder карти се рендират без интерактивност
+  if (p.placeholder) return <PlaceholderCard />;
+
   const images = p.images ?? (p.thumb ? [p.thumb] : []);
   const [idx, setIdx] = useState(0);
 
