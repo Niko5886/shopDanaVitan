@@ -1,9 +1,15 @@
 import Link from "next/link";
 import ShopClient from "../components/ShopClient";
+import ShopSubNav from "../components/shop/ShopSubNav";
 import SectionRevealObserver from "../components/SectionRevealObserver";
 import HeroContent from "../components/HeroContent";
 import CategoryCards from "../components/home/CategoryCards";
 import { products } from "../data/products";
+
+const CATEGORIES = ["Поли", "Рокли", "Ризи", "Топове", "Сака", "Аксесоари"] as const;
+const counts = Object.fromEntries(
+  CATEGORIES.map((cat) => [cat, products.filter((p) => p.category === cat).length])
+);
 
 export default function Home() {
   return (
@@ -31,8 +37,9 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="shop" data-reveal-section className="reveal-section scroll-mt-28 snap-start px-6 pb-20 pt-14 lg:min-h-[calc(100vh-84px)]">
-            <main className="relative z-10">
+          <section id="shop" data-reveal-section className="reveal-section scroll-mt-28 snap-start pb-20 lg:min-h-[calc(100vh-84px)]">
+            <ShopSubNav counts={counts} />
+            <main className="relative z-10 px-6 pt-8">
               <div className="mx-auto w-full max-w-6xl">
                 <h2 className="reveal-item reveal-delay-1 mb-4 text-3xl font-semibold text-white">МАГАЗИН</h2>
               </div>
@@ -170,11 +177,9 @@ export default function Home() {
 
         <footer className="border-t border-white/10 px-6 py-10">
           <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-6 text-xs uppercase tracking-[0.3em] text-white/50">
-            <span>© 2026 Dana`|`Vitan</span>
+            <span>© 2026 Dana Vitan</span>
             <div className="flex flex-wrap gap-6">
-              <span>Политика за доставка</span>
-              <span>Връщане и замяна</span>
-              <span>Лична консултация</span>
+              <span>Всички права запазени</span>
             </div>
           </div>
         </footer>

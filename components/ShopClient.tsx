@@ -1,29 +1,24 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { ProductWithImages } from "../data/products";
 import Image from "next/image";
-import CategoryFilter, { ALL_CATEGORY } from "./shop/CategoryFilter";
 
 type Props = {
   products: ProductWithImages[];
 };
 
-const CATEGORIES = ["Поли", "Рокли", "Ризи", "Топове", "Сака", "Аксесоари"];
+const ALL_CATEGORY = "Всички";
 
-// Slugове за URL: "Рокли" → "rokli"
-const CATEGORY_TO_SLUG: Record<string, string> = {
-  "Поли": "poli",
-  "Рокли": "rokli",
-  "Ризи": "rizi",
-  "Топове": "topove",
-  "Сака": "saka",
-  "Аксесоари": "aksesоari",
+const SLUG_TO_CATEGORY: Record<string, string> = {
+  poli: "Поли",
+  rokli: "Рокли",
+  rizi: "Ризи",
+  topove: "Топове",
+  saka: "Сака",
+  aksesоari: "Аксесоари",
 };
-const SLUG_TO_CATEGORY: Record<string, string> = Object.fromEntries(
-  Object.entries(CATEGORY_TO_SLUG).map(([k, v]) => [v, k])
-);
 
 // Placeholder карта — приглушен вид, не е кликаема
 function PlaceholderCard() {
@@ -31,17 +26,15 @@ function PlaceholderCard() {
     <div className="overflow-hidden rounded-2xl border border-dashed border-white/5 bg-white/[0.02]">
       <div className="relative aspect-[3/4] w-full flex flex-col items-center justify-center gap-3 bg-black/10">
         {/* DV монограм — watermark */}
-        <span className="select-none font-serif text-8xl font-bold text-white/8 leading-none">
+        <span className="select-none font-serif text-8xl font-bold leading-none text-white/[0.08]">
           DV
         </span>
         <p className="text-[10px] uppercase tracking-widest text-white/20">Очаквайте скоро</p>
       </div>
       <div className="p-6">
-        <div className="mt-2 flex items-center justify-between">
-          <div>
-            <p className="text-base font-semibold text-white/25">Очаквайте скоро</p>
-            <p className="text-xs text-white/15">Скоро в колекцията</p>
-          </div>
+        <div className="mt-2">
+          <p className="text-base font-semibold text-white/25">Очаквайте скоро</p>
+          <p className="text-xs text-white/15">Скоро в колекцията</p>
         </div>
         <p className="mt-4 text-xs uppercase tracking-[0.3em] text-white/20">Скоро</p>
       </div>
@@ -71,10 +64,7 @@ function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (i
         role="link"
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            openProduct(p.id);
-          }
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openProduct(p.id); }
         }}
       >
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
@@ -106,10 +96,7 @@ function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (i
       role="link"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          openProduct(p.id);
-        }
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openProduct(p.id); }
       }}
     >
       <div className="relative aspect-[3/4] w-full bg-black" aria-label={`Отвори детайли за ${p.title}`}>
@@ -122,15 +109,13 @@ function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (i
           style={{ objectPosition: focalFor(idx) }}
         />
 
-        <button
-          type="button"
+        <button type="button"
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIdx((i) => (i - 1 + images.length) % images.length); }}
           className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 group-hover:opacity-100 transition"
           aria-label="Предишна снимка"
         >‹</button>
 
-        <button
-          type="button"
+        <button type="button"
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIdx((i) => (i + 1) % images.length); }}
           className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 group-hover:opacity-100 transition"
           aria-label="Следваща снимка"
@@ -138,9 +123,7 @@ function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (i
 
         <div className="absolute left-1/2 bottom-2 -translate-x-1/2 flex gap-2 rounded-full bg-black/30 p-1 px-2 opacity-90">
           {images.map((im, i) => (
-            <button
-              key={im}
-              type="button"
+            <button key={im} type="button"
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIdx(i); }}
               aria-label={`Снимка ${i + 1} за ${p.title}`}
               className={`h-8 w-12 overflow-hidden rounded ${i === idx ? "ring-2 ring-[color:var(--accent)]" : "opacity-70 hover:opacity-100"}`}
@@ -169,31 +152,26 @@ function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (i
 
 export default function ShopClient({ products }: Props) {
   const router = useRouter();
-  const pathname = usePathname();
-  const isShopPage = pathname === "/shop";
 
-  const [activeCategory, setActiveCategory] = useState<string>(ALL_CATEGORY);
+  // Четем начална категория директно в useState — синхронизирано с ShopSubNav
+  const [activeCategory, setActiveCategory] = useState<string>(() => {
+    if (typeof window === "undefined") return ALL_CATEGORY;
+    const slug = new URLSearchParams(window.location.search).get("category");
+    return (slug && SLUG_TO_CATEGORY[slug]) ? SLUG_TO_CATEGORY[slug] : ALL_CATEGORY;
+  });
   const [page, setPage] = useState(1);
   const perPage = 9;
 
-  // Брой продукти по категория за badge-овете
-  const counts = useMemo(() => {
-    const map: Record<string, number> = {};
-    for (const cat of CATEGORIES) {
-      map[cat] = products.filter((p) => p.category === cat).length;
-    }
-    return map;
-  }, [products]);
-
-  // Четем начална категория от URL при зареждане (само на /shop)
+  // Слушаме за смяна на категория от ShopSubNav
   useEffect(() => {
-    if (!isShopPage) return;
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get("category");
-    if (slug && SLUG_TO_CATEGORY[slug]) {
-      setActiveCategory(SLUG_TO_CATEGORY[slug]);
-    }
-  }, [isShopPage]);
+    const handler = (e: Event) => {
+      const cat = (e as CustomEvent<string>).detail;
+      setActiveCategory(cat);
+      setPage(1);
+    };
+    window.addEventListener("dana:category-changed", handler);
+    return () => window.removeEventListener("dana:category-changed", handler);
+  }, []);
 
   // Ресет на пагинацията при external event
   useEffect(() => {
@@ -210,20 +188,6 @@ export default function ShopClient({ products }: Props) {
     }
     section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
-  function handleCategoryChange(cat: string) {
-    setActiveCategory(cat);
-    setPage(1);
-
-    // Синхронизиране на URL само на /shop страницата
-    if (isShopPage) {
-      const slug = CATEGORY_TO_SLUG[cat];
-      const query = slug ? `?category=${slug}` : "";
-      router.replace(`/shop${query}`, { scroll: false });
-    } else {
-      requestAnimationFrame(keepShopInView);
-    }
-  }
 
   const filtered = useMemo(() => {
     if (activeCategory === ALL_CATEGORY) return products;
@@ -243,13 +207,6 @@ export default function ShopClient({ products }: Props) {
 
   return (
     <div className="mx-auto w-full max-w-6xl">
-      <CategoryFilter
-        categories={CATEGORIES}
-        activeCategory={activeCategory}
-        onCategoryChange={handleCategoryChange}
-        counts={counts}
-      />
-
       {/* Продуктова решетка с fade + stagger при смяна на категория */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -275,8 +232,7 @@ export default function ShopClient({ products }: Props) {
 
       {/* Пагинация */}
       <div className="mt-8 flex items-center justify-center gap-3">
-        <button
-          type="button"
+        <button type="button"
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPage((s) => Math.max(1, s - 1)); requestAnimationFrame(keepShopInView); }}
           disabled={page === 1}
           className="rounded px-3 py-2 bg-white/5 text-white/70 disabled:opacity-40"
@@ -285,9 +241,7 @@ export default function ShopClient({ products }: Props) {
         </button>
 
         {Array.from({ length: totalPages }).map((_, i) => (
-          <button
-            key={i}
-            type="button"
+          <button key={i} type="button"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPage(i + 1); requestAnimationFrame(keepShopInView); }}
             className={`min-w-[40px] rounded px-3 py-2 ${page === i + 1 ? "bg-[color:var(--accent)] text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}
           >
@@ -295,8 +249,7 @@ export default function ShopClient({ products }: Props) {
           </button>
         ))}
 
-        <button
-          type="button"
+        <button type="button"
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPage((s) => Math.min(totalPages, s + 1)); requestAnimationFrame(keepShopInView); }}
           disabled={page === totalPages}
           className="rounded px-3 py-2 bg-white/5 text-white/70 disabled:opacity-40"

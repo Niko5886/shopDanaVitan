@@ -1,3 +1,4 @@
+import ShopSubNav from "../../components/shop/ShopSubNav";
 import ShopClient from "../../components/ShopClient";
 import { products } from "../../data/products";
 
@@ -5,14 +6,20 @@ export const metadata = {
   title: "Магазин — Dana`|`Vitan",
 };
 
+const CATEGORIES = ["Поли", "Рокли", "Ризи", "Топове", "Сака", "Аксесоари"] as const;
+
+// Броят се на сервъра — products е статичен масив
+const counts = Object.fromEntries(
+  CATEGORIES.map((cat) => [cat, products.filter((p) => p.category === cat).length])
+);
+
 export default function ShopPage() {
   return (
     <div className="min-h-screen text-[color:var(--foreground)]">
-      <main className="relative z-10 px-6 pb-20 pt-28 sm:pt-32">
-        <div className="mx-auto w-full max-w-6xl">
-          <h1 className="mb-4 text-3xl font-semibold text-white">МАГАЗИН</h1>
-          
-        </div>
+      {/* ShopSubNav е sticky top-[72px] и се слива визуално с навбара */}
+      <ShopSubNav counts={counts} />
+
+      <main className="relative z-10 px-6 pb-20 pt-8">
         <ShopClient products={products} />
       </main>
     </div>
