@@ -15,11 +15,7 @@ export default function Home() {
         <main className="relative z-10">
           <section id="home" data-reveal-section className="reveal-section home-hero scroll-mt-28 snap-start px-6 pb-20 pt-20 sm:pt-24 lg:min-h-[calc(100vh-84px)] flex flex-col">
             <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 text-center h-full">
-              <div className="flex-1 flex items-center motion-safe:animate-[reveal_0.8s_ease-out]">
-                <h1 className="reveal-item reveal-delay-1 mx-auto max-w-4xl text-4xl font-semibold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
-                  Бутикови дрехи и стилизирани носии, създадени да впечатляват
-                </h1>
-              </div>
+              <div className="flex-1" />
 
               {/* category cards removed as requested */}
             </div>
