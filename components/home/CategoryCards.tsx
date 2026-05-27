@@ -34,7 +34,7 @@ export default function CategoryCards() {
             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(139,0,0,0.55)] to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
 
             {/* Категорийно название */}
-            <span className="relative z-10 text-2xl font-light tracking-[0.3em] text-white">
+            <span className="relative z-10 text-2xl font-light tracking-[0.3em] text-white/60">
               {label}
             </span>
           </Link>
