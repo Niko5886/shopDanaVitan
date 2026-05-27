@@ -4,44 +4,8 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AutoOpenShopOnScroll() {
-  const router = useRouter();
-  const redirectedRef = useRef(false);
-  const wheelProgressRef = useRef(0);
-
-  useEffect(() => {
-    const thresholdPx = 120;
-
-    const triggerRedirect = () => {
-      if (redirectedRef.current) return;
-
-      redirectedRef.current = true;
-      router.push("/shop");
-    };
-
-    const onWheel = (event: WheelEvent) => {
-      if (event.deltaY <= 0) return;
-
-      wheelProgressRef.current += event.deltaY;
-
-      if (wheelProgressRef.current >= thresholdPx) {
-        triggerRedirect();
-      }
-    };
-
-    const onScroll = () => {
-      if (window.scrollY >= thresholdPx) {
-        triggerRedirect();
-      }
-    };
-
-    window.addEventListener("wheel", onWheel, { passive: true });
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [router]);
-
+  // Disabled automatic redirect-on-scroll to avoid unwanted navigation
+  // and flicker when using single-page section navigation.
+  // If you want to re-enable this behavior later, restore the logic above.
   return null;
 }

@@ -29,11 +29,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
-}
-
-section[id] {
-  scroll-snap-align: start;
 }
 
 /* секцията сама по себе си вече не се прави невидима;

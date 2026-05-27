@@ -8,6 +8,22 @@ export default function Header() {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<"home" | "shop" | "about" | "contacts">("home");
 
+  const scrollToSection = (id: "home" | "shop" | "about" | "contacts") => {
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    const newHash = `#${id}`;
+    if (window.location.hash !== newHash) {
+      window.history.replaceState(null, "", newHash);
+    }
+
+    if (id === "home") {
+      window.dispatchEvent(new Event("dana:reset-shop-pagination"));
+    }
+  };
+
   useEffect(() => {
     if (pathname !== "/") return;
 
@@ -66,23 +82,64 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-20 border-b border-white/10 bg-black/70 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="flex items-center gap-3" aria-label="Към началото">
+        <Link
+          href="/#home"
+          className="flex items-center gap-3"
+          aria-label="Към началото"
+          onClick={(e) => {
+            if (pathname !== "/") return;
+            e.preventDefault();
+            scrollToSection("home");
+          }}
+        >
           <span className="h-10 w-10 rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.9),rgba(0,0,0,0.8))]" />
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-white/60">Dana Vitan</p>
           </div>
         </Link>
         <nav className="hidden items-center gap-8 text-sm uppercase tracking-[0.2em] text-white/70 md:flex">
-          <Link className={linkClass("/#home")} href="/#home">
+          <Link
+            className={linkClass("/#home")}
+            href="/#home"
+            onClick={(e) => {
+              if (pathname !== "/") return;
+              e.preventDefault();
+              scrollToSection("home");
+            }}
+          >
             НАЧАЛО
           </Link>
-          <Link className={linkClass("/#shop")} href="/#shop">
+          <Link
+            className={linkClass("/#shop")}
+            href="/#shop"
+            onClick={(e) => {
+              if (pathname !== "/") return;
+              e.preventDefault();
+              scrollToSection("shop");
+            }}
+          >
             МАГАЗИН
           </Link>
-          <Link className={linkClass("/#about")} href="/#about">
+          <Link
+            className={linkClass("/#about")}
+            href="/#about"
+            onClick={(e) => {
+              if (pathname !== "/") return;
+              e.preventDefault();
+              scrollToSection("about");
+            }}
+          >
             ЗА НАС
           </Link>
-          <Link className={linkClass("/#contacts")} href="/#contacts">
+          <Link
+            className={linkClass("/#contacts")}
+            href="/#contacts"
+            onClick={(e) => {
+              if (pathname !== "/") return;
+              e.preventDefault();
+              scrollToSection("contacts");
+            }}
+          >
             Контакти
           </Link>
         </nav>

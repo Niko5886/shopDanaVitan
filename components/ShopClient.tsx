@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ProductWithImages } from "../data/products";
 import Image from "next/image";
@@ -86,22 +86,26 @@ function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (i
 
         {/* arrows */}
         <button
+          type="button"
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
             setIdx((i) => (i - 1 + images.length) % images.length);
           }}
           className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 group-hover:opacity-100 transition"
-          aria-label="prev"
+          aria-label="Предишна снимка"
         >
           ‹
         </button>
         <button
+          type="button"
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
             setIdx((i) => (i + 1) % images.length);
           }}
           className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 group-hover:opacity-100 transition"
-          aria-label="next"
+          aria-label="Следваща снимка"
         >
           ›
         </button>
@@ -111,10 +115,13 @@ function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (i
           {images.map((im, i) => (
             <button
               key={im}
+              type="button"
               onClick={(e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 setIdx(i);
               }}
+              aria-label={`Снимка ${i + 1} за ${p.title}`}
               className={`h-8 w-12 overflow-hidden rounded ${i === idx ? "ring-2 ring-[color:var(--accent)]" : "opacity-70 hover:opacity-100"}`}
             >
               <Image src={im} alt={`${p.title} ${i + 1}`} width={48} height={32} className="object-cover" />
@@ -146,6 +153,18 @@ export default function ShopClient({ products }: Props) {
   const [drawer, setDrawer] = useState(false);
   const perPage = 9;
 
+  const keepShopInView = () => {
+    const section = document.getElementById("shop");
+    if (!section) return;
+
+    const newHash = "#shop";
+    if (window.location.hash !== newHash) {
+      window.history.replaceState(null, "", newHash);
+    }
+
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const filtered = useMemo(() => {
     return products.filter((p) => {
       if (selected.length > 0 && !selected.includes(p.category)) return false;
@@ -154,6 +173,17 @@ export default function ShopClient({ products }: Props) {
   }, [products, selected]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+
+  useEffect(() => {
+    const resetPagination = () => {
+      setPage(1);
+    };
+
+    window.addEventListener("dana:reset-shop-pagination", resetPagination);
+    return () => {
+      window.removeEventListener("dana:reset-shop-pagination", resetPagination);
+    };
+  }, []);
 
   const pageItems = useMemo(() => {
     const start = (page - 1) * perPage;
@@ -165,6 +195,7 @@ export default function ShopClient({ products }: Props) {
     // single-select behavior: clicking a category selects it alone;
     // clicking the active category again clears the selection.
     setSelected((s) => (s.length === 1 && s[0] === cat ? [] : [cat]));
+    requestAnimationFrame(keepShopInView);
   }
 
   function openProduct(id: string) {
@@ -221,7 +252,13 @@ export default function ShopClient({ products }: Props) {
 
       <div className="mt-8 flex items-center justify-center gap-3">
         <button
-          onClick={() => setPage((s) => Math.max(1, s - 1))}
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setPage((s) => Math.max(1, s - 1));
+            requestAnimationFrame(keepShopInView);
+          }}
           disabled={page === 1}
           className="rounded px-3 py-2 bg-white/5 text-white/70 disabled:opacity-40"
         >
@@ -231,7 +268,13 @@ export default function ShopClient({ products }: Props) {
         {Array.from({ length: totalPages }).map((_, i) => (
           <button
             key={i}
-            onClick={() => setPage(i + 1)}
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setPage(i + 1);
+              requestAnimationFrame(keepShopInView);
+            }}
             className={`min-w-[40px] rounded px-3 py-2 ${page === i + 1 ? "bg-[color:var(--accent)] text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}
           >
             {i + 1}
@@ -239,7 +282,13 @@ export default function ShopClient({ products }: Props) {
         ))}
 
         <button
-          onClick={() => setPage((s) => Math.min(totalPages, s + 1))}
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setPage((s) => Math.min(totalPages, s + 1));
+            requestAnimationFrame(keepShopInView);
+          }}
           disabled={page === totalPages}
           className="rounded px-3 py-2 bg-white/5 text-white/70 disabled:opacity-40"
         >
