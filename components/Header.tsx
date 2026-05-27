@@ -87,8 +87,7 @@ export default function Header() {
           <Link className={linkClass("/shop")} href="/shop">
             МАГАЗИН
           </Link>
-          <Link className={linkClass("/#about")} href="/#about"
-            onClick={(e) => { if (pathname !== "/") return; e.preventDefault(); scrollToSection("about"); }}>
+          <Link className={linkClass("/about")} href="/about">
             ЗА НАС
           </Link>
           <Link className={linkClass("/#contacts")} href="/#contacts"
