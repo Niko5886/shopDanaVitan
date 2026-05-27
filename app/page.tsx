@@ -1,16 +1,18 @@
 import Link from "next/link";
 import ShopClient from "../components/ShopClient";
+import SectionRevealObserver from "../components/SectionRevealObserver";
 import { products } from "../data/products";
 
 export default function Home() {
   return (
     <div className="min-h-screen text-[color:var(--foreground)]">
       <div className="relative overflow-visible">
+        <SectionRevealObserver />
         <div className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.35),rgba(0,0,0,0))] blur-3xl" />
         <div className="pointer-events-none absolute -bottom-48 right-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.2),rgba(0,0,0,0))] blur-3xl" />
 
         <main className="relative z-10">
-          <section id="home" className="scroll-mt-28 snap-start px-6 pb-20 pt-20 sm:pt-24 lg:min-h-[calc(100vh-84px)]">
+          <section id="home" data-reveal-section className="reveal-section scroll-mt-28 snap-start px-6 pb-20 pt-20 sm:pt-24 lg:min-h-[calc(100vh-84px)]">
             <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 text-center">
               <div className="space-y-6 motion-safe:animate-[reveal_0.8s_ease-out]">
                 <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
@@ -39,7 +41,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="shop" className="scroll-mt-28 snap-start px-6 pb-20 pt-14 lg:min-h-[calc(100vh-84px)]">
+          <section id="shop" data-reveal-section className="reveal-section scroll-mt-28 snap-start px-6 pb-20 pt-14 lg:min-h-[calc(100vh-84px)]">
             <main className="relative z-10">
               <div className="mx-auto w-full max-w-6xl">
                 <h2 className="mb-4 text-3xl font-semibold text-white">МАГАЗИН</h2>
@@ -48,7 +50,7 @@ export default function Home() {
             </main>
           </section>
 
-          <section id="about" className="scroll-mt-28 snap-start px-6 pb-20 pt-20 lg:min-h-[calc(100vh-84px)]">
+          <section id="about" data-reveal-section className="reveal-section scroll-mt-28 snap-start px-6 pb-20 pt-20 lg:min-h-[calc(100vh-84px)]">
             <div className="mx-auto w-full max-w-4xl">
               <h2 className="mb-4 text-3xl font-semibold text-white">ЗА НАС</h2>
 
@@ -93,7 +95,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="contacts" className="scroll-mt-28 snap-start px-6 pb-20 pt-20 lg:min-h-[calc(100vh-84px)]">
+          <section id="contacts" data-reveal-section className="reveal-section scroll-mt-28 snap-start px-6 pb-20 pt-20 lg:min-h-[calc(100vh-84px)]">
             <div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[1.1fr_0.9fr]">
               <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(145deg,rgba(18,16,17,0.96),rgba(8,8,8,0.98))] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.35)] sm:p-10">
                 <p className="text-xs uppercase tracking-[0.4em] text-white/55">Контакти</p>
