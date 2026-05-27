@@ -28,6 +28,19 @@ body {
     linear-gradient(180deg, #0b0b0c 0%, #080808 100%);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+
+section[id] {
+  scroll-snap-align: start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
 }
 
 ::selection {

@@ -1,5 +1,3 @@
-import AutoRouteOnScroll from "../../components/AutoRouteOnScroll";
-
 export const metadata = {
   title: "За нас — Dana`|`Vitan",
 };
@@ -7,7 +5,6 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div className="min-h-screen text-[color:var(--foreground)]">
-      <AutoRouteOnScroll downHref="/contacts" upHref="/shop" />
       <main className="relative z-10 px-6 pb-20 pt-28 sm:pt-32">
         <div className="mx-auto w-full max-w-4xl">
           <h1 className="mb-4 text-3xl font-semibold text-white">ЗА НАС</h1>
