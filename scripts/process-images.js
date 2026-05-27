@@ -9,13 +9,17 @@ const START_INDEX = 10;
 async function run() {
   const files = fs
     .readdirSync(srcDir)
-    .filter((file) => FILE_PATTERN.test(file) || /^dnbboutique\.png$/i.test(file))
+    .filter((file) => FILE_PATTERN.test(file) || /^dnbboutique\.png$/i.test(file) || /^номинация\.png$/i.test(file))
     .sort((a, b) => {
-      // Keep Cesual in numeric order, put dnbboutique at the end
+      // Keep Cesual in numeric order, then nomination, and put dnbboutique at the end
       const aIsDnb = /^dnbboutique\.png$/i.test(a);
       const bIsDnb = /^dnbboutique\.png$/i.test(b);
       if (aIsDnb && !bIsDnb) return 1;
       if (bIsDnb && !aIsDnb) return -1;
+      const aIsNomination = /^номинация\.png$/i.test(a);
+      const bIsNomination = /^номинация\.png$/i.test(b);
+      if (aIsNomination && !bIsNomination) return 1;
+      if (bIsNomination && !aIsNomination) return -1;
       const aMatch = a.match(FILE_PATTERN);
       const bMatch = b.match(FILE_PATTERN);
       const aNumber = aMatch ? Number(aMatch[1]) : 0;
@@ -48,6 +52,23 @@ async function run() {
           .toFile(outPathThumb);
 
         console.log('Processed background', file, '-> dnbboutique-bg.webp');
+      } else if (/^номинация\.png$/i.test(file)) {
+        const outPath = path.join(srcDir, `nomination.webp`);
+        const thumbPath = path.join(srcDir, `nomination-thumb.webp`);
+
+        await sharp(inputPath)
+          .rotate()
+          .resize({ width: 1200, withoutEnlargement: true })
+          .webp({ quality: 80 })
+          .toFile(outPath);
+
+        await sharp(inputPath)
+          .rotate()
+          .resize({ width: 400, withoutEnlargement: true })
+          .webp({ quality: 75 })
+          .toFile(thumbPath);
+
+        console.log('Processed nomination image', file, '-> nomination.webp');
       } else {
         const idx = String(START_INDEX + i).padStart(2, '0');
         const baseName = `product-${idx}`;
