@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AutoRouteOnScroll from "../../components/AutoRouteOnScroll";
 
 export const metadata = {
   title: "Контакти — Dana`|`Vitan",
@@ -7,8 +8,10 @@ export const metadata = {
 
 export default function ContactsPage() {
   return (
-    <main className="relative flex-1 overflow-hidden px-6 pb-20 pt-20 sm:pt-24">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(122,12,31,0.28),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_36%)]" />
+    <>
+      <AutoRouteOnScroll upHref="/about" />
+      <main className="relative flex-1 overflow-hidden px-6 pb-20 pt-20 sm:pt-24">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(122,12,31,0.28),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_36%)]" />
 
       <div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(145deg,rgba(18,16,17,0.96),rgba(8,8,8,0.98))] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.35)] sm:p-10">
@@ -90,6 +93,7 @@ export default function ContactsPage() {
           </div>
         </aside>
       </div>
-    </main>
+      </main>
+    </>
   );
 }
