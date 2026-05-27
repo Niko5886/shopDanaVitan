@@ -21,7 +21,7 @@ export default function HeroContent() {
           variants={item}
           initial="hidden"
           animate="show"
-          className="mb-3 text-[11px] uppercase tracking-[0.42em] text-white/45"
+          className="mb-3 inline-block rounded-full bg-[rgba(122,12,31,0.35)] px-4 py-1.5 text-[11px] uppercase tracking-[0.42em] text-white/60"
         >
           Бутикова мода
         </motion.p>
@@ -31,7 +31,7 @@ export default function HeroContent() {
           variants={item}
           initial="hidden"
           animate="show"
-          className="mb-8 ml-auto max-w-sm text-3xl leading-10 text-white/60 sm:text-4xl"
+          className="mb-8 ml-auto max-w-sm text-3xl leading-10 text-white/80 sm:text-4xl"
         >
           Бутикови дрехи и стилизирани носии, създадени да впечатляват.
         </motion.p>

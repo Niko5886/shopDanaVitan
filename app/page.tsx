@@ -20,7 +20,7 @@ export default function Home() {
             <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col">
               <div className="flex-1" />
               {/* Hero текст — долу вдясно */}
-              <div className="pb-6">
+              <div className="pb-16">
                 <HeroContent />
               </div>
             </div>
