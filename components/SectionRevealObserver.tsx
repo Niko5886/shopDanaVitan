@@ -17,14 +17,13 @@ export default function SectionRevealObserver() {
 
           if (entry.isIntersecting) {
             el.classList.add("is-visible");
-          } else {
-            el.classList.remove("is-visible");
           }
         });
       },
       {
         root: null,
-        threshold: 0.35,
+        threshold: 0.18,
+        rootMargin: "0px 0px -12% 0px",
       },
     );
 
