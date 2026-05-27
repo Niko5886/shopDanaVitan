@@ -30,8 +30,10 @@ export default function CategoryCards() {
             href={href}
             className="group relative flex h-[80px] w-[220px] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md transition-all duration-500 ease-out hover:scale-105 hover:border-white/20 hover:shadow-[0_0_25px_rgba(139,0,0,0.4)]"
           >
-            {/* Бордо gradient overlay — появява се при hover отдолу нагоре */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(139,0,0,0.55)] to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
+            {/* Бордо gradient overlay — винаги видим */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(139,0,0,0.55)] to-transparent" />
+            {/* Светъл overlay при hover */}
+            <div className="absolute inset-0 bg-white/0 transition-colors duration-500 ease-out group-hover:bg-white/10" />
 
             {/* Категорийно название */}
             <span className="relative z-10 text-2xl font-light tracking-[0.3em] text-white/60">
