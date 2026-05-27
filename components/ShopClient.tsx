@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import type { ProductWithImages } from "../data/products";
 import Image from "next/image";
+import CategoryFilter, { ALL_CATEGORY } from "./shop/CategoryFilter";
 
 type Props = {
   products: ProductWithImages[];
@@ -10,11 +12,23 @@ type Props = {
 
 const CATEGORIES = ["Поли", "Рокли", "Ризи", "Топове", "Сака", "Аксесоари"];
 
+// Slugове за URL: "Рокли" → "rokli"
+const CATEGORY_TO_SLUG: Record<string, string> = {
+  "Поли": "poli",
+  "Рокли": "rokli",
+  "Ризи": "rizi",
+  "Топове": "topove",
+  "Сака": "saka",
+  "Аксесоари": "aksesоari",
+};
+const SLUG_TO_CATEGORY: Record<string, string> = Object.fromEntries(
+  Object.entries(CATEGORY_TO_SLUG).map(([k, v]) => [v, k])
+);
+
 function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (id: string) => void }) {
   const images = p.images ?? (p.thumb ? [p.thumb] : []);
   const [idx, setIdx] = useState(0);
 
-  // default focal point (center top-ish) or per-image focalPoints
   const focalFor = (i: number) => {
     if (p.focalPoints && p.focalPoints[i]) {
       return `${p.focalPoints[i].x}% ${p.focalPoints[i].y}%`;
@@ -71,10 +85,7 @@ function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (i
         }
       }}
     >
-      <div
-        className="relative aspect-[3/4] w-full bg-black"
-        aria-label={`Отвори детайли за ${p.title}`}
-      >
+      <div className="relative aspect-[3/4] w-full bg-black" aria-label={`Отвори детайли за ${p.title}`}>
         <Image
           src={images[idx]}
           alt={p.title}
@@ -84,43 +95,26 @@ function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (i
           style={{ objectPosition: focalFor(idx) }}
         />
 
-        {/* arrows */}
         <button
           type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIdx((i) => (i - 1 + images.length) % images.length);
-          }}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIdx((i) => (i - 1 + images.length) % images.length); }}
           className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 group-hover:opacity-100 transition"
           aria-label="Предишна снимка"
-        >
-          ‹
-        </button>
+        >‹</button>
+
         <button
           type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIdx((i) => (i + 1) % images.length);
-          }}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIdx((i) => (i + 1) % images.length); }}
           className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 group-hover:opacity-100 transition"
           aria-label="Следваща снимка"
-        >
-          ›
-        </button>
+        >›</button>
 
-        {/* thumbnail strip */}
         <div className="absolute left-1/2 bottom-2 -translate-x-1/2 flex gap-2 rounded-full bg-black/30 p-1 px-2 opacity-90">
           {images.map((im, i) => (
             <button
               key={im}
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIdx(i);
-              }}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIdx(i); }}
               aria-label={`Снимка ${i + 1} за ${p.title}`}
               className={`h-8 w-12 overflow-hidden rounded ${i === idx ? "ring-2 ring-[color:var(--accent)]" : "opacity-70 hover:opacity-100"}`}
             >
@@ -148,55 +142,73 @@ function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (i
 
 export default function ShopClient({ products }: Props) {
   const router = useRouter();
-  const [selected, setSelected] = useState<string[]>([]);
+  const pathname = usePathname();
+  const isShopPage = pathname === "/shop";
+
+  const [activeCategory, setActiveCategory] = useState<string>(ALL_CATEGORY);
   const [page, setPage] = useState(1);
-  const [drawer, setDrawer] = useState(false);
   const perPage = 9;
+
+  // Брой продукти по категория за badge-овете
+  const counts = useMemo(() => {
+    const map: Record<string, number> = {};
+    for (const cat of CATEGORIES) {
+      map[cat] = products.filter((p) => p.category === cat).length;
+    }
+    return map;
+  }, [products]);
+
+  // Четем начална категория от URL при зареждане (само на /shop)
+  useEffect(() => {
+    if (!isShopPage) return;
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("category");
+    if (slug && SLUG_TO_CATEGORY[slug]) {
+      setActiveCategory(SLUG_TO_CATEGORY[slug]);
+    }
+  }, [isShopPage]);
+
+  // Ресет на пагинацията при external event
+  useEffect(() => {
+    const reset = () => setPage(1);
+    window.addEventListener("dana:reset-shop-pagination", reset);
+    return () => window.removeEventListener("dana:reset-shop-pagination", reset);
+  }, []);
 
   const keepShopInView = () => {
     const section = document.getElementById("shop");
     if (!section) return;
-
-    const newHash = "#shop";
-    if (window.location.hash !== newHash) {
-      window.history.replaceState(null, "", newHash);
+    if (window.location.hash !== "#shop") {
+      window.history.replaceState(null, "", "#shop");
     }
-
     section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  function handleCategoryChange(cat: string) {
+    setActiveCategory(cat);
+    setPage(1);
+
+    // Синхронизиране на URL само на /shop страницата
+    if (isShopPage) {
+      const slug = CATEGORY_TO_SLUG[cat];
+      const query = slug ? `?category=${slug}` : "";
+      router.replace(`/shop${query}`, { scroll: false });
+    } else {
+      requestAnimationFrame(keepShopInView);
+    }
+  }
+
   const filtered = useMemo(() => {
-    return products.filter((p) => {
-      if (selected.length > 0 && !selected.includes(p.category)) return false;
-      return true;
-    });
-  }, [products, selected]);
+    if (activeCategory === ALL_CATEGORY) return products;
+    return products.filter((p) => p.category === activeCategory);
+  }, [products, activeCategory]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
-
-  useEffect(() => {
-    const resetPagination = () => {
-      setPage(1);
-    };
-
-    window.addEventListener("dana:reset-shop-pagination", resetPagination);
-    return () => {
-      window.removeEventListener("dana:reset-shop-pagination", resetPagination);
-    };
-  }, []);
 
   const pageItems = useMemo(() => {
     const start = (page - 1) * perPage;
     return filtered.slice(start, start + perPage);
   }, [filtered, page]);
-
-  function toggleCategory(cat: string) {
-    setPage(1);
-    // single-select behavior: clicking a category selects it alone;
-    // clicking the active category again clears the selection.
-    setSelected((s) => (s.length === 1 && s[0] === cat ? [] : [cat]));
-    requestAnimationFrame(keepShopInView);
-  }
 
   function openProduct(id: string) {
     router.push(`/shop/${id}`);
@@ -204,61 +216,41 @@ export default function ShopClient({ products }: Props) {
 
   return (
     <div className="mx-auto w-full max-w-6xl">
-      <div className="mb-4 flex items-center gap-3">
-        <button className="sm:hidden rounded px-3 py-2 bg-white/5 text-white/80" onClick={() => setDrawer(true)}>
-          Филтри
-        </button>
+      <CategoryFilter
+        categories={CATEGORIES}
+        activeCategory={activeCategory}
+        onCategoryChange={handleCategoryChange}
+        counts={counts}
+      />
 
-        <div className="ml-auto hidden sm:flex flex-wrap gap-3">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => toggleCategory(cat)}
-              className={`rounded-full px-4 py-2 text-sm tracking-[0.2em] transition ${selected.includes(cat) ? "bg-[color:var(--accent)] text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}
+      {/* Продуктова решетка с fade + stagger при смяна на категория */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeCategory + "-" + page}
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.97 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {pageItems.map((p, i) => (
+            <motion.div
+              key={p.id}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: i * 0.05, ease: "easeOut" }}
             >
-              {cat}
-            </button>
+              <ProductCard p={p} openProduct={openProduct} />
+            </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </AnimatePresence>
 
-      {/* Mobile drawer */}
-      {drawer && (
-        <div className="fixed inset-0 z-50 flex">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setDrawer(false)} />
-          <div className="relative w-72 max-w-full bg-[#0b0b0b] p-4">
-            <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-white">Филтри</h3>
-              <button onClick={() => setDrawer(false)} className="text-white/70">Затвори</button>
-            </div>
-            
-            <div className="flex flex-col gap-2">
-              {CATEGORIES.map((cat) => (
-                <label key={cat} className="inline-flex items-center gap-2">
-                  <input type="checkbox" checked={selected.includes(cat)} onChange={() => toggleCategory(cat)} />
-                  <span className="text-white/80">{cat}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {pageItems.map((p) => (
-          <ProductCard key={p.id} p={p} openProduct={openProduct} />
-        ))}
-      </div>
-
+      {/* Пагинация */}
       <div className="mt-8 flex items-center justify-center gap-3">
         <button
           type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setPage((s) => Math.max(1, s - 1));
-            requestAnimationFrame(keepShopInView);
-          }}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPage((s) => Math.max(1, s - 1)); requestAnimationFrame(keepShopInView); }}
           disabled={page === 1}
           className="rounded px-3 py-2 bg-white/5 text-white/70 disabled:opacity-40"
         >
@@ -269,12 +261,7 @@ export default function ShopClient({ products }: Props) {
           <button
             key={i}
             type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setPage(i + 1);
-              requestAnimationFrame(keepShopInView);
-            }}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPage(i + 1); requestAnimationFrame(keepShopInView); }}
             className={`min-w-[40px] rounded px-3 py-2 ${page === i + 1 ? "bg-[color:var(--accent)] text-white" : "bg-white/5 text-white/70 hover:bg-white/10"}`}
           >
             {i + 1}
@@ -283,12 +270,7 @@ export default function ShopClient({ products }: Props) {
 
         <button
           type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setPage((s) => Math.min(totalPages, s + 1));
-            requestAnimationFrame(keepShopInView);
-          }}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPage((s) => Math.min(totalPages, s + 1)); requestAnimationFrame(keepShopInView); }}
           disabled={page === totalPages}
           className="rounded px-3 py-2 bg-white/5 text-white/70 disabled:opacity-40"
         >
