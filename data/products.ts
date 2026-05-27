@@ -84,6 +84,42 @@ export const products: ProductWithImages[] = [
       { x: 50, y: 30 },
     ],
   }),
+  createProduct({
+    id: "card-4",
+    title: "Колекция Кежуал I",
+    category: "Ризи",
+    price: "560 лв.",
+    note: "Нови визии в същия бутиков стил",
+    images: [
+      "/assets/imgDana/product-10.webp",
+      "/assets/imgDana/product-11.webp",
+      "/assets/imgDana/product-12.webp",
+    ],
+    thumb: "/assets/imgDana/product-10-thumb.webp",
+    focalPoints: [
+      { x: 50, y: 30 },
+      { x: 50, y: 30 },
+      { x: 50, y: 30 },
+    ],
+  }),
+  createProduct({
+    id: "card-5",
+    title: "Колекция Кежуал II",
+    category: "Топове",
+    price: "610 лв.",
+    note: "Съвременен силует и фин детайл",
+    images: [
+      "/assets/imgDana/product-13.webp",
+      "/assets/imgDana/product-14.webp",
+      "/assets/imgDana/product-15.webp",
+    ],
+    thumb: "/assets/imgDana/product-13-thumb.webp",
+    focalPoints: [
+      { x: 50, y: 30 },
+      { x: 50, y: 30 },
+      { x: 50, y: 30 },
+    ],
+  }),
 
   // Останалите продукти остават като отдельни артикули (без multiple images)
   createProduct({ id: "p10", title: "Риза Леко", category: "Ризи", price: "150 лв.", note: "Модерен крой" }),
