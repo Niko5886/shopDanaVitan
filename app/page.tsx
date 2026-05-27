@@ -11,8 +11,9 @@ export default function Home() {
         <div className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.35),rgba(0,0,0,0))] blur-3xl" />
         <div className="pointer-events-none absolute -bottom-48 right-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(122,12,31,0.2),rgba(0,0,0,0))] blur-3xl" />
 
+
         <main className="relative z-10">
-          <section id="home" data-reveal-section className="reveal-section scroll-mt-28 snap-start px-6 pb-20 pt-20 sm:pt-24 lg:min-h-[calc(100vh-84px)]">
+          <section id="home" data-reveal-section className="reveal-section home-hero scroll-mt-28 snap-start px-6 pb-20 pt-20 sm:pt-24 lg:min-h-[calc(100vh-84px)]">
             <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 text-center">
               <div className="space-y-6 motion-safe:animate-[reveal_0.8s_ease-out]">
                 <h1 className="reveal-item reveal-delay-1 mx-auto max-w-4xl text-4xl font-semibold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
