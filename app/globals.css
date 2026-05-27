@@ -50,6 +50,49 @@ section[id] {
   transform: translate3d(0, 0, 0) scale(1);
 }
 
+.reveal-section .reveal-item {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition:
+    opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 0ms;
+  will-change: opacity, transform;
+}
+
+.reveal-section.is-visible .reveal-item {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.reveal-section.is-visible .reveal-delay-1 {
+  transition-delay: 70ms;
+}
+
+.reveal-section.is-visible .reveal-delay-2 {
+  transition-delay: 140ms;
+}
+
+.reveal-section.is-visible .reveal-delay-3 {
+  transition-delay: 210ms;
+}
+
+.reveal-section.is-visible .reveal-delay-4 {
+  transition-delay: 280ms;
+}
+
+.reveal-section.is-visible .reveal-delay-5 {
+  transition-delay: 350ms;
+}
+
+.reveal-section.is-visible .reveal-delay-6 {
+  transition-delay: 420ms;
+}
+
+.reveal-section.is-visible .reveal-delay-7 {
+  transition-delay: 490ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
   body {
     scroll-behavior: auto;
@@ -58,6 +101,13 @@ section[id] {
 
   .reveal-section,
   .reveal-section.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .reveal-section .reveal-item,
+  .reveal-section.is-visible .reveal-item {
     opacity: 1;
     transform: none;
     transition: none;
