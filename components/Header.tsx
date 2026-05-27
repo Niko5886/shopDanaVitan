@@ -49,11 +49,14 @@ export default function Header() {
   const linkClass = (href: string) => {
     const isHashLink = href.startsWith("/#");
     const hashTarget = isHashLink ? href.replace("/#", "") : "";
+    const sectionTarget = href === "/shop" || href === "/about" ? href.slice(1) : "";
     const isActive = isHashLink
       ? pathname === "/" && activeSection === hashTarget
       : href === "/"
         ? pathname === "/"
-        : pathname === href || pathname.startsWith(`${href}/`);
+        : pathname === "/" && sectionTarget
+          ? activeSection === sectionTarget || pathname === href || pathname.startsWith(`${href}/`)
+          : pathname === href || pathname.startsWith(`${href}/`);
     return [
       "rounded-full px-3 py-2 transition",
       isActive ? "bg-[color:var(--accent)] text-white" : "text-white/70 hover:text-white",
