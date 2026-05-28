@@ -51,19 +51,3 @@ export const checkoutSchema = z
   });
 
 export type CheckoutFormData = z.infer<typeof checkoutSchema>;
-
-export const ECONT_OFFICES = [
-  { id: "e1", label: "Еконт — София, бул. Витоша 100" },
-  { id: "e2", label: "Еконт — София, кв. Люлин, бул. Европа 45" },
-  { id: "e3", label: "Еконт — Пловдив, ул. Иван Вазов 12" },
-  { id: "e4", label: "Еконт — Варна, бул. Осми Приморски полк 55" },
-  { id: "e5", label: "Еконт — Бургас, ул. Александровска 30" },
-];
-
-export const SPEEDY_OFFICES = [
-  { id: "s1", label: "Speedy — София, ул. Раковски 15" },
-  { id: "s2", label: "Speedy — София, кв. Младост 1, бл. 101" },
-  { id: "s3", label: "Speedy — Пловдив, бул. България 88" },
-  { id: "s4", label: "Speedy — Варна, ул. Дръзки 7" },
-  { id: "s5", label: "Speedy — Бургас, ул. Богориди 22" },
-];

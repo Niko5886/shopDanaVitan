@@ -1,17 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import {
-  checkoutSchema,
-  type CheckoutFormData,
-  ECONT_OFFICES,
-  SPEEDY_OFFICES,
-} from "../lib/checkoutSchema";
+import { checkoutSchema, type CheckoutFormData } from "../lib/checkoutSchema";
+import { BULGARIAN_CITIES } from "../lib/bulgarian-cities";
 import { products } from "../data/products";
+
+type OfficeOption = { id: string; address: string };
 
 const inputClass =
   "w-full rounded bg-[#111111] border border-[#333333] text-white text-sm px-4 py-3 placeholder:text-[#666666] transition-all duration-200 focus:outline-none focus:border-[#8B1A2F] focus:ring-2 focus:ring-[#8B1A2F]/20";
@@ -50,7 +48,33 @@ export default function CheckoutClient() {
   const courier = watch("courier");
   const deliveryType = watch("deliveryType");
 
-  const offices = courier === "econt" ? ECONT_OFFICES : courier === "speedy" ? SPEEDY_OFFICES : [];
+  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [offices, setOffices] = useState<OfficeOption[]>([]);
+  const [loadingOffices, setLoadingOffices] = useState(false);
+
+  // При смяна на куриер изчистваме града/офиса — наличните офиси са специфични за всеки.
+  useEffect(() => {
+    setSelectedCity("");
+    setOffices([]);
+    setValue("officeId", "", { shouldValidate: false });
+  }, [courier, setValue]);
+
+  const handleCityChange = async (city: string) => {
+    setSelectedCity(city);
+    setValue("officeId", "", { shouldValidate: false });
+    setOffices([]);
+    if (!city || !courier) return;
+    setLoadingOffices(true);
+    try {
+      const res = await fetch(`/api/offices?courier=${courier}&city=${encodeURIComponent(city)}`);
+      const data = (await res.json()) as { success: boolean; offices: OfficeOption[] };
+      setOffices(data.success ? data.offices : []);
+    } catch {
+      setOffices([]);
+    } finally {
+      setLoadingOffices(false);
+    }
+  };
 
   const onSubmit = async (data: CheckoutFormData) => {
     setLoading(true);
@@ -154,7 +178,20 @@ export default function CheckoutClient() {
                 </div>
                 <div>
                   <label htmlFor="phone" className={labelClass}>Телефон*</label>
-                  <input id="phone" type="tel" {...register("phone")} className={inputClass} placeholder="08XXXXXXXX" />
+                  <input
+                    id="phone"
+                    type="tel"
+                    inputMode="numeric"
+                    maxLength={10}
+                    pattern="[0-9]*"
+                    {...register("phone")}
+                    onInput={(e) => {
+                      const input = e.currentTarget;
+                      input.value = input.value.replace(/[^0-9]/g, "");
+                    }}
+                    className={inputClass}
+                    placeholder="08XXXXXXXX"
+                  />
                   {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
                 </div>
               </div>
@@ -251,17 +288,50 @@ export default function CheckoutClient() {
               )}
 
               {deliveryType === "office" && (
-                <div>
-                  <label htmlFor="officeId" className={labelClass}>Изберете офис*</label>
-                  <select id="officeId" {...register("officeId")} className={inputClass} defaultValue="">
-                    <option value="" disabled>Изберете офис...</option>
-                    {offices.map((o) => (
-                      <option key={o.id} value={o.id}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.officeId && <p className={errorClass}>{errors.officeId.message}</p>}
+                <div className="space-y-4">
+                  <div>
+                    <label htmlFor="officeCity" className={labelClass}>Град*</label>
+                    <select
+                      id="officeCity"
+                      value={selectedCity}
+                      onChange={(e) => handleCityChange(e.target.value)}
+                      className={inputClass}
+                    >
+                      <option value="">Изберете град...</option>
+                      {BULGARIAN_CITIES.map((city) => (
+                        <option key={city} value={city}>
+                          {city}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {selectedCity && (
+                    <div>
+                      <label htmlFor="officeId" className={labelClass}>Офис*</label>
+                      <select
+                        id="officeId"
+                        disabled={loadingOffices}
+                        {...register("officeId")}
+                        defaultValue=""
+                        className={`${inputClass} ${loadingOffices ? "cursor-wait opacity-60" : ""}`}
+                      >
+                        <option value="" disabled>
+                          {loadingOffices
+                            ? "Зареждане..."
+                            : offices.length === 0
+                              ? "Няма налични офиси в този град"
+                              : "Изберете офис..."}
+                        </option>
+                        {offices.map((o) => (
+                          <option key={o.id} value={o.id}>
+                            {o.address}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.officeId && <p className={errorClass}>{errors.officeId.message}</p>}
+                    </div>
+                  )}
                 </div>
               )}
 
