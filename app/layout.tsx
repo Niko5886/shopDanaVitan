@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="bg" className={`${manrope.variable} h-full scroll-smooth antialiased`}>
+    <html lang="bg" className={`${manrope.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col overflow-x-hidden bg-[color:var(--background)]">
         <Header />
         <main className="flex-1">{children}</main>

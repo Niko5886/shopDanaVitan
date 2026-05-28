@@ -131,21 +131,6 @@ export default function ShopClient({ products }: Props) {
     return () => window.removeEventListener("dana:category-changed", handler);
   }, []);
 
-  useEffect(() => {
-    const reset = () => setPage(1);
-    window.addEventListener("dana:reset-shop-pagination", reset);
-    return () => window.removeEventListener("dana:reset-shop-pagination", reset);
-  }, []);
-
-  const keepShopInView = () => {
-    const section = document.getElementById("shop");
-    if (!section) return;
-    if (window.location.hash !== "#shop") {
-      window.history.replaceState(null, "", "#shop");
-    }
-    section.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   const filtered = useMemo(() => {
     if (activeCategory === ALL_CATEGORY) return products;
     return products.filter((p) => p.category === activeCategory);
@@ -188,7 +173,6 @@ export default function ShopClient({ products }: Props) {
           onClick={(e) => {
             e.preventDefault();
             setPage((s) => Math.max(1, s - 1));
-            requestAnimationFrame(keepShopInView);
           }}
           disabled={page === 1}
           className="rounded bg-white/5 px-3 py-2 text-white/70 disabled:opacity-40"
@@ -203,7 +187,6 @@ export default function ShopClient({ products }: Props) {
             onClick={(e) => {
               e.preventDefault();
               setPage(i + 1);
-              requestAnimationFrame(keepShopInView);
             }}
             className={`min-w-[40px] rounded px-3 py-2 ${
               page === i + 1
@@ -220,7 +203,6 @@ export default function ShopClient({ products }: Props) {
           onClick={(e) => {
             e.preventDefault();
             setPage((s) => Math.min(totalPages, s + 1));
-            requestAnimationFrame(keepShopInView);
           }}
           disabled={page === totalPages}
           className="rounded bg-white/5 px-3 py-2 text-white/70 disabled:opacity-40"
