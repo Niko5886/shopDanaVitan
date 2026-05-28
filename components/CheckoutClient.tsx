@@ -6,10 +6,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { checkoutSchema, type CheckoutFormData } from "../lib/checkoutSchema";
-import { BULGARIAN_CITIES } from "../lib/bulgarian-cities";
+import { SPEEDY_CITIES } from "../lib/speedy-offices";
+import { ECONT_CITIES } from "../lib/econt-offices";
 import { products } from "../data/products";
 
-type OfficeOption = { id: string; address: string };
+type OfficeOption = { id: string; name: string; address: string };
 
 const inputClass =
   "w-full rounded bg-[#111111] border border-[#333333] text-white text-sm px-4 py-3 placeholder:text-[#666666] transition-all duration-200 focus:outline-none focus:border-[#8B1A2F] focus:ring-2 focus:ring-[#8B1A2F]/20";
@@ -214,7 +215,6 @@ export default function CheckoutClient() {
                         }`}
                         aria-pressed={isSel ? "true" : "false"}
                       >
-                        <span className="text-base">📦</span>
                         <span className="text-sm font-semibold uppercase tracking-wider text-white">
                           {c === "econt" ? "Еконт" : "Speedy"}
                         </span>
@@ -234,8 +234,8 @@ export default function CheckoutClient() {
                   <p className={labelClass}>Тип доставка</p>
                   <div className="grid grid-cols-2 gap-3">
                     {([
-                      { v: "address", icon: "🏠", title: "До адрес", desc: "Доставяме до вас" },
-                      { v: "office", icon: "🏢", title: "До офис", desc: "Вземете от офис" },
+                      { v: "address", title: "До адрес", desc: "Доставяме до вас" },
+                      { v: "office", title: "До офис", desc: "Вземете от офис" },
                     ] as const).map((opt) => {
                       const isSel = deliveryType === opt.v;
                       return (
@@ -250,7 +250,6 @@ export default function CheckoutClient() {
                           }`}
                           aria-pressed={isSel ? "true" : "false"}
                         >
-                          <span className="text-base">{opt.icon}</span>
                           <span className="text-sm font-semibold uppercase tracking-wider text-white">
                             {opt.title}
                           </span>
@@ -298,7 +297,7 @@ export default function CheckoutClient() {
                       className={inputClass}
                     >
                       <option value="">Изберете град...</option>
-                      {BULGARIAN_CITIES.map((city) => (
+                      {(courier === "speedy" ? SPEEDY_CITIES : ECONT_CITIES).map((city) => (
                         <option key={city} value={city}>
                           {city}
                         </option>
@@ -325,7 +324,7 @@ export default function CheckoutClient() {
                         </option>
                         {offices.map((o) => (
                           <option key={o.id} value={o.id}>
-                            {o.address}
+                            {o.name} — {o.address}
                           </option>
                         ))}
                       </select>
