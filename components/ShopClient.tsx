@@ -20,31 +20,50 @@ const SLUG_TO_CATEGORY: Record<string, string> = {
   aksesоari: "Аксесоари",
 };
 
-// Placeholder карта — приглушен вид, не е кликаема
-function PlaceholderCard() {
+// Снимки на модел — временен фон за placeholder картите, докато се добавят реални снимки
+const MODEL_IMAGES = [
+  "/assets/imgDana/Cesual1.jpg",
+  "/assets/imgDana/Cesual2.jpg",
+  "/assets/imgDana/Cesual3.jpg",
+  "/assets/imgDana/Cesual4.jpg",
+  "/assets/imgDana/Cesual5.jpg",
+  "/assets/imgDana/Cesual6.jpg",
+];
+
+// Placeholder карта — мира структурата на реалните карти, с модел снимка
+function PlaceholderCard({ p, index = 0 }: { p: ProductWithImages; index?: number }) {
+  const modelSrc = MODEL_IMAGES[index % MODEL_IMAGES.length];
   return (
-    <div className="overflow-hidden rounded-2xl border border-dashed border-white/5 bg-white/[0.02]">
-      <div className="relative aspect-[3/4] w-full flex flex-col items-center justify-center gap-3 bg-black/10">
-        {/* DV монограм — watermark */}
-        <span className="select-none font-serif text-8xl font-bold leading-none text-white/[0.08]">
-          DV
-        </span>
-        <p className="text-[10px] uppercase tracking-widest text-white/20">Очаквайте скоро</p>
+    <div className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-white/30">
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
+        <Image
+          src={modelSrc}
+          alt={`Модел — ${p.category}`}
+          fill
+          sizes="(max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          style={{ objectPosition: "50% 25%" }}
+        />
       </div>
       <div className="p-6">
-        <div className="mt-2">
-          <p className="text-base font-semibold text-white/25">Очаквайте скоро</p>
-          <p className="text-xs text-white/15">Скоро в колекцията</p>
+        <div className="mt-2 flex items-center justify-between">
+          <div>
+            <p className="text-base font-semibold text-white">DANA·VITAN</p>
+            <p className="text-xs text-white/60">{p.category}</p>
+          </div>
+          <span className="text-sm text-white/70">—</span>
         </div>
-        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-white/20">Скоро</p>
+        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-white/50">
+          Скоро в колекцията
+        </p>
       </div>
     </div>
   );
 }
 
-function ProductCard({ p, openProduct }: { p: ProductWithImages; openProduct: (id: string) => void }) {
+function ProductCard({ p, openProduct, modelIndex = 0 }: { p: ProductWithImages; openProduct: (id: string) => void; modelIndex?: number }) {
   // Placeholder карти се рендират без интерактивност
-  if (p.placeholder) return <PlaceholderCard />;
+  if (p.placeholder) return <PlaceholderCard p={p} index={modelIndex} />;
 
   const images = p.images ?? (p.thumb ? [p.thumb] : []);
   const [idx, setIdx] = useState(0);
@@ -224,7 +243,7 @@ export default function ShopClient({ products }: Props) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: i * 0.05, ease: "easeOut" }}
             >
-              <ProductCard p={p} openProduct={openProduct} />
+              <ProductCard p={p} openProduct={openProduct} modelIndex={i} />
             </motion.div>
           ))}
         </motion.div>

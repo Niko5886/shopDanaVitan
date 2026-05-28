@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { Manrope, Playfair_Display } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header";
 
 const manrope = Manrope({
   variable: "--font-manrope",
-  subsets: ["latin"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
   subsets: ["latin"],
 });
 
@@ -25,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="bg" className={`${manrope.variable} ${playfair.variable} h-full scroll-smooth antialiased`}>
+    <html lang="bg" className={`${manrope.variable} h-full scroll-smooth antialiased`}>
       <body className="min-h-full flex flex-col overflow-x-hidden bg-[color:var(--background)]">
         <Header />
         {children}

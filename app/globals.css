@@ -9,24 +9,13 @@
   --card: #141316;
 }
 
-/* Font: Cedra - place Cedra.woff2 / Cedra.woff in /public/assets/fonts/ or adjust paths */
-@font-face {
-  font-family: 'Cedra';
-  src: local('Cedra'),
-       url('/assets/fonts/Cedra.woff2') format('woff2'),
-       url('/assets/fonts/Cedra.woff') format('woff');
-  font-display: swap;
-  font-weight: 100 900;
-  font-style: normal;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-muted: var(--muted);
-  --font-sans: 'Cedra';
-  --font-display: 'Cedra';
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-manrope);
 }
 
 * {
