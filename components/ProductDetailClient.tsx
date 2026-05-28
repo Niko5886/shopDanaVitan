@@ -5,16 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Lightbox from "./Lightbox";
-import type { ProductWithImages } from "../data/products";
+import type { Product } from "../data/products";
 
 type Props = {
-  product: ProductWithImages;
-  related: ProductWithImages[];
+  product: Product;
+  related: Product[];
 };
 
 export default function ProductDetailClient({ product, related }: Props) {
   const router = useRouter();
-  const images = product.images ?? (product.thumb ? [product.thumb] : []);
+  const images = product.images;
   const hasImages = images.length > 0;
 
   const [idx, setIdx] = useState(0);
@@ -29,9 +29,9 @@ export default function ProductDetailClient({ product, related }: Props) {
     }
     setError(null);
     const params = new URLSearchParams({
-      product: product.id,
+      product: product.slug,
       size: selectedSize,
-      price: product.price,
+      price: String(product.price),
     });
     router.push(`/checkout?${params.toString()}`);
   };
@@ -130,7 +130,7 @@ export default function ProductDetailClient({ product, related }: Props) {
             </h1>
 
             <p className="mt-4 text-2xl font-bold text-[#8B1A2F] sm:text-[1.8rem]">
-              {product.price || "—"}
+              {product.priceLabel}
             </p>
 
             <hr className="my-6 border-t border-white/10" />
@@ -176,10 +176,9 @@ export default function ProductDetailClient({ product, related }: Props) {
             <button
               type="button"
               onClick={handleBuy}
-              disabled={product.placeholder}
-              className="mt-8 w-full rounded-sm bg-[#8B1A2F] py-4 text-sm font-semibold uppercase tracking-[0.25em] text-white transition-all duration-200 hover:bg-[#A52035] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-[#8B1A2F]"
+              className="mt-8 w-full rounded-sm bg-[#8B1A2F] py-4 text-sm font-semibold uppercase tracking-[0.25em] text-white transition-all duration-200 hover:bg-[#A52035]"
             >
-              {product.placeholder ? "Очаквайте скоро" : "Купи"}
+              Купи
             </button>
           </section>
         </div>
@@ -193,8 +192,8 @@ export default function ProductDetailClient({ product, related }: Props) {
                 const preview = item.thumb ?? item.images?.[0] ?? "";
                 return (
                   <Link
-                    key={item.id}
-                    href={`/shop/${item.id}`}
+                    key={item.slug}
+                    href={`/shop/${item.slug}`}
                     className="group overflow-hidden rounded-sm border border-white/10 bg-white/5 transition-all duration-200 hover:-translate-y-1 hover:border-white/30"
                   >
                     <div className="relative aspect-[4/5] bg-black">
@@ -214,7 +213,7 @@ export default function ProductDetailClient({ product, related }: Props) {
                       <div className="flex items-center justify-between gap-4">
                         <p className="text-base font-semibold text-white">{item.title}</p>
                         <span className="text-xs font-semibold text-[#8B1A2F]">
-                          {item.price}
+                          {item.priceLabel}
                         </span>
                       </div>
                       <p className="mt-2 text-sm text-white/60">{item.note}</p>

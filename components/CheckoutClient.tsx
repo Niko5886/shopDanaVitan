@@ -25,12 +25,13 @@ export default function CheckoutClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const productId = searchParams.get("product") ?? "";
+  const productSlug = searchParams.get("product") ?? "";
   const size = searchParams.get("size") ?? "";
-  const price = searchParams.get("price") ?? "";
+  const priceRaw = searchParams.get("price") ?? "";
 
-  const product = products.find((p) => p.id === productId);
+  const product = products.find((p) => p.slug === productSlug);
   const productImage = product?.thumb ?? product?.images?.[0] ?? null;
+  const priceLabel = product?.priceLabel ?? (priceRaw ? `${priceRaw} лв.` : "");
 
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -58,7 +59,7 @@ export default function CheckoutClient() {
       const res = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, product: productId, size, price }),
+        body: JSON.stringify({ ...data, product: product?.title ?? productSlug, size, price: priceLabel }),
       });
       const json = await res.json();
       if (json.success) {
@@ -101,7 +102,7 @@ export default function CheckoutClient() {
                     Размер: <span className="text-white">{size || "—"}</span>
                   </p>
                   <p className="mt-1 text-white/60">
-                    Цена: <span className="text-white">{price || "—"}</span>
+                    Цена: <span className="text-white">{priceLabel || "—"}</span>
                   </p>
                 </div>
               </div>
@@ -115,7 +116,7 @@ export default function CheckoutClient() {
 
               <div className="mt-3 flex items-center justify-between">
                 <span className="text-sm font-semibold uppercase tracking-wider text-white/70">ОБЩО:</span>
-                <span className="text-lg font-bold text-[#8B1A2F]">{price || "—"}</span>
+                <span className="text-lg font-bold text-[#8B1A2F]">{priceLabel || "—"}</span>
               </div>
             </div>
 
