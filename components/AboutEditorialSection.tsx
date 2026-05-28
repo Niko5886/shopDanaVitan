@@ -27,14 +27,8 @@ export default function AboutEditorialSection({ headingLevel = "h1", showHeading
 
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_2fr_1fr] lg:gap-8">
         {/* Ляво — Номинация. */}
-        <a
-          href={nominationImage}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Отвори снимката с номинацията от Дамските брандове"
-          className="about-enter-left group order-1 mx-auto block w-[250px] self-start lg:order-none lg:w-[350px] lg:-mt-8 lg:self-start"
-        >
-          <div className="relative aspect-[350/450] overflow-hidden rounded-2xl border-2 border-[#8B0000]/30 shadow-2xl shadow-black/50 transition-all duration-700 ease-out lg:rotate-[-3deg] lg:group-hover:rotate-0 lg:group-hover:scale-105 lg:group-hover:border-[#8B0000]/50 lg:group-hover:shadow-[#8B0000]/20">
+        <div className="about-enter-left order-1 mx-auto w-[250px] self-start lg:order-none lg:w-[350px] lg:-mt-8 lg:self-start">
+          <div className="relative aspect-[350/450] overflow-hidden rounded-2xl border-2 border-[#8B0000]/30 shadow-2xl shadow-black/50 transition-all duration-700 ease-out lg:rotate-[-3deg]">
             <Image
               src={nominationImage}
               alt="Номинация — Дамските брандове"
@@ -46,7 +40,7 @@ export default function AboutEditorialSection({ headingLevel = "h1", showHeading
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
           </div>
-        </a>
+        </div>
 
         {/* Център — запазеният текстов блок. */}
         <div className="about-enter-up relative z-10 order-3 mx-auto w-full max-w-2xl rounded-2xl border border-white/10 bg-black/60 p-8 shadow-2xl shadow-black/40 backdrop-blur-md lg:order-none">
@@ -72,15 +66,6 @@ export default function AboutEditorialSection({ headingLevel = "h1", showHeading
             Създадена, за да подчертае вашата увереност и женственост. 💃
           </p>
 
-          <div className="mb-6">
-            <a
-              href="mailto:atelier@nosia.bg"
-              className="inline-flex items-center gap-3 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:bg-[color:var(--accent-strong)]"
-            >
-              Свържете се с нас
-            </a>
-          </div>
-
           <p className="text-sm text-white/60">
             👉 Разгледайте детайлите на шевицата и се свържете с нас на
             съобщение, за да изработим вашата мечтана рокля по поръчка!
@@ -97,14 +82,8 @@ export default function AboutEditorialSection({ headingLevel = "h1", showHeading
         </div>
 
         {/* Дясно — Награда Fashion Week Ruse. */}
-        <a
-          href={awardImage}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Отвори снимката с наградата от Fashion Week Ruse"
-          className="about-enter-right group order-2 mx-auto block w-[250px] self-start lg:order-none lg:w-[280px] lg:mt-12 lg:self-end"
-        >
-          <div className="relative aspect-[280/350] overflow-hidden rounded-2xl border-2 border-[#8B0000]/30 shadow-xl shadow-black/40 transition-all duration-700 ease-out lg:rotate-[4deg] lg:group-hover:rotate-0 lg:group-hover:scale-105 lg:group-hover:border-[#8B0000]/50 lg:group-hover:shadow-[#8B0000]/20">
+        <div className="about-enter-right order-2 mx-auto w-[250px] self-start lg:order-none lg:w-[280px] lg:mt-12 lg:self-end">
+          <div className="relative aspect-[280/350] overflow-hidden rounded-2xl border-2 border-[#8B0000]/30 shadow-xl shadow-black/40 transition-all duration-700 ease-out lg:rotate-[4deg]">
             <Image
               src={awardImage}
               alt="Награда — Fashion Week Ruse"
@@ -116,7 +95,7 @@ export default function AboutEditorialSection({ headingLevel = "h1", showHeading
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
           </div>
-        </a>
+        </div>
       </div>
     </section>
   );
