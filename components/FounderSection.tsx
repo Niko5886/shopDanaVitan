@@ -10,10 +10,10 @@ export default function FounderSection() {
         <div className="w-full md:w-1/2 order-1">
           <div className="relative w-full h-[500px] rounded-lg overflow-hidden">
             <Image
-              src="/assets/imgDana/dnbboutique-bg.webp"
+              src="/assets/imgDana/dVitan.webp"
               alt="Дана Витан"
               fill
-              className="object-cover"
+              className="object-cover object-top"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
