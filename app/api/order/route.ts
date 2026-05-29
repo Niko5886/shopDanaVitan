@@ -3,10 +3,12 @@ import { Resend } from "resend";
 import { checkoutSchema } from "@/lib/checkoutSchema";
 import type { OrderEmailData } from "@/lib/types";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: NextRequest) {
   try {
+    // Инстанцираме клиента тук (не на ниво модул), за да не гръмне build-ът
+    // при събиране на page data, когато RESEND_API_KEY още не е наличен.
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     const body = await req.json();
     const parsed = checkoutSchema.safeParse(body);
 
