@@ -51,14 +51,14 @@ export default function TypewriterStory() {
   }, [titleDone]);
 
   return (
-    <div className="flex flex-col gap-6 max-w-xl">
-      <h1 className="text-white text-3xl md:text-5xl font-bold leading-tight tracking-tight min-h-[4rem]">
+    <div className="flex flex-col gap-4 max-w-sm w-full">
+      <h1 className="text-white text-2xl md:text-3xl font-bold leading-tight tracking-tight min-h-[3rem]">
         {titleText}
         {!titleDone && <span className="text-[#8B1A2F] animate-pulse">|</span>}
       </h1>
 
       {titleDone && (
-        <p className="text-white/80 text-sm md:text-base font-light leading-relaxed min-h-[10rem]">
+        <p className="text-white/80 text-xs md:text-sm font-light leading-relaxed min-h-[8rem]">
           {bodyText}
           {!bodyDone && <span className="text-[#8B1A2F] animate-pulse">|</span>}
         </p>

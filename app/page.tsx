@@ -20,8 +20,8 @@ export default function Home() {
         <div className="
           w-full md:w-1/2
           flex flex-col
-          justify-center
-          px-8 md:px-16
+          justify-center items-center
+          px-8
           py-12
           order-2 md:order-1
         ">
