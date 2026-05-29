@@ -22,7 +22,7 @@ export default function Home() {
           flex flex-col
           justify-center items-center
           px-8
-          py-12
+          pt-24 pb-12
           order-2 md:order-1
         ">
           <TypewriterStory />

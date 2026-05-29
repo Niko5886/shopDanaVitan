@@ -55,8 +55,8 @@ export default function TypewriterStory() {
   }, [titleDone]);
 
   return (
-    <div className="flex flex-col gap-4 max-w-sm w-full">
-      <h1 className="text-white text-2xl md:text-3xl font-bold leading-tight tracking-tight min-h-[3rem]">
+    <div className="flex flex-col gap-4 max-w-sm w-full min-h-[32rem]">
+      <h1 className="text-white text-2xl md:text-3xl font-bold leading-tight tracking-tight min-h-[5rem]">
         {titleChars.map(({ char, id }) => (
           <span key={id} className="char-blur-in">{char}</span>
         ))}
@@ -64,7 +64,7 @@ export default function TypewriterStory() {
       </h1>
 
       {titleDone && (
-        <p className="text-white/80 text-xs md:text-sm font-light leading-relaxed min-h-[8rem]">
+        <p className="text-white/80 text-xs md:text-sm font-light leading-relaxed min-h-[22rem]">
           {bodyChars.map(({ char, id }) => (
             <span key={id} className="char-blur-in">{char}</span>
           ))}
