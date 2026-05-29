@@ -20,8 +20,8 @@ export default function Home() {
         <div className="
           w-full md:w-1/2
           flex flex-col
-          justify-center items-center
-          px-8
+          justify-center items-end
+          pl-8 pr-4
           pt-24 pb-12
           order-2 md:order-1
         ">
