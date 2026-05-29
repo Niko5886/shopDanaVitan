@@ -161,12 +161,12 @@ export default function CheckoutClient() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="firstName" className={labelClass}>Име*</label>
-                  <input id="firstName" type="text" {...register("firstName")} className={inputClass} placeholder="Иван" />
+                  <input id="firstName" type="text" autoComplete="given-name" {...register("firstName")} className={inputClass} placeholder="Иван" />
                   {errors.firstName && <p className={errorClass}>{errors.firstName.message}</p>}
                 </div>
                 <div>
                   <label htmlFor="lastName" className={labelClass}>Фамилия*</label>
-                  <input id="lastName" type="text" {...register("lastName")} className={inputClass} placeholder="Иванов" />
+                  <input id="lastName" type="text" autoComplete="family-name" {...register("lastName")} className={inputClass} placeholder="Иванов" />
                   {errors.lastName && <p className={errorClass}>{errors.lastName.message}</p>}
                 </div>
               </div>
@@ -174,7 +174,7 @@ export default function CheckoutClient() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="email" className={labelClass}>Имейл*</label>
-                  <input id="email" type="email" {...register("email")} className={inputClass} placeholder="primer@email.bg" />
+                  <input id="email" type="email" autoComplete="email" {...register("email")} className={inputClass} placeholder="primer@email.bg" />
                   {errors.email && <p className={errorClass}>{errors.email.message}</p>}
                 </div>
                 <div>
@@ -182,6 +182,7 @@ export default function CheckoutClient() {
                   <input
                     id="phone"
                     type="tel"
+                    autoComplete="tel"
                     inputMode="numeric"
                     maxLength={10}
                     pattern="[0-9]*"
@@ -268,13 +269,13 @@ export default function CheckoutClient() {
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="city" className={labelClass}>Град*</label>
-                    <input id="city" type="text" {...register("city")} className={inputClass} placeholder="София" />
+                    <input id="city" type="text" autoComplete="address-level2" {...register("city")} className={inputClass} placeholder="София" />
                     {errors.city && <p className={errorClass}>{errors.city.message}</p>}
                   </div>
                   <div className="grid gap-4 sm:grid-cols-[1fr_auto]">
                     <div>
                       <label htmlFor="street" className={labelClass}>Улица*</label>
-                      <input id="street" type="text" {...register("street")} className={inputClass} placeholder="ул. Витоша" />
+                      <input id="street" type="text" autoComplete="address-line1" {...register("street")} className={inputClass} placeholder="ул. Витоша" />
                       {errors.street && <p className={errorClass}>{errors.street.message}</p>}
                     </div>
                     <div className="sm:w-32">

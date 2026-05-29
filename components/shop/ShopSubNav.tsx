@@ -108,7 +108,7 @@ export default function ShopSubNav({ counts }: Props) {
 
                     <span className="relative z-10 flex items-baseline gap-1">
                       {cat}
-                      <span className="text-[10px] font-normal text-white/30">({count})</span>
+                      <span className="text-[10px] font-normal text-white/50">({count})</span>
                     </span>
                   </button>
                 );

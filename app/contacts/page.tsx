@@ -49,12 +49,12 @@ export default function ContactsPage() {
 
           <div className="rounded-[2rem] border border-[#8B1A2F]/40 overflow-hidden flex flex-col">
             <p className="text-xs uppercase tracking-widest text-[#8B1A2F] px-6 pt-5 pb-3">НАМЕРЕТЕ НИ</p>
-            <div className="relative w-full min-h-[180px]">
+            <div className="relative w-full min-h-[260px]">
               <iframe
                 src="https://maps.google.com/maps?q=Nikolaevska%2080,%20Ruse,%20Bulgaria&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
-                className="border-0 min-h-[180px] w-full h-full"
+                className="border-0 min-h-[260px] w-full h-full"
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Местоположение на Dana Vitan Boutique"

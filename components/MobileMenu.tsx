@@ -137,7 +137,7 @@ export default function MobileMenu() {
 
           {/* Слоган долу */}
           <p
-            className="menu-item-in absolute bottom-8 text-[10px] uppercase tracking-[0.3em] text-white/30"
+            className="menu-item-in absolute bottom-8 text-[10px] uppercase tracking-[0.3em] text-white/50"
             style={{ animationDelay: "400ms" }}
           >
             Бутикова мода · Dana Vitan

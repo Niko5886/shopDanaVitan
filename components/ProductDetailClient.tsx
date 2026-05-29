@@ -153,7 +153,7 @@ export default function ProductDetailClient({ product, related }: Props) {
                         setSelectedSize(size);
                         setError(null);
                       }}
-                      className={`min-w-[3rem] rounded-sm border border-[#8B1A2F] px-4 py-2 text-sm font-medium uppercase tracking-wider text-white transition-all duration-200 ${
+                      className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-sm border border-[#8B1A2F] px-4 py-2 text-sm font-medium uppercase tracking-wider text-white transition-all duration-200 ${
                         isSelected
                           ? "bg-[#8B1A2F]"
                           : "bg-transparent hover:bg-[#8B1A2F]/15"

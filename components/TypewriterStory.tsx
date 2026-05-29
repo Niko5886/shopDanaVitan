@@ -64,7 +64,7 @@ export default function TypewriterStory() {
       </h1>
 
       {titleDone && (
-        <p className="text-white/80 text-xs md:text-sm font-light leading-relaxed min-h-[22rem]">
+        <p className="text-white/80 text-sm font-light leading-relaxed min-h-[22rem]">
           {bodyChars.map(({ char, id }) => (
             <span key={id} className="char-blur-in">{char}</span>
           ))}

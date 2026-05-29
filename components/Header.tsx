@@ -31,7 +31,7 @@ export default function Header() {
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="group relative -translate-x-10 flex items-center rounded-xl bg-[#ba122e] px-3 py-2 shadow-sm ring-1 ring-white/10 transition-all duration-300 hover:shadow-md hover:ring-white/20"
+          className="group relative flex items-center rounded-xl bg-[#ba122e] px-3 py-2 shadow-sm ring-1 ring-white/10 transition-all duration-300 hover:shadow-md hover:ring-white/20 md:-translate-x-10"
           aria-label="Dana Vitan Boutique — към началото"
         >
           <Image

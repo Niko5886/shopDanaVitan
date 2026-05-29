@@ -51,7 +51,7 @@ function ProductCard({ p }: { p: Product }) {
                 e.stopPropagation();
                 setIdx((i) => (i - 1 + images.length) % images.length);
               }}
-              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 transition group-hover:opacity-100"
+              className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white opacity-100 transition md:opacity-0 md:group-hover:opacity-100"
               aria-label="Предишна снимка"
             >
               ‹
@@ -64,7 +64,7 @@ function ProductCard({ p }: { p: Product }) {
                 e.stopPropagation();
                 setIdx((i) => (i + 1) % images.length);
               }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 transition group-hover:opacity-100"
+              className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white opacity-100 transition md:opacity-0 md:group-hover:opacity-100"
               aria-label="Следваща снимка"
             >
               ›
@@ -180,7 +180,7 @@ export default function ShopClient({ products }: Props) {
             goToPage(Math.max(1, page - 1));
           }}
           disabled={page === 1}
-          className="rounded bg-white/5 px-3 py-2 text-white/70 disabled:opacity-40"
+          className="min-h-[44px] rounded bg-white/5 px-4 py-2 text-white/70 disabled:opacity-40"
         >
           Предишна
         </button>
@@ -193,7 +193,7 @@ export default function ShopClient({ products }: Props) {
               e.preventDefault();
               goToPage(i + 1);
             }}
-            className={`min-w-[40px] rounded px-3 py-2 ${
+            className={`min-h-[44px] min-w-[44px] rounded px-3 py-2 ${
               page === i + 1
                 ? "bg-[color:var(--accent)] text-white"
                 : "bg-white/5 text-white/70 hover:bg-white/10"
@@ -210,7 +210,7 @@ export default function ShopClient({ products }: Props) {
             goToPage(Math.min(totalPages, page + 1));
           }}
           disabled={page === totalPages}
-          className="rounded bg-white/5 px-3 py-2 text-white/70 disabled:opacity-40"
+          className="min-h-[44px] rounded bg-white/5 px-4 py-2 text-white/70 disabled:opacity-40"
         >
           Следваща
         </button>
