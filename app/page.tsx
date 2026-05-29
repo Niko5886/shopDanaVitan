@@ -66,7 +66,7 @@ export default function Home() {
                 src="/assets/imgDana/dntop.webp"
                 alt="Дана Витан"
                 fill
-                className="object-cover object-top"
+                className="object-contain"
                 priority
               />
 
