@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import MobileMenu from "@/components/MobileMenu";
 
 const NAV = [
   { href: "/", label: "НАЧАЛО" },
@@ -42,7 +43,9 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-4" />
+        <div className="flex items-center gap-4">
+          <MobileMenu />
+        </div>
       </div>
     </header>
   );
