@@ -138,6 +138,11 @@ export default function ShopClient({ products }: Props) {
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
 
+  const goToPage = (p: number) => {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const pageItems = useMemo(() => {
     const start = (page - 1) * perPage;
     return filtered.slice(start, start + perPage);
@@ -172,7 +177,7 @@ export default function ShopClient({ products }: Props) {
           type="button"
           onClick={(e) => {
             e.preventDefault();
-            setPage((s) => Math.max(1, s - 1));
+            goToPage(Math.max(1, page - 1));
           }}
           disabled={page === 1}
           className="rounded bg-white/5 px-3 py-2 text-white/70 disabled:opacity-40"
@@ -186,7 +191,7 @@ export default function ShopClient({ products }: Props) {
             type="button"
             onClick={(e) => {
               e.preventDefault();
-              setPage(i + 1);
+              goToPage(i + 1);
             }}
             className={`min-w-[40px] rounded px-3 py-2 ${
               page === i + 1
@@ -202,7 +207,7 @@ export default function ShopClient({ products }: Props) {
           type="button"
           onClick={(e) => {
             e.preventDefault();
-            setPage((s) => Math.min(totalPages, s + 1));
+            goToPage(Math.min(totalPages, page + 1));
           }}
           disabled={page === totalPages}
           className="rounded bg-white/5 px-3 py-2 text-white/70 disabled:opacity-40"

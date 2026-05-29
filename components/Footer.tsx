@@ -56,13 +56,14 @@ export default function Footer() {
             <ul className="mt-4 space-y-2 text-sm">
               <li>
                 <a
-                  href="mailto:danavitan@gmail.com"
+                  href="mailto:dana13@abv.bg"
                   className="transition-colors duration-200 hover:text-white"
                 >
-                  danavitan@gmail.com
+                  dana13@abv.bg
                 </a>
               </li>
               <li className="text-white/55">Русе, България</li>
+              <li className="text-white/55">ул. Николаевска 80</li>
             </ul>
           </div>
 
@@ -74,7 +75,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2 text-sm">
               <li>
                 <a
-                  href="https://www.instagram.com/"
+                  href="https://www.instagram.com/dana_vitan8?fbclid=IwY2xjawSGKqpleHRuA2FlbQIxMABicmlkETAwb0JYWUpPZmlZc1RQM2tQc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHvib_vld7J2rHpYlnJioVNtTe17kMl7gx0DTVhhjg663HGh14bocrw-KG8rz_aem_TCKtkxrcsHlAmfXpiv9DTg"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="transition-colors duration-200 hover:text-white"
@@ -84,7 +85,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://www.facebook.com/"
+                  href="https://www.facebook.com/AMDSTYLE?rdid=h6acQ2mZJ57kS1gE&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F18hk3TPJ2P%2F#"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="transition-colors duration-200 hover:text-white"
@@ -98,7 +99,7 @@ export default function Footer() {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/45 sm:flex-row">
           <p>© {year} Dana Vitan Boutique. Всички права запазени.</p>
-          <p className="uppercase tracking-[0.25em]">Ръчна изработка · Бутикова мода</p>
+          <p className="sm:ml-auto">© 2025 Nymerix LTD. Tech Consulting. All rights reserved.</p>
         </div>
       </div>
     </footer>
