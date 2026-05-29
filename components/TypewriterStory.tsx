@@ -7,9 +7,11 @@ const TITLE = 'Дана Витан. Кодът на живота.';
 const BODY =
   "Името Дана Витан не е случайно. То е код. 'Дана' е древната дума за даряване и водна стихия. 'Витан' носи корена на самия живот и устойчивостта на времето. Ние създадохме този бранд, за да съберем разпилените парчета на съвременната жена. В свят, който постоянно иска нещо от нас, ние се обръщаме към източниците, които ни зареждат. Вярваме, че дрехата трябва да има памет. Затова вплитаме в модерните силуети защитните символи на етно мотивите. Вярваме, че аксесоарът трябва да има вибрация. Затова подбираме полускъпоценни камъни, които не просто блестят, а работят за твоята енергия. Дана Витан е мода за жената, която стъпва здраво на земята, но главата ѝ е в звездите.";
 
+type Char = { char: string; id: number };
+
 export default function TypewriterStory() {
-  const [titleText, setTitleText] = useState('');
-  const [bodyText, setBodyText] = useState('');
+  const [titleChars, setTitleChars] = useState<Char[]>([]);
+  const [bodyChars, setBodyChars] = useState<Char[]>([]);
   const [titleDone, setTitleDone] = useState(false);
   const [bodyDone, setBodyDone] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -18,7 +20,8 @@ export default function TypewriterStory() {
     let i = 0;
     const interval = setInterval(() => {
       if (i < TITLE.length) {
-        setTitleText(TITLE.slice(0, i + 1));
+        const idx = i;
+        setTitleChars(prev => [...prev, { char: TITLE[idx], id: idx }]);
         i++;
       } else {
         clearInterval(interval);
@@ -35,7 +38,8 @@ export default function TypewriterStory() {
       let j = 0;
       bodyInterval = setInterval(() => {
         if (j < BODY.length) {
-          setBodyText(BODY.slice(0, j + 1));
+          const idx = j;
+          setBodyChars(prev => [...prev, { char: BODY[idx], id: idx }]);
           j++;
         } else {
           if (bodyInterval) clearInterval(bodyInterval);
@@ -53,13 +57,17 @@ export default function TypewriterStory() {
   return (
     <div className="flex flex-col gap-4 max-w-sm w-full">
       <h1 className="text-white text-2xl md:text-3xl font-bold leading-tight tracking-tight min-h-[3rem]">
-        {titleText}
+        {titleChars.map(({ char, id }) => (
+          <span key={id} className="char-blur-in">{char}</span>
+        ))}
         {!titleDone && <span className="text-[#8B1A2F] animate-pulse">|</span>}
       </h1>
 
       {titleDone && (
         <p className="text-white/80 text-xs md:text-sm font-light leading-relaxed min-h-[8rem]">
-          {bodyText}
+          {bodyChars.map(({ char, id }) => (
+            <span key={id} className="char-blur-in">{char}</span>
+          ))}
           {!bodyDone && <span className="text-[#8B1A2F] animate-pulse">|</span>}
         </p>
       )}
