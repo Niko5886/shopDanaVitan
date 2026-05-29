@@ -71,18 +71,10 @@ export default function AboutEditorialSection({ headingLevel = "h1", showHeading
             съобщение, за да изработим вашата мечтана рокля по поръчка!
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-2">
-            <span className="text-xs text-white/50">#DanaVitanFashion</span>
-            <span className="text-xs text-white/50">#ДанаВитан</span>
-            <span className="text-xs text-white/50">#БългарскоПроизводство</span>
-            <span className="text-xs text-white/50">#УникаленДизайн</span>
-            <span className="text-xs text-white/50">#ЕтноМотиви</span>
-            <span className="text-xs text-white/50">#ТрадицияИМода</span>
-          </div>
         </div>
 
         {/* Дясно — Награда Fashion Week Ruse. */}
-        <div className="about-enter-right order-2 mx-auto w-[250px] self-start lg:order-none lg:w-[280px] lg:mt-12 lg:self-end">
+        <div className="about-enter-right order-2 mx-auto w-[250px] self-start lg:order-none lg:w-[280px] lg:mt-0 lg:self-center">
           <div className="relative aspect-[280/350] overflow-hidden rounded-2xl border-2 border-[#8B0000]/30 shadow-xl shadow-black/40 transition-all duration-700 ease-out lg:rotate-[4deg]">
             <Image
               src={awardImage}
