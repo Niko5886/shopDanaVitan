@@ -68,7 +68,7 @@ export default function ProductDetailClient({ product, related }: Props) {
           {/* ── ЛЯВА КОЛОНА ── */}
           <section>
             <div
-              className={`relative aspect-[4/5] min-h-[500px] w-full overflow-hidden rounded-sm bg-black ${hasImages ? "cursor-zoom-in" : ""}`}
+              className={`relative aspect-[4/5] max-h-[60vh] w-full overflow-hidden rounded-sm bg-black lg:max-h-none ${hasImages ? "cursor-zoom-in" : ""}`}
               onClick={hasImages ? () => setLightboxOpen(true) : undefined}
               role={hasImages ? "button" : undefined}
               tabIndex={hasImages ? 0 : undefined}
