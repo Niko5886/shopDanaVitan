@@ -7,16 +7,16 @@ const cards = [
 export default function PhilosophySection() {
   return (
     <section className="py-20 px-8 md:px-16 bg-[#0a0a0a]">
-      <h2 className="text-center text-[#8B1A2F] uppercase tracking-widest text-sm font-medium mb-12">
+      <h2 className="text-center text-accent uppercase tracking-widest text-sm font-medium mb-12">
         ЕСТЕТИКА
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {cards.map((card) => (
           <div
             key={card.title}
-            className="bg-[#111111] border border-[#8B1A2F]/20 rounded-lg p-8 flex flex-col gap-4 hover:border-[#8B1A2F]/60 transition-colors duration-300"
+            className="bg-[#111111] border border-accent/20 rounded-lg p-8 flex flex-col gap-4 hover:border-accent/60 transition-colors duration-300"
           >
-            <span className="text-[#8B1A2F] text-3xl">✦</span>
+            <span className="text-accent text-3xl">✦</span>
             <h3 className="text-white text-lg font-semibold tracking-wide">{card.title}</h3>
           </div>
         ))}

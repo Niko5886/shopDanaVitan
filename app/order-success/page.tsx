@@ -2,8 +2,9 @@ import Link from "next/link";
 import OrderSuccessGuard from "@/components/OrderSuccessGuard";
 
 export const metadata = {
-  title: "Поръчката е успешна | Dana Vitan Boutique",
+  title: "Поръчката е успешна",
   description: "Вашата поръчка е получена успешно.",
+  robots: { index: false, follow: false },
 };
 
 export default function OrderSuccessPage() {
@@ -12,14 +13,15 @@ export default function OrderSuccessPage() {
       <div className="flex min-h-[80vh] items-center justify-center bg-[#0a0a0a] px-6 py-16">
         <div className="flex w-full max-w-md flex-col items-center text-center">
           {/* Checkmark */}
-          <div className="flex h-24 w-24 animate-[successPulse_1.5s_ease-in-out_infinite] items-center justify-center rounded-full border-[3px] border-[#8B1A2F]">
+          <div className="flex h-24 w-24 animate-[successPulse_1.5s_ease-in-out_infinite] items-center justify-center rounded-full border-[3px] border-accent">
             <svg
               xmlns="http://www.w3.org/2000/svg"
+              className="text-accent"
               width="42"
               height="42"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#8B1A2F"
+              stroke="currentColor"
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -44,13 +46,13 @@ export default function OrderSuccessPage() {
           <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center">
             <Link
               href="/shop"
-              className="rounded-[2px] bg-[#8B1A2F] px-8 py-[14px] text-sm font-semibold uppercase tracking-[0.1em] text-white transition-all duration-200 hover:bg-[#A52035]"
+              className="rounded-[2px] bg-accent px-8 py-[14px] text-sm font-semibold uppercase tracking-[0.1em] text-white transition-all duration-200 hover:bg-accent-strong"
             >
               Към магазина
             </Link>
             <Link
               href="/"
-              className="rounded-[2px] border border-[#8B1A2F] px-8 py-[14px] text-sm font-semibold uppercase tracking-[0.1em] text-white transition-all duration-200 hover:bg-[#8B1A2F]/10"
+              className="rounded-[2px] border border-accent px-8 py-[14px] text-sm font-semibold uppercase tracking-[0.1em] text-white transition-all duration-200 hover:bg-accent/10"
             >
               Начало
             </Link>

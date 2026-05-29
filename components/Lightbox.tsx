@@ -75,7 +75,7 @@ export default function Lightbox({ images, initialIndex = 0, onClose }: Props) {
                 setZoom(false);
                 setIdx(i);
               }}
-              className={`h-16 w-24 overflow-hidden rounded ${i === idx ? "ring-2 ring-[color:var(--accent)]" : "opacity-70 hover:opacity-100"}`}
+              className={`h-16 w-24 overflow-hidden rounded ${i === idx ? "ring-2 ring-accent" : "opacity-70 hover:opacity-100"}`}
             >
               <Image src={im} alt={`thumb ${i + 1}`} width={96} height={64} className="object-cover" />
             </button>

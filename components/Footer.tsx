@@ -21,7 +21,7 @@ export default function Footer() {
 
           {/* Навигация */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#8B1A2F]">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
               Навигация
             </p>
             <ul className="mt-4 space-y-2 text-sm">
@@ -50,7 +50,7 @@ export default function Footer() {
 
           {/* Контакти */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#8B1A2F]">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
               Контакти
             </p>
             <ul className="mt-4 space-y-2 text-sm">
@@ -69,7 +69,7 @@ export default function Footer() {
 
           {/* Социални */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#8B1A2F]">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
               Социални
             </p>
             <ul className="mt-4 space-y-2 text-sm">

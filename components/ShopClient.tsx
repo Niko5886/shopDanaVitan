@@ -30,7 +30,7 @@ function ProductCard({ p }: { p: Product }) {
   return (
     <Link
       href={`/shop/${p.slug}`}
-      className="group block cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-[#8B1A2F]/70 hover:shadow-[0_18px_50px_rgba(139,26,47,0.25)]"
+      className="group block cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-accent/70 hover:shadow-[0_18px_50px_rgba(139,26,47,0.25)]"
     >
       <div className="relative aspect-[3/4] w-full bg-black">
         <Image
@@ -82,7 +82,7 @@ function ProductCard({ p }: { p: Product }) {
                   }}
                   aria-label={`Снимка ${i + 1} за ${p.title}`}
                   className={`h-8 w-12 overflow-hidden rounded ${
-                    i === idx ? "ring-2 ring-[color:var(--accent)]" : "opacity-70 hover:opacity-100"
+                    i === idx ? "ring-2 ring-accent" : "opacity-70 hover:opacity-100"
                   }`}
                 >
                   <Image src={im} alt={`${p.title} ${i + 1}`} width={48} height={32} className="object-cover" />
@@ -94,7 +94,7 @@ function ProductCard({ p }: { p: Product }) {
       </div>
 
       <div className="p-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#8B1A2F]">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-accent">
           {p.category}
         </p>
         <div className="mt-2 flex items-center justify-between">
@@ -195,7 +195,7 @@ export default function ShopClient({ products }: Props) {
             }}
             className={`min-h-[44px] min-w-[44px] rounded px-3 py-2 ${
               page === i + 1
-                ? "bg-[color:var(--accent)] text-white"
+                ? "bg-accent text-white"
                 : "bg-white/5 text-white/70 hover:bg-white/10"
             }`}
           >

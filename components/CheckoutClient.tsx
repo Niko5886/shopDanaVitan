@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +13,7 @@ import { products } from "../data/products";
 type OfficeOption = { id: string; name: string; address: string };
 
 const inputClass =
-  "w-full rounded bg-[#111111] border border-[#333333] text-white text-sm px-4 py-3 placeholder:text-[#666666] transition-all duration-200 focus:outline-none focus:border-[#8B1A2F] focus:ring-2 focus:ring-[#8B1A2F]/20";
+  "w-full rounded bg-[#111111] border border-[#333333] text-white text-sm px-4 py-3 placeholder:text-[#666666] transition-all duration-200 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20";
 
 const labelClass =
   "block text-xs uppercase tracking-[0.08em] text-[#999999] mb-1.5";
@@ -34,6 +34,16 @@ export default function CheckoutClient() {
 
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  // Модал за потвърждение — остава отворен, докато клиентът сам го затвори.
+  const [orderConfirmed, setOrderConfirmed] = useState(false);
+
+  // Honeypot — скрито поле срещу ботове (хората не го виждат/попълват).
+  const honeypotRef = useRef<HTMLInputElement>(null);
+
+  const closeConfirmation = () => {
+    setOrderConfirmed(false);
+    router.push("/");
+  };
 
   const {
     register,
@@ -84,12 +94,17 @@ export default function CheckoutClient() {
       const res = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, product: product?.title ?? productSlug, size, price: priceLabel }),
+        body: JSON.stringify({
+          ...data,
+          product: product?.title ?? productSlug,
+          size,
+          price: priceLabel,
+          company: honeypotRef.current?.value ?? "",
+        }),
       });
       const json = await res.json();
       if (json.success) {
-        sessionStorage.setItem("orderComplete", "true");
-        router.push("/order-success");
+        setOrderConfirmed(true);
       } else {
         setSubmitError("Възникна грешка. Моля, опитайте отново.");
       }
@@ -101,22 +116,23 @@ export default function CheckoutClient() {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-[#0a0a0a] px-6 pb-20 pt-24 text-white">
       <div className="mx-auto w-full max-w-6xl">
         <div className="grid gap-10 lg:grid-cols-[38fr_62fr]">
           {/* ── ЛЯВА КОЛОНА — Обобщение ── */}
           <aside>
-            <h2 className="mb-6 text-sm font-semibold uppercase tracking-[0.3em] text-[#8B1A2F]">
+            <h2 className="mb-6 text-sm font-semibold uppercase tracking-[0.3em] text-accent">
               Вашата поръчка
             </h2>
 
-            <div className="rounded border border-[#8B1A2F] bg-[#111111] p-5">
+            <div className="rounded border border-accent bg-[#111111] p-5">
               <div className="flex gap-4">
                 <div className="relative h-[120px] w-[120px] flex-shrink-0 overflow-hidden rounded bg-black">
                   {productImage ? (
                     <Image src={productImage} alt={product?.title ?? "Продукт"} fill className="object-cover" sizes="120px" />
                   ) : (
-                    <div className="absolute inset-0 bg-[linear-gradient(135deg,#8B1A2F,#1a0d10_58%,#000)]" />
+                    <div className="absolute inset-0 bg-[linear-gradient(135deg,var(--accent),#1a0d10_58%,#000)]" />
                   )}
                 </div>
                 <div className="flex flex-col justify-center text-sm">
@@ -141,7 +157,7 @@ export default function CheckoutClient() {
 
               <div className="mt-3 flex items-center justify-between">
                 <span className="text-sm font-semibold uppercase tracking-wider text-white/70">ОБЩО:</span>
-                <span className="text-lg font-bold text-[#8B1A2F]">{priceLabel || "—"}</span>
+                <span className="text-lg font-bold text-accent">{priceLabel || "—"}</span>
               </div>
             </div>
 
@@ -157,6 +173,18 @@ export default function CheckoutClient() {
             </h1>
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+              {/* Honeypot — невидимо за хора, попълва се само от ботове */}
+              <div aria-hidden="true" className="pointer-events-none absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
+                <label htmlFor="company">Фирма</label>
+                <input
+                  id="company"
+                  ref={honeypotRef}
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
               {/* Лични данни */}
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
@@ -211,7 +239,7 @@ export default function CheckoutClient() {
                         onClick={() => setValue("courier", c, { shouldValidate: true })}
                         className={`flex flex-col items-start gap-1 rounded p-4 text-left transition-all duration-200 ${
                           isSel
-                            ? "border-2 border-[#8B1A2F] bg-[#8B1A2F]/[0.08]"
+                            ? "border-2 border-accent bg-accent/[0.08]"
                             : "border border-[#333333] bg-[#111111] hover:border-white/30"
                         }`}
                         aria-pressed={isSel ? "true" : "false"}
@@ -246,7 +274,7 @@ export default function CheckoutClient() {
                           onClick={() => setValue("deliveryType", opt.v, { shouldValidate: true })}
                           className={`flex flex-col items-start gap-1 rounded p-4 text-left transition-all duration-200 ${
                             isSel
-                              ? "border-2 border-[#8B1A2F] bg-[#8B1A2F]/[0.08]"
+                              ? "border-2 border-accent bg-accent/[0.08]"
                               : "border border-[#333333] bg-[#111111] hover:border-white/30"
                           }`}
                           aria-pressed={isSel ? "true" : "false"}
@@ -339,7 +367,7 @@ export default function CheckoutClient() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex w-full items-center justify-center gap-3 rounded bg-[#8B1A2F] py-4 text-sm font-semibold uppercase tracking-[0.25em] text-white transition-all duration-200 hover:bg-[#A52035] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-[#8B1A2F]"
+                className="flex w-full items-center justify-center gap-3 rounded bg-accent py-4 text-sm font-semibold uppercase tracking-[0.25em] text-white transition-all duration-200 hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent"
               >
                 {loading && (
                   <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" aria-hidden="true" />
@@ -357,5 +385,62 @@ export default function CheckoutClient() {
         </div>
       </div>
     </div>
+
+    {/* Модал за потвърждение — БЕЗ авто-затваряне; затваря се само от X. */}
+    {orderConfirmed && (
+      <div
+        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 px-6 backdrop-blur-sm"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="order-confirmed-title"
+      >
+        <div className="relative w-full max-w-md rounded-2xl border border-accent bg-[#111111] p-8 text-center shadow-2xl">
+          {/* X бутон горе вдясно */}
+          <button
+            type="button"
+            onClick={closeConfirmation}
+            aria-label="Затвори"
+            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-200 hover:border-accent hover:text-white"
+          >
+            ✕
+          </button>
+
+          {/* Чек-марка */}
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-[3px] border-accent text-accent">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="38"
+              height="38"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="5 12.5 10 17.5 19 7.5" />
+            </svg>
+          </div>
+
+          <h2 id="order-confirmed-title" className="mt-6 text-2xl font-semibold text-white">
+            Поръчката е успешна!
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-white/70">
+            Благодарим ви! Изпратихме потвърждение на вашия имейл. Ще се свържем с
+            вас скоро за уточняване на детайлите по доставката.
+          </p>
+
+          <button
+            type="button"
+            onClick={closeConfirmation}
+            className="mt-7 w-full rounded bg-accent py-3 text-sm font-semibold uppercase tracking-[0.2em] text-white transition-all duration-200 hover:bg-accent-strong"
+          >
+            Затвори
+          </button>
+        </div>
+      </div>
+    )}
+    </>
   );
 }

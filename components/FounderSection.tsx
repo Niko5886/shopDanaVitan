@@ -21,7 +21,7 @@ export default function FounderSection() {
 
         {/* Текст */}
         <div className="w-full md:w-1/2 order-2 flex flex-col gap-5">
-          <span className="text-[#8B1A2F] uppercase tracking-widest text-sm font-medium">
+          <span className="text-accent uppercase tracking-widest text-sm font-medium">
             ОСНОВАТЕЛКАТА
           </span>
           <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight">
@@ -35,7 +35,7 @@ export default function FounderSection() {
           <Link href="/about" className="self-start">
             <button
               type="button"
-              className="mt-2 px-10 py-3 bg-[#8B1A2F] text-white text-sm uppercase tracking-widest font-medium rounded-full border border-[#8B1A2F] hover:bg-transparent transition-all duration-300 cursor-pointer"
+              className="mt-2 px-10 py-3 bg-accent text-white text-sm uppercase tracking-widest font-medium rounded-full border border-accent hover:bg-transparent transition-all duration-300 cursor-pointer"
             >
               Научи повече
             </button>

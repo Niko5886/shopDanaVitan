@@ -24,7 +24,7 @@ export default function ScrollToTop() {
       type="button"
       onClick={scrollToTop}
       aria-label="Към началото на страницата"
-      className={`group fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-[#8B1A2F] text-white shadow-lg shadow-black/40 ring-1 ring-[#8B1A2F]/40 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-[#A52035] hover:shadow-xl hover:shadow-[#8B1A2F]/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${
+      className={`group fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-accent text-white shadow-lg shadow-black/40 ring-1 ring-accent/40 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-accent-strong hover:shadow-xl hover:shadow-accent/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >

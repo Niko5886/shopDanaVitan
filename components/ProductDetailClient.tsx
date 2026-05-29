@@ -58,7 +58,7 @@ export default function ProductDetailClient({ product, related }: Props) {
               </Link>
             </li>
             <li aria-hidden="true" className="text-white/30">→</li>
-            <li className="text-[#8B1A2F]" aria-current="page">
+            <li className="text-accent" aria-current="page">
               {product.title}
             </li>
           </ol>
@@ -94,7 +94,7 @@ export default function ProductDetailClient({ product, related }: Props) {
                   priority
                 />
               ) : (
-                <div className="absolute inset-0 bg-[linear-gradient(135deg,#8B1A2F,#1a0d10_58%,#000)]" />
+                <div className="absolute inset-0 bg-[linear-gradient(135deg,var(--accent),#1a0d10_58%,#000)]" />
               )}
             </div>
 
@@ -107,7 +107,7 @@ export default function ProductDetailClient({ product, related }: Props) {
                     onClick={() => setIdx(i)}
                     className={`relative aspect-square overflow-hidden rounded-sm border-2 transition-all duration-200 ${
                       i === idx
-                        ? "border-[#8B1A2F] opacity-100"
+                        ? "border-accent opacity-100"
                         : "border-white/10 opacity-70 hover:opacity-100"
                     }`}
                     aria-label={`Снимка ${i + 1}`}
@@ -121,7 +121,7 @@ export default function ProductDetailClient({ product, related }: Props) {
 
           {/* ── ДЯСНА КОЛОНА ── */}
           <section className="flex flex-col">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8B1A2F]">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
               {product.category}
             </p>
 
@@ -129,13 +129,13 @@ export default function ProductDetailClient({ product, related }: Props) {
               {product.title}
             </h1>
 
-            <p className="mt-4 text-2xl font-bold text-[#8B1A2F] sm:text-[1.8rem]">
+            <p className="mt-4 text-2xl font-bold text-accent sm:text-[1.8rem]">
               {product.priceLabel}
             </p>
 
             <hr className="my-6 border-t border-white/10" />
 
-            <div className="border-l-2 border-[#8B1A2F] pl-4 text-sm leading-[1.8] text-white/70">
+            <div className="border-l-2 border-accent pl-4 text-sm leading-[1.8] text-white/70">
               {product.description}
             </div>
 
@@ -153,10 +153,10 @@ export default function ProductDetailClient({ product, related }: Props) {
                         setSelectedSize(size);
                         setError(null);
                       }}
-                      className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-sm border border-[#8B1A2F] px-4 py-2 text-sm font-medium uppercase tracking-wider text-white transition-all duration-200 ${
+                      className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-sm border border-accent px-4 py-2 text-sm font-medium uppercase tracking-wider text-white transition-all duration-200 ${
                         isSelected
-                          ? "bg-[#8B1A2F]"
-                          : "bg-transparent hover:bg-[#8B1A2F]/15"
+                          ? "bg-accent"
+                          : "bg-transparent hover:bg-accent/15"
                       }`}
                       aria-pressed={isSelected}
                     >
@@ -176,7 +176,7 @@ export default function ProductDetailClient({ product, related }: Props) {
             <button
               type="button"
               onClick={handleBuy}
-              className="mt-8 w-full rounded-sm bg-[#8B1A2F] py-4 text-sm font-semibold uppercase tracking-[0.25em] text-white transition-all duration-200 hover:bg-[#A52035]"
+              className="mt-8 w-full rounded-sm bg-accent py-4 text-sm font-semibold uppercase tracking-[0.25em] text-white transition-all duration-200 hover:bg-accent-strong"
             >
               Купи
             </button>
@@ -206,13 +206,13 @@ export default function ProductDetailClient({ product, related }: Props) {
                           sizes="(max-width: 1024px) 50vw, 33vw"
                         />
                       ) : (
-                        <div className="absolute inset-0 bg-[linear-gradient(135deg,#8B1A2F,#1a0d10_58%,#000)]" />
+                        <div className="absolute inset-0 bg-[linear-gradient(135deg,var(--accent),#1a0d10_58%,#000)]" />
                       )}
                     </div>
                     <div className="p-5">
                       <div className="flex items-center justify-between gap-4">
                         <p className="text-base font-semibold text-white">{item.title}</p>
-                        <span className="text-xs font-semibold text-[#8B1A2F]">
+                        <span className="text-xs font-semibold text-accent">
                           {item.priceLabel}
                         </span>
                       </div>

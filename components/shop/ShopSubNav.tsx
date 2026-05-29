@@ -16,7 +16,7 @@ const SLUG: Record<string, string> = {
   Ризи: "rizi",
   Топове: "topove",
   Сака: "saka",
-  Аксесоари: "aksesоari",
+  Аксесоари: "aksesoari",
 };
 const FROM_SLUG: Record<string, string> = Object.fromEntries(
   Object.entries(SLUG).map(([k, v]) => [v, k])
@@ -96,7 +96,7 @@ export default function ShopSubNav({ counts }: Props) {
                     {isActive && (
                       <motion.span
                         layoutId="shop-subnav-indicator"
-                        className="absolute inset-0 rounded-full bg-gradient-to-r from-[#8B0000] to-[#5c0000]"
+                        className="absolute inset-0 rounded-full bg-accent"
                         transition={{ duration: 0.25, ease: "easeOut" }}
                       />
                     )}

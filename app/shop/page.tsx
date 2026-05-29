@@ -3,7 +3,10 @@ import ShopClient from "../../components/ShopClient";
 import { products } from "../../data/products";
 
 export const metadata = {
-  title: "Магазин — Dana`|`Vitan",
+  title: "Магазин",
+  description:
+    "Разгледайте бутиковата колекция на Dana Vitan — поли, рокли, ризи, топове, сака и аксесоари с ръчна изработка.",
+  alternates: { canonical: "/shop" },
 };
 
 const CATEGORIES = ["Поли", "Рокли", "Ризи", "Топове", "Сака", "Аксесоари"] as const;

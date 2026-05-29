@@ -1,7 +1,10 @@
 import AboutEditorialSection from "../../components/AboutEditorialSection";
 
 export const metadata = {
-  title: "За нас — Dana Vitan",
+  title: "За нас",
+  description:
+    "Историята зад Dana Vitan — отдаденост към детайла, стил и духа на българската шевица в съвременна бутикова мода.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

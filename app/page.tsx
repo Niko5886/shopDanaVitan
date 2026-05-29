@@ -1,8 +1,13 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import TypewriterStory from '@/components/TypewriterStory';
 import PhilosophySection from '@/components/PhilosophySection';
 import FounderSection from '@/components/FounderSection';
 import CtaSection from '@/components/CtaSection';
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 export default function Home() {
   return (
@@ -41,7 +46,7 @@ export default function Home() {
           <div className="
             absolute
             w-[300px] h-[400px]
-            bg-[#8B1A2F]
+            bg-accent
             opacity-30
             blur-[80px]
             rounded-full
@@ -54,7 +59,7 @@ export default function Home() {
             w-full max-w-sm
             rounded-2xl
             overflow-hidden
-            border border-[#8B1A2F]/50
+            border border-accent/50
             rotate-[-3deg]
             transition-transform duration-500
             hover:rotate-0

@@ -16,14 +16,8 @@ export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showContent, setShowContent] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const didMount = useRef(false);
-
-  // Portal може да рендира едва след mount (няма document при SSR)
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const openMenu = () => {
     setIsOpen(true);
@@ -93,10 +87,10 @@ export default function MobileMenu() {
               absolute top-5 right-5
               flex h-11 w-11 items-center justify-center
               rounded-full
-              border border-[#8B1A2F]/50
+              border border-accent/50
               text-white
               transition-all duration-200
-              hover:border-[#8B1A2F]
+              hover:border-accent
             "
             aria-label="Затвори меню"
           >
@@ -120,7 +114,7 @@ export default function MobileMenu() {
                 text-2xl font-light uppercase tracking-[0.2em]
                 text-white
                 transition-colors duration-300
-                hover:text-[#8B1A2F]
+                hover:text-accent
                 sm:text-4xl sm:tracking-widest
               "
               style={{ animationDelay: `${i * 80}ms` }}
@@ -131,7 +125,7 @@ export default function MobileMenu() {
 
           {/* Декоративна бордо линия */}
           <div
-            className="menu-item-in h-[1px] w-12 bg-[#8B1A2F]"
+            className="menu-item-in h-[1px] w-12 bg-accent"
             style={{ animationDelay: "320ms" }}
           />
 
@@ -156,7 +150,7 @@ export default function MobileMenu() {
           flex md:hidden
           h-11 w-11 flex-col items-center justify-center gap-1.5
           rounded-full
-          bg-[#8B1A2F]
+          bg-accent
           cursor-pointer
           transition-transform duration-200
           hover:scale-110 active:scale-95
@@ -168,7 +162,9 @@ export default function MobileMenu() {
         <span className="block h-[1.5px] w-5 bg-white" />
       </button>
 
-      {mounted && overlay ? createPortal(overlay, document.body) : null}
+      {/* overlay е истина само при isOpen (след клик) — затова createPortal
+          никога не достъпва document при SSR. */}
+      {overlay ? createPortal(overlay, document.body) : null}
     </>
   );
 }

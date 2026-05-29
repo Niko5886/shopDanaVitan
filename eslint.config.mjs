@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Node build-скриптове — не са част от приложението.
+    "scripts/**",
   ]),
 ]);
 

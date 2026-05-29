@@ -16,19 +16,19 @@ export default function AboutEditorialSection({ headingLevel = "h1", showHeading
       {/* Декоративна бордо светлина зад композицията. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#8B0000]/10 blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-3xl"
       />
 
       {/* Фина вертикална линия, видима само на по-големи екрани. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 hidden h-32 w-px -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-[#8B0000]/30 to-transparent lg:block"
+        className="pointer-events-none absolute left-1/2 top-1/2 hidden h-32 w-px -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-accent/30 to-transparent lg:block"
       />
 
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_2fr_1fr] lg:gap-8">
         {/* Ляво — Номинация. */}
         <div className="about-enter-left order-1 mx-auto w-[250px] self-start lg:order-none lg:w-[350px] lg:-mt-8 lg:self-start">
-          <div className="relative aspect-[350/450] overflow-hidden rounded-2xl border-2 border-[#8B0000]/30 shadow-2xl shadow-black/50 transition-all duration-700 ease-out lg:rotate-[-3deg]">
+          <div className="relative aspect-[350/450] overflow-hidden rounded-2xl border-2 border-accent/30 shadow-2xl shadow-black/50 transition-all duration-700 ease-out lg:rotate-[-3deg]">
             <Image
               src={nominationImage}
               alt="Номинация — Дамските брандове"
@@ -75,7 +75,7 @@ export default function AboutEditorialSection({ headingLevel = "h1", showHeading
 
         {/* Дясно — Награда Fashion Week Ruse. */}
         <div className="about-enter-right order-2 mx-auto w-[250px] self-start lg:order-none lg:w-[280px] lg:mt-0 lg:self-center">
-          <div className="relative aspect-[280/350] overflow-hidden rounded-2xl border-2 border-[#8B0000]/30 shadow-xl shadow-black/40 transition-all duration-700 ease-out lg:rotate-[4deg]">
+          <div className="relative aspect-[280/350] overflow-hidden rounded-2xl border-2 border-accent/30 shadow-xl shadow-black/40 transition-all duration-700 ease-out lg:rotate-[4deg]">
             <Image
               src={awardImage}
               alt="Награда — Fashion Week Ruse"

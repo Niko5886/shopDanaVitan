@@ -11,6 +11,9 @@ export default function OrderSuccessGuard({ children }: { children: React.ReactN
     const flag = sessionStorage.getItem("orderComplete");
     if (flag === "true") {
       sessionStorage.removeItem("orderComplete");
+      // Умишлен еднократен client-mount guard: sessionStorage не може да се
+      // чете при SSR без hydration mismatch, затова проверката е в effect.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAllowed(true);
     } else {
       router.replace("/");

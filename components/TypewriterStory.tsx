@@ -60,7 +60,7 @@ export default function TypewriterStory() {
         {titleChars.map(({ char, id }) => (
           <span key={id} className="char-blur-in">{char}</span>
         ))}
-        {!titleDone && <span className="text-[#8B1A2F] animate-pulse">|</span>}
+        {!titleDone && <span className="text-accent animate-pulse">|</span>}
       </h1>
 
       {titleDone && (
@@ -68,7 +68,7 @@ export default function TypewriterStory() {
           {bodyChars.map(({ char, id }) => (
             <span key={id} className="char-blur-in">{char}</span>
           ))}
-          {!bodyDone && <span className="text-[#8B1A2F] animate-pulse">|</span>}
+          {!bodyDone && <span className="text-accent animate-pulse">|</span>}
         </p>
       )}
 
@@ -76,7 +76,7 @@ export default function TypewriterStory() {
         <Link href="/shop" className="self-start">
           <button
             type="button"
-            className="mt-2 px-10 py-3 bg-[#8B1A2F] text-white text-sm uppercase tracking-widest font-medium rounded-full border border-[#8B1A2F] hover:bg-transparent transition-all duration-300 cursor-pointer animate-fadeIn"
+            className="mt-2 px-10 py-3 bg-accent text-white text-sm uppercase tracking-widest font-medium rounded-full border border-accent hover:bg-transparent transition-all duration-300 cursor-pointer animate-fadeIn"
           >
             Галерия
           </button>

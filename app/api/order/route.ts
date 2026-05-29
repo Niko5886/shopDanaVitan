@@ -3,13 +3,57 @@ import { Resend } from "resend";
 import { checkoutSchema } from "@/lib/checkoutSchema";
 import type { OrderEmailData } from "@/lib/types";
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Rate limiting (best-effort, in-memory). Ограничава спам поръчки по IP.
+// Бележка: на serverless паметта не е споделена между инстанси, затова това
+// спира наивен спам, но не е разпределено. За пълна защита → външен store.
+// ─────────────────────────────────────────────────────────────────────────────
+const RATE_LIMIT = 5; // макс. заявки
+const WINDOW_MS = 10 * 60 * 1000; // в рамките на 10 минути
+const hits = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  recent.push(now);
+  hits.set(ip, recent);
+  return recent.length > RATE_LIMIT;
+}
+
+function getClientIp(req: NextRequest): string {
+  return (
+    req.headers.get("x-nf-client-connection-ip") ||
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
 export async function POST(req: NextRequest) {
   try {
+    // 1) Rate limiting по IP.
+    if (isRateLimited(getClientIp(req))) {
+      return NextResponse.json(
+        { success: false, error: "Твърде много заявки. Опитайте отново по-късно." },
+        { status: 429 },
+      );
+    }
+
     // Инстанцираме клиента тук (не на ниво модул), за да не гръмне build-ът
     // при събиране на page data, когато RESEND_API_KEY още не е наличен.
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     const body = await req.json();
+
+    // 2) Honeypot — скрито поле, което истинските потребители не виждат.
+    // Ако е попълнено, заявката е от бот → отхвърляме без да пращаме имейл.
+    if (typeof body?.company === "string" && body.company.trim() !== "") {
+      return NextResponse.json(
+        { success: false, error: "Невалидни данни" },
+        { status: 400 },
+      );
+    }
+
     const parsed = checkoutSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -89,6 +133,8 @@ export async function POST(req: NextRequest) {
 
 const BG_BODY = "#0a0a0a";
 const BG_CARD = "#111111";
+// Имейл клиентите не поддържат CSS променливи — стойността трябва да
+// огледва --accent от globals.css при бъдеща промяна на бранд цвета.
 const ACCENT = "#8B1A2F";
 const TEXT = "#ffffff";
 const LABEL = "#999999";
