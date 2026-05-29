@@ -1,16 +1,7 @@
 const cards = [
-  {
-    title: 'Памет',
-    text: 'Всяка дреха носи защитните символи на етно мотивите, вплетени в модерни силуети.',
-  },
-  {
-    title: 'Вибрация',
-    text: 'Подбираме полускъпоценни камъни, които не просто блестят, а работят за твоята енергия.',
-  },
-  {
-    title: 'Корен',
-    text: 'Мода за жената, която стъпва здраво на земята, но главата ѝ е в звездите.',
-  },
+  { title: 'ЕТНО' },
+  { title: 'Афро' },
+  { title: 'КЕЖУАЛ' },
 ];
 
 export default function PhilosophySection() {
@@ -27,7 +18,6 @@ export default function PhilosophySection() {
           >
             <span className="text-[#8B1A2F] text-3xl">✦</span>
             <h3 className="text-white text-lg font-semibold tracking-wide">{card.title}</h3>
-            <p className="text-white/70 text-sm font-light leading-relaxed">{card.text}</p>
           </div>
         ))}
       </div>
