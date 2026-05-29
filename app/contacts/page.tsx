@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 export const metadata = {
   title: "Контакти — Dana`|`Vitan",
@@ -22,7 +22,7 @@ export default function ContactsPage() {
             подчертае спокойствието и уверения стил на марката.
           </p>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="mt-8">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <p className="text-xs uppercase tracking-[0.35em] text-white/50">Адрес</p>
               <p className="mt-3 text-sm leading-6 text-white/85">
@@ -30,30 +30,11 @@ export default function ContactsPage() {
                 <br />
                 Ruse, Област Русе
                 <br />
-                ул. „Николаевска“ 80
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(122,12,31,0.22),rgba(255,255,255,0.03))] p-5">
-              <p className="text-xs uppercase tracking-[0.35em] text-white/50">Визия</p>
-              <p className="mt-3 text-sm leading-6 text-white/80">
-                Черна основа, бордо акцент и изчистена композиция, която оставя фокуса върху
-                самото изделие и усещането за бутикова изработка.
+                ул. „Николаевска" 80
               </p>
             </div>
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-3 text-xs uppercase tracking-[0.3em] text-white/70">
-            <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">
-              Бутиково присъствие
-            </span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">
-              Индивидуален стил
-            </span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">
-              Прецизна изработка
-            </span>
-          </div>
         </section>
 
         <aside className="grid gap-6">
@@ -66,26 +47,18 @@ export default function ContactsPage() {
             </ul>
           </div>
 
-          <div className="rounded-[2rem] border border-[color:var(--accent)]/40 bg-[linear-gradient(135deg,rgba(122,12,31,0.95),rgba(12,12,12,0.98))] p-8 text-white">
-            <p className="text-xs uppercase tracking-[0.35em] text-white/70">Бърз достъп</p>
-            <h2 className="mt-4 text-2xl font-semibold">Отидете към магазина или началната страница.</h2>
-            <p className="mt-4 text-sm leading-7 text-white/75">
-              Ако искате да добавим и телефон, имейл или карта, мога да го оформя като
-              завършена контактна секция.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href="/shop"
-                className="rounded-full bg-white px-5 py-3 text-xs font-medium uppercase tracking-[0.3em] text-black transition hover:bg-white/90"
-              >
-                Магазин
-              </Link>
-              <Link
-                href="/"
-                className="rounded-full border border-white/20 px-5 py-3 text-xs font-medium uppercase tracking-[0.3em] text-white transition hover:bg-white/10"
-              >
-                Начало
-              </Link>
+          <div className="rounded-[2rem] border border-[#8B1A2F]/40 overflow-hidden flex flex-col">
+            <p className="text-xs uppercase tracking-widest text-[#8B1A2F] px-6 pt-5 pb-3">НАМЕРЕТЕ НИ</p>
+            <div className="relative w-full min-h-[180px]">
+              <iframe
+                src="https://maps.google.com/maps?q=Nikolaevska%2080,%20Ruse,%20Bulgaria&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="100%"
+                className="border-0 min-h-[180px] w-full h-full"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Местоположение на Dana Vitan Boutique"
+              />
             </div>
           </div>
         </aside>
