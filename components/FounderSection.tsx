@@ -22,7 +22,7 @@ export default function FounderSection() {
         {/* Текст */}
         <div className="w-full md:w-1/2 order-2 flex flex-col gap-5">
           <span className="text-[#8B1A2F] uppercase tracking-widest text-sm font-medium">
-            ЗАД БРАНДА
+            ОСНОВАТЕЛКАТА
           </span>
           <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight">
             Дана Витан
