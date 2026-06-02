@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ScrollToTop from "../components/ScrollToTop";
+import CartDrawer from "@/components/CartDrawer";
+import { CartProvider } from "@/context/CartContext";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE } from "../lib/site";
 
 const manrope = Manrope({
@@ -42,10 +44,13 @@ export default function RootLayout({
   return (
     <html lang="bg" className={`${manrope.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col overflow-x-hidden bg-[color:var(--background)]">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <ScrollToTop />
+        <CartProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <ScrollToTop />
+          <CartDrawer />
+        </CartProvider>
       </body>
     </html>
   );

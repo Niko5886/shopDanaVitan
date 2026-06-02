@@ -23,6 +23,26 @@
   box-sizing: border-box;
 }
 
+/* Изключваме текстовата селекция/каретка глобално — при клик върху
+   какъвто и да е текст на сайта НЕ се появява каретка/маркиране.
+   Изключение правят само полетата за въвеждане, за да работят формите. */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
 body {
   background: radial-gradient(circle at 15% 20%, rgba(139, 26, 47, 0.2), transparent 45%),
     radial-gradient(circle at 85% 10%, rgba(139, 26, 47, 0.15), transparent 40%),
@@ -119,5 +139,12 @@ body {
 .menu-item-in {
   animation: menuItemsIn 0.4s ease forwards;
   opacity: 0;
+}
+
+/* Брояч на количката */
+@keyframes popIn {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
 }
 

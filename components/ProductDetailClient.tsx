@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useCart } from "@/context/CartContext";
 import Lightbox from "./Lightbox";
 import type { Product } from "../data/products";
 
@@ -13,27 +13,33 @@ type Props = {
 };
 
 export default function ProductDetailClient({ product, related }: Props) {
-  const router = useRouter();
+  const { addItem } = useCart();
   const images = product.images;
   const hasImages = images.length > 0;
 
   const [idx, setIdx] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState<string | null>(null);
 
-  const handleBuy = () => {
+  const handleAddToCart = () => {
     if (!selectedSize) {
       setError("Моля, изберете размер");
       return;
     }
     setError(null);
-    const params = new URLSearchParams({
-      product: product.slug,
-      size: selectedSize,
-      price: String(product.price),
-    });
-    router.push(`/checkout?${params.toString()}`);
+    addItem(
+      {
+        slug: product.slug,
+        name: product.title,
+        price: product.price,
+        size: selectedSize,
+        image: product.images[0],
+      },
+      quantity
+    );
+    // addItem автоматично отваря количката
   };
 
   const focalPos = product.focalPoints?.[idx]
@@ -172,13 +178,41 @@ export default function ProductDetailClient({ product, related }: Props) {
               )}
             </div>
 
-            {/* БУТОН КУПИ */}
+            {/* БРОЙКА */}
+            <div className="mt-8 flex items-center gap-4">
+              <span className="text-xs uppercase tracking-widest text-white/60">
+                Брой:
+              </span>
+              <div className="flex items-center overflow-hidden rounded-full border border-accent/40">
+                <button
+                  type="button"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="px-4 py-2 text-white transition-colors hover:bg-accent/20"
+                  aria-label="Намали бройката"
+                >
+                  −
+                </button>
+                <span className="min-w-[3rem] px-4 py-2 text-center text-white">
+                  {quantity}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="px-4 py-2 text-white transition-colors hover:bg-accent/20"
+                  aria-label="Увеличи бройката"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            {/* БУТОН ДОБАВИ В КОЛИЧКА */}
             <button
               type="button"
-              onClick={handleBuy}
-              className="mt-8 w-full rounded-sm bg-accent py-4 text-sm font-semibold uppercase tracking-[0.25em] text-white transition-all duration-200 hover:bg-accent-strong"
+              onClick={handleAddToCart}
+              className="mt-4 w-full cursor-pointer rounded-full border border-accent bg-accent px-8 py-3 text-sm font-medium uppercase tracking-widest text-white transition-all duration-300 hover:bg-transparent"
             >
-              Купи
+              Добави в количка
             </button>
           </section>
         </div>

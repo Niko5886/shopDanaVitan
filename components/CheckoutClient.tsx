@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import Link from "next/link";
+import { useCart } from "@/context/CartContext";
 import { checkoutSchema, type CheckoutFormData } from "../lib/checkoutSchema";
 import { SPEEDY_CITIES } from "../lib/speedy-offices";
 import { ECONT_CITIES } from "../lib/econt-offices";
-import { products } from "../data/products";
 
 type OfficeOption = { id: string; name: string; address: string };
 
@@ -22,15 +23,7 @@ const errorClass = "mt-1 text-xs text-[#E53935]";
 
 export default function CheckoutClient() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const productSlug = searchParams.get("product") ?? "";
-  const size = searchParams.get("size") ?? "";
-  const priceRaw = searchParams.get("price") ?? "";
-
-  const product = products.find((p) => p.slug === productSlug);
-  const productImage = product?.thumb ?? product?.images?.[0] ?? null;
-  const priceLabel = product?.priceLabel ?? (priceRaw ? `${priceRaw} лв.` : "");
+  const { items, totalItems, totalPrice, clearCart } = useCart();
 
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -96,15 +89,16 @@ export default function CheckoutClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...data,
-          product: product?.title ?? productSlug,
-          size,
-          price: priceLabel,
+          items,
+          totalPrice,
+          totalItems,
           company: honeypotRef.current?.value ?? "",
         }),
       });
       const json = await res.json();
       if (json.success) {
         setOrderConfirmed(true);
+        clearCart();
       } else {
         setSubmitError("Възникна грешка. Моля, опитайте отново.");
       }
@@ -115,6 +109,28 @@ export default function CheckoutClient() {
     }
   };
 
+  // Празна количка — показваме съобщение вместо формата.
+  // (Гардваме с !orderConfirmed, за да остане видим модалът за
+  // потвърждение, след като clearCart() изпразни количката.)
+  if (items.length === 0 && !orderConfirmed) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-[#0a0a0a] px-6 text-center text-white">
+        <h1 className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">
+          Количката е празна
+        </h1>
+        <p className="max-w-sm text-sm leading-6 text-white/60">
+          Добавете артикули в количката, за да продължите към поръчка.
+        </p>
+        <Link
+          href="/shop"
+          className="rounded-full border border-accent bg-accent px-8 py-3 text-sm font-medium uppercase tracking-widest text-white transition-all duration-300 hover:bg-transparent"
+        >
+          Към магазина
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <>
     <div className="min-h-screen bg-[#0a0a0a] px-6 pb-20 pt-24 text-white">
@@ -123,29 +139,36 @@ export default function CheckoutClient() {
           {/* ── ЛЯВА КОЛОНА — Обобщение ── */}
           <aside>
             <h2 className="mb-6 text-sm font-semibold uppercase tracking-[0.3em] text-accent">
-              Вашата поръчка
+              Вашата поръчка{totalItems > 0 ? ` (${totalItems})` : ""}
             </h2>
 
             <div className="rounded border border-accent bg-[#111111] p-5">
-              <div className="flex gap-4">
-                <div className="relative h-[120px] w-[120px] flex-shrink-0 overflow-hidden rounded bg-black">
-                  {productImage ? (
-                    <Image src={productImage} alt={product?.title ?? "Продукт"} fill className="object-cover" sizes="120px" />
-                  ) : (
-                    <div className="absolute inset-0 bg-[linear-gradient(135deg,var(--accent),#1a0d10_58%,#000)]" />
-                  )}
-                </div>
-                <div className="flex flex-col justify-center text-sm">
-                  <p className="text-white/60">
-                    Артикул: <span className="text-white">{product?.title ?? "—"}</span>
-                  </p>
-                  <p className="mt-1 text-white/60">
-                    Размер: <span className="text-white">{size || "—"}</span>
-                  </p>
-                  <p className="mt-1 text-white/60">
-                    Цена: <span className="text-white">{priceLabel || "—"}</span>
-                  </p>
-                </div>
+              <div className="flex flex-col gap-4">
+                {items.map((item) => (
+                  <div key={`${item.slug}-${item.size}`} className="flex gap-4">
+                    <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded bg-black">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className="object-cover"
+                        sizes="80px"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col justify-center text-sm">
+                      <p className="font-medium text-white">{item.name}</p>
+                      <p className="mt-1 text-white/60">
+                        Размер: <span className="text-white">{item.size}</span>
+                      </p>
+                      <p className="mt-1 text-white/60">
+                        {item.price} лв. × {item.quantity}
+                      </p>
+                    </div>
+                    <div className="flex items-center text-sm font-medium text-white">
+                      {item.price * item.quantity} лв.
+                    </div>
+                  </div>
+                ))}
               </div>
 
               <hr className="my-4 border-t border-white/10" />
@@ -157,7 +180,7 @@ export default function CheckoutClient() {
 
               <div className="mt-3 flex items-center justify-between">
                 <span className="text-sm font-semibold uppercase tracking-wider text-white/70">ОБЩО:</span>
-                <span className="text-lg font-bold text-accent">{priceLabel || "—"}</span>
+                <span className="text-lg font-bold text-accent">{totalPrice} лв.</span>
               </div>
             </div>
 

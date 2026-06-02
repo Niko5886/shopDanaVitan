@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "@/components/MobileMenu";
+import CartIcon from "@/components/CartIcon";
 
 const NAV = [
   { href: "/", label: "НАЧАЛО" },
@@ -52,7 +53,8 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <CartIcon />
           <MobileMenu />
         </div>
       </div>

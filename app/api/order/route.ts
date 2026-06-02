@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { checkoutSchema } from "@/lib/checkoutSchema";
-import type { OrderEmailData } from "@/lib/types";
+import type { OrderEmailData, OrderItem } from "@/lib/types";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Rate limiting (best-effort, in-memory). Ограничава спам поръчки по IP.
@@ -64,7 +64,36 @@ export async function POST(req: NextRequest) {
     }
 
     const data = parsed.data;
-    const { product, size, price } = body as { product: string; size: string; price: string };
+
+    // Артикулите идват от клиента → нормализираме и валидираме типовете.
+    // (XSS escape става при рендиране на имейла.)
+    const rawItems = Array.isArray(body?.items) ? body.items : [];
+    const items: OrderItem[] = rawItems
+      .map((it: unknown) => {
+        const o = (it ?? {}) as Record<string, unknown>;
+        return {
+          name: String(o.name ?? ""),
+          size: String(o.size ?? ""),
+          quantity: Number(o.quantity) || 0,
+          price: Number(o.price) || 0,
+        };
+      })
+      .filter((it: OrderItem) => it.name !== "" && it.quantity > 0);
+
+    // Празна количка → няма какво да поръчаме.
+    if (items.length === 0) {
+      return NextResponse.json(
+        { success: false, error: "Количката е празна" },
+        { status: 400 },
+      );
+    }
+
+    const totalPrice =
+      Number(body?.totalPrice) ||
+      items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const totalItems =
+      Number(body?.totalItems) ||
+      items.reduce((sum, i) => sum + i.quantity, 0);
 
     const courierLabel = data.courier === "econt" ? "Еконт" : "Speedy";
     const deliveryLabel = data.deliveryType === "address" ? "До адрес" : "До офис";
@@ -84,15 +113,15 @@ export async function POST(req: NextRequest) {
     await resend.emails.send({
       from: "Dana Vitan Boutique <orders@danavitan.com>",
       to: process.env.OWNER_EMAIL!,
-      subject: `Нова поръчка — ${product} (${size})`,
+      subject: `Нова поръчка — ${totalItems} артикул${totalItems === 1 ? "" : "а"}, ${totalPrice} лв.`,
       html: ownerEmailHtml({
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
         phone: data.phone,
-        product,
-        size,
-        price,
+        items,
+        totalPrice,
+        totalItems,
         courierLabel,
         deliveryLabel,
         deliveryDetails,
@@ -108,9 +137,9 @@ export async function POST(req: NextRequest) {
       html: clientEmailHtml({
         firstName: data.firstName,
         email: data.email,
-        product,
-        size,
-        price,
+        items,
+        totalPrice,
+        totalItems,
         courierLabel,
         deliveryLabel,
         deliveryDetails,
@@ -189,6 +218,41 @@ const sectionBlock = (title: string, rows: Array<[string, string]>) => `
   </td>
 </tr>`;
 
+// Таблица с всички артикули: Артикул | Размер | Брой | Цена.
+// Стойностите се escape-ват тук (идват от клиента).
+const itemsTableBlock = (
+  items: OrderItem[],
+  totalPrice: number,
+) => `
+<tr>
+  <td style="padding:24px 28px;border-bottom:1px solid rgba(255,255,255,0.06);">
+    <p style="margin:0 0 14px;color:${ACCENT};font-size:12px;text-transform:uppercase;letter-spacing:2px;font-weight:600;">Артикули</p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+      <tr>
+        <td style="padding:8px 8px 8px 0;color:${LABEL};font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,0.12);">Артикул</td>
+        <td style="padding:8px;color:${LABEL};font-size:11px;text-transform:uppercase;letter-spacing:1px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.12);">Размер</td>
+        <td style="padding:8px;color:${LABEL};font-size:11px;text-transform:uppercase;letter-spacing:1px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.12);">Брой</td>
+        <td style="padding:8px 0 8px 8px;color:${LABEL};font-size:11px;text-transform:uppercase;letter-spacing:1px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.12);">Цена</td>
+      </tr>
+      ${items
+        .map(
+          (it) => `
+      <tr>
+        <td style="padding:10px 8px 10px 0;color:${TEXT};font-size:14px;vertical-align:top;border-bottom:1px solid rgba(255,255,255,0.06);">${escapeHtml(it.name)}</td>
+        <td style="padding:10px 8px;color:${TEXT};font-size:14px;text-align:center;vertical-align:top;border-bottom:1px solid rgba(255,255,255,0.06);">${escapeHtml(it.size)}</td>
+        <td style="padding:10px 8px;color:${TEXT};font-size:14px;text-align:center;vertical-align:top;border-bottom:1px solid rgba(255,255,255,0.06);">${it.quantity}</td>
+        <td style="padding:10px 0 10px 8px;color:${TEXT};font-size:14px;text-align:right;vertical-align:top;border-bottom:1px solid rgba(255,255,255,0.06);">${it.price * it.quantity} лв.</td>
+      </tr>`,
+        )
+        .join("")}
+      <tr>
+        <td colspan="3" style="padding:14px 8px 0 0;color:${TEXT};font-size:13px;text-transform:uppercase;letter-spacing:2px;font-weight:600;">Общо:</td>
+        <td style="padding:14px 0 0 8px;color:${ACCENT};font-size:16px;text-align:right;font-weight:700;">${totalPrice} лв.</td>
+      </tr>
+    </table>
+  </td>
+</tr>`;
+
 const footerBlock = (orderDate?: string) => `
 ${orderDate ? `<tr><td style="padding:18px 28px;color:${LABEL};font-size:12px;">Дата: ${orderDate}</td></tr>` : ""}
 <tr>
@@ -211,11 +275,7 @@ export function ownerEmailHtml(d: OrderEmailData): string {
   const fullName = `${escapeHtml(d.firstName)} ${escapeHtml(d.lastName ?? "")}`.trim();
   const inner = `
     ${headerBlock("Нова поръчка")}
-    ${sectionBlock("Детайли на поръчката", [
-      ["Артикул:", escapeHtml(d.product)],
-      ["Размер:", escapeHtml(d.size)],
-      ["Цена:", `${escapeHtml(d.price)}`],
-    ])}
+    ${itemsTableBlock(d.items, d.totalPrice)}
     ${sectionBlock("Данни на клиента", [
       ["Име:", fullName || "—"],
       ["Имейл:", `<a href="mailto:${escapeHtml(d.email)}" style="color:${TEXT};text-decoration:none;">${escapeHtml(d.email)}</a>`],
@@ -243,10 +303,8 @@ export function clientEmailHtml(d: OrderEmailData): string {
         </p>
       </td>
     </tr>
-    ${sectionBlock("Вашата поръчка", [
-      ["Артикул:", escapeHtml(d.product)],
-      ["Размер:", escapeHtml(d.size)],
-      ["Цена:", `${escapeHtml(d.price)}`],
+    ${itemsTableBlock(d.items, d.totalPrice)}
+    ${sectionBlock("Доставка", [
       ["Куриер:", escapeHtml(d.courierLabel)],
       ["Доставка:", escapeHtml(d.deliveryLabel)],
       ["Адрес:", escapeHtml(d.deliveryDetails ?? "—")],

@@ -16,7 +16,7 @@ export const checkoutSchema = z
 
     phone: z
       .string()
-      .regex(/^08[0-9]{8}$/, "Въведете валиден БГ номер (08XXXXXXXX)"),
+      .regex(/^0[89][0-9]{8}$/, "Въведете валиден БГ номер (08XXXXXXXX или 09XXXXXXXX)"),
 
     courier: z.enum(["econt", "speedy"], {
       error: "Моля, изберете куриер",
