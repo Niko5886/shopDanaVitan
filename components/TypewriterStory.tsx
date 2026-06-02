@@ -27,7 +27,7 @@ export default function TypewriterStory() {
         clearInterval(interval);
         setTitleDone(true);
       }
-    }, 45);
+    }, 40);
     return () => clearInterval(interval);
   }, []);
 
@@ -46,7 +46,7 @@ export default function TypewriterStory() {
           setBodyDone(true);
           setTimeout(() => setShowButton(true), 400);
         }
-      }, 22);
+      }, 13);
     }, 300);
     return () => {
       clearTimeout(timer);
@@ -78,7 +78,7 @@ export default function TypewriterStory() {
             type="button"
             className="mt-2 px-10 py-3 bg-accent text-white text-sm uppercase tracking-widest font-medium rounded-full border border-accent hover:bg-transparent transition-all duration-300 cursor-pointer animate-fadeIn"
           >
-            Галерия
+            Магазин
           </button>
         </Link>
       )}

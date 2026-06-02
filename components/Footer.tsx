@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -9,10 +10,18 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Бранд */}
           <div>
-            <div className="flex items-center gap-3">
-              <span className="h-10 w-10 rounded-full bg-[radial-gradient(circle,rgba(139,26,47,0.9),rgba(0,0,0,0.8))]" />
-              <p className="text-sm uppercase tracking-[0.3em] text-white">Dana Vitan</p>
-            </div>
+            <Link
+              href="/"
+              className="inline-flex items-center rounded-xl bg-white px-2 py-1 shadow-sm ring-1 ring-white/10"
+            >
+              <Image
+                src="/images/Dana_Vitan_png2.png"
+                alt="Dana Vitan Boutique"
+                width={140}
+                height={48}
+                className="h-9 w-auto object-contain"
+              />
+            </Link>
             <p className="mt-4 text-sm leading-6 text-white/55">
               Бутикови дрехи, стилизирани носии и аксесоари с ръчна изработка и
               персонална консултация.
