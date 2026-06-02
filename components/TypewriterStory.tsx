@@ -27,7 +27,7 @@ export default function TypewriterStory() {
         clearInterval(interval);
         setTitleDone(true);
       }
-    }, 60);
+    }, 45);
     return () => clearInterval(interval);
   }, []);
 
