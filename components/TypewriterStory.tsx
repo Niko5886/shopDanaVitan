@@ -9,9 +9,14 @@ const BODY =
 
 type Char = { char: string; id: number };
 
+// blurIn анимацията е 1.8s, при 13ms/символ това са ~139 символа.
+// Държим малко по-голям прозорец, за да е сигурно, че анимацията е свършила,
+// преди символът да се „слее" в статичния текст.
+const BLUR_WINDOW = 160;
+
 export default function TypewriterStory() {
   const [titleChars, setTitleChars] = useState<Char[]>([]);
-  const [bodyChars, setBodyChars] = useState<Char[]>([]);
+  const [bodyCount, setBodyCount] = useState(0);
   const [titleDone, setTitleDone] = useState(false);
   const [bodyDone, setBodyDone] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -38,9 +43,8 @@ export default function TypewriterStory() {
       let j = 0;
       bodyInterval = setInterval(() => {
         if (j < BODY.length) {
-          const idx = j;
-          setBodyChars(prev => [...prev, { char: BODY[idx], id: idx }]);
           j++;
+          setBodyCount(j);
         } else {
           if (bodyInterval) clearInterval(bodyInterval);
           setBodyDone(true);
@@ -65,9 +69,21 @@ export default function TypewriterStory() {
 
       {titleDone && (
         <p className="text-white/80 text-sm font-light leading-relaxed min-h-[22rem]">
-          {bodyChars.map(({ char, id }) => (
-            <span key={id} className="char-blur-in">{char}</span>
-          ))}
+          {(() => {
+            const settledEnd = Math.max(0, bodyCount - BLUR_WINDOW);
+            // Вече изписаните символи са статичен текст (без ре-рендер цена),
+            // а blur анимация тече само за последните BLUR_WINDOW символа.
+            const settled = BODY.slice(0, settledEnd);
+            const animating = BODY.slice(settledEnd, bodyCount);
+            return (
+              <>
+                {settled}
+                {animating.split('').map((char, i) => (
+                  <span key={settledEnd + i} className="char-blur-in">{char}</span>
+                ))}
+              </>
+            );
+          })()}
           {!bodyDone && <span className="text-accent animate-pulse">|</span>}
         </p>
       )}
