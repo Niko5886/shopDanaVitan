@@ -8,12 +8,12 @@ export default function FounderSection() {
 
         {/* Снимка */}
         <div className="w-full md:w-1/2 order-1">
-          <div className="relative w-full h-[500px] rounded-lg overflow-hidden">
+          <div className="relative w-full h-[500px] md:h-[550px] rounded-lg overflow-hidden">
             <Image
-              src="/assets/imgDana/dVitan.webp"
+              src="/assets/imgDana/dntop.webp"
               alt="Дана Витан"
               fill
-              className="object-cover object-top"
+              className="object-contain object-center"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>

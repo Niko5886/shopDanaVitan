@@ -30,10 +30,14 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black/90 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
-        <Link
-          href="/"
-          className="group relative flex items-center rounded-xl bg-white px-2 py-1 shadow-sm ring-1 ring-white/10 transition-all duration-300 hover:shadow-md hover:ring-white/20 md:-translate-x-10"
-          aria-label="Dana Vitan Boutique — към началото"
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="group relative flex items-center rounded-xl bg-white px-2 py-1 shadow-sm ring-1 ring-white/10 transition-all duration-300 hover:shadow-md hover:ring-white/20 md:-translate-x-10 cursor-pointer"
+          aria-label="Върни се в началото на страницата"
         >
           <Image
             src="/images/Dana_Vitan_png2.png"
@@ -43,7 +47,7 @@ export default function Header() {
             priority
             className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
           />
-        </Link>
+        </button>
 
         <nav className="hidden items-center gap-8 text-sm uppercase tracking-[0.2em] text-white/70 md:flex">
           {NAV.map((n) => (

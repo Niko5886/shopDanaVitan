@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import TypewriterStory from '@/components/TypewriterStory';
+import HeroBanner from '@/components/HeroBanner';
 import PhilosophySection from '@/components/PhilosophySection';
 import FounderSection from '@/components/FounderSection';
 import CtaSection from '@/components/CtaSection';
@@ -13,73 +12,8 @@ export default function Home() {
   return (
     <main className="bg-[#0a0a0a] min-h-screen">
 
-      {/* HERO — Split Layout */}
-      <section className="
-        relative
-        min-h-[calc(100vh-80px)]
-        flex flex-col md:flex-row
-        items-center
-      ">
-
-        {/* ЛЯВА КОЛОНА — Typewriter текст */}
-        <div className="
-          w-full md:w-1/2
-          flex flex-col
-          justify-center items-center md:items-end
-          pl-8 pr-4
-          pt-24 pb-12
-          order-2 md:order-1
-        ">
-          <TypewriterStory />
-        </div>
-
-        {/* ДЯСНА КОЛОНА — Floating Card with Glow */}
-        <div className="
-          w-full md:w-1/2
-          h-[50vh] md:h-[calc(100vh-80px)]
-          relative
-          order-1 md:order-2
-          flex items-center justify-center
-          p-8
-        ">
-          {/* Glow зад картата */}
-          <div className="
-            absolute
-            w-[300px] h-[400px]
-            bg-accent
-            opacity-30
-            blur-[80px]
-            rounded-full
-            pointer-events-none
-          "/>
-
-          {/* Самата карта */}
-          <div className="
-            relative
-            w-full max-w-sm
-            rounded-2xl
-            overflow-hidden
-            border border-accent/50
-            rotate-[-3deg]
-            transition-transform duration-500
-            hover:rotate-0
-            hover:scale-[1.02]
-            shadow-2xl
-          ">
-            <div className="relative w-full aspect-[3/4]">
-              <Image
-                src="/assets/imgDana/dntop.webp"
-                alt="Дана Витан"
-                fill
-                className="object-contain"
-                priority
-              />
-
-            </div>
-          </div>
-        </div>
-
-      </section>
+      {/* HERO — кинематографичен full-bleed банер */}
+      <HeroBanner />
 
       {/* СЕКЦИЯ 1 — Философия */}
       <PhilosophySection />

@@ -10,7 +10,7 @@ import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE } from "../lib/site";
 
 const manrope = Manrope({
   variable: "--font-manrope",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
 });
 
 export const metadata: Metadata = {
