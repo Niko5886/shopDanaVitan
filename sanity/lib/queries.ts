@@ -59,9 +59,12 @@ export type RawProduct = Omit<Product, "images" | "thumb" | "focalPoints"> & {
 // а кадрирането остава на object-cover + objectPosition в компонентите
 // (точно както досега) — визуално идентично.
 export function mapProduct(raw: RawProduct): Product {
-  const images = (raw.rawImages ?? []).map((img) =>
-    urlFor(img).width(1200).url()
-  );
+  // Пазим се от празни image-слотове (image без качен asset) — те остават,
+  // ако в Studio се изтрие снимка, но не и редът ѝ. Без този филтър urlFor
+  // хвърля грешка и цялата страница дава 500.
+  const images = (raw.rawImages ?? [])
+    .filter((img): boolean => !!(img as { asset?: { _ref?: string } })?.asset?._ref)
+    .map((img) => urlFor(img).width(1200).url());
   return {
     id: raw.id,
     slug: raw.slug,
