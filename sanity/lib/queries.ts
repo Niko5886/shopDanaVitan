@@ -8,7 +8,7 @@ import { urlFor } from "./image";
 // GROQ заявки. Връщат продукта в СЪЩИЯ shape като интерфейса Product, с две
 // уговорки, които се довършват в JS (mapProduct):
 //   - categorySlug се изчислява тук в GROQ чрез select() по картата от Етап 2.
-//   - priceLabel се сглобява тук като `<price> лв.`.
+//   - priceLabel се сглобява тук като `<price> €`.
 //   - снимките идват като сурови image обекти (rawImages) и се превръщат в
 //     URL-и през urlFor() в mapProduct (GROQ не може да вика urlFor).
 // Подредбата е по полето order → запазва оригиналния ред от data/products.ts.
@@ -29,7 +29,7 @@ const PRODUCT_PROJECTION = groq`{
     category == "Аксесоари" => "aksesoari"
   ),
   price,
-  "priceLabel": string(price) + " лв.",
+  "priceLabel": string(price) + " €",
   note,
   description,
   sizes,

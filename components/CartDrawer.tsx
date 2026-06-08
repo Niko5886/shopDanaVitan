@@ -102,7 +102,7 @@ export default function CartDrawer() {
                         Размер: {item.size}
                       </p>
                       <p className="mt-1 text-sm font-medium text-accent">
-                        {item.price} лв.
+                        {item.price} €
                       </p>
                     </div>
 
@@ -165,7 +165,7 @@ export default function CartDrawer() {
                 Общо:
               </span>
               <span className="text-xl font-medium text-white">
-                {totalPrice} лв.
+                {totalPrice} €
               </span>
             </div>
             <Link
