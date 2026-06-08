@@ -1,23 +1,33 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { products } from "../../../data/products";
+import { client } from "../../../sanity/lib/client";
+import {
+  productBySlug,
+  relatedProducts,
+  allSlugs,
+  mapProduct,
+  type RawProduct,
+} from "../../../sanity/lib/queries";
 import ProductDetailClient from "../../../components/ProductDetailClient";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return products.map((product) => ({ slug: product.slug }));
+export async function generateStaticParams() {
+  // Само slug-овете от Sanity.
+  const slugs = await client.fetch<{ slug: string }[]>(allSlugs);
+  return slugs.map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = products.find((item) => item.slug === slug);
+  const raw = await client.fetch<RawProduct | null>(productBySlug, { slug }, { next: { revalidate: 60 } });
 
-  if (!product) {
+  if (!raw) {
     return { title: "Продуктът не е намерен" };
   }
+  const product = mapProduct(raw);
 
   const description = `${product.title} — ${product.category} от Dana Vitan Boutique. ${product.priceLabel}.`;
   const image = product.images[0] ?? product.thumb;
@@ -37,15 +47,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = products.find((item) => item.slug === slug);
 
-  if (!product) {
+  // Чете от Sanity с ISR (revalidate 60s). БЕЗ SanityLive.
+  const raw = await client.fetch<RawProduct | null>(productBySlug, { slug }, { next: { revalidate: 60 } });
+
+  if (!raw) {
     notFound();
   }
+  const product = mapProduct(raw);
 
-  const related = products
-    .filter((item) => item.category === product.category && item.slug !== product.slug)
-    .slice(0, 3);
+  // Сходни артикули — същата категория, без текущия, първите 3 (по реда).
+  const rawRelated = await client.fetch<RawProduct[]>(
+    relatedProducts,
+    { category: product.category, slug: product.slug },
+    { next: { revalidate: 60 } }
+  );
+  const related = rawRelated.map(mapProduct);
 
   return <ProductDetailClient product={product} related={related} />;
 }

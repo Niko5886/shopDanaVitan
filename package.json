@@ -6,16 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrate": "tsx --env-file=.env.local scripts/migrate-products.ts",
+    "backfill": "tsx --env-file=.env.local scripts/backfill-note-order.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
+    "@sanity/client": "^7.22.1",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "^5.30.0",
     "framer-motion": "^12.40.0",
     "next": "16.2.6",
+    "next-sanity": "^13.0.11",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.76.1",
     "resend": "^6.12.4",
+    "sanity": "^5.30.0",
     "sharp": "^0.34.5",
     "zod": "^4.4.3"
   },
@@ -27,6 +34,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",
+    "tsx": "^4.22.4",
     "typescript": "^5"
   }
 }

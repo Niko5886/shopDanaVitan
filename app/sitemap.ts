@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "../lib/site";
-import { products } from "../data/products";
+import { client } from "../sanity/lib/client";
+import { allSlugs } from "../sanity/lib/queries";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -12,8 +13,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/contacts`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
   ];
 
-  const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
-    url: `${SITE_URL}/shop/${product.slug}`,
+  // Slug-овете на продуктите идват от Sanity.
+  const slugs = await client.fetch<{ slug: string }[]>(allSlugs);
+  const productRoutes: MetadataRoute.Sitemap = slugs.map(({ slug }) => ({
+    url: `${SITE_URL}/shop/${slug}`,
     lastModified: now,
     changeFrequency: "weekly",
     priority: 0.8,
