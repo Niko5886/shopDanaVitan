@@ -7,7 +7,7 @@ export default function CtaSection() {
         ОТКРИЙ КОЛЕКЦИЯТА
       </span>
       <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight mb-6">
-        Намери своето парче
+        Преоткрий своята визия
       </h2>
       <p className="text-white/60 text-sm md:text-base font-light leading-relaxed max-w-xl mb-10">
         Разгледай нашите бутикови облекла, стилизирани носии и ръчно подбрани аксесоари.
