@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "../lib/site";
 import { client } from "../sanity/lib/client";
 import { allSlugs } from "../sanity/lib/queries";
+import { isRealProduct } from "../data/realProducts";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -13,9 +14,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/contacts`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
   ];
 
-  // Slug-овете на продуктите идват от Sanity.
+  // Slug-овете на продуктите идват от Sanity. В sitemap-а включваме само
+  // реалните артикули — празните „coming soon" placeholder-и нямат смисъл
+  // за индексиране (виж data/realProducts.ts).
   const slugs = await client.fetch<{ slug: string }[]>(allSlugs);
-  const productRoutes: MetadataRoute.Sitemap = slugs.map(({ slug }) => ({
+  const productRoutes: MetadataRoute.Sitemap = slugs
+    .filter(({ slug }) => isRealProduct(slug))
+    .map(({ slug }) => ({
     url: `${SITE_URL}/shop/${slug}`,
     lastModified: now,
     changeFrequency: "weekly",

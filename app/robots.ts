@@ -6,8 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      // Транзакционните страници не бива да се индексират.
-      disallow: ["/checkout", "/order-success"],
+      // Транзакционните и админ страниците не бива да се индексират.
+      disallow: ["/checkout", "/order-success", "/studio"],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };

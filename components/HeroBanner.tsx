@@ -23,15 +23,10 @@ export default function HeroBanner() {
   const [bodyDone, setBodyDone] = useState(false);
   const [showButton, setShowButton] = useState(false);
 
+  // При reduced-motion НЕ задаваме state синхронно в effect (cascading renders);
+  // вместо това извеждаме финалните стойности директно в рендера (виж eff* долу).
   useEffect(() => {
-    if (shouldReduceMotion) {
-      setTitleChars(TITLE.split('').map((char, id) => ({ char, id })));
-      setTitleDone(true);
-      setBodyCount(BODY.length);
-      setBodyDone(true);
-      setShowButton(true);
-      return;
-    }
+    if (shouldReduceMotion) return;
     let i = 0;
     const interval = setInterval(() => {
       if (i < TITLE.length) {
@@ -68,9 +63,18 @@ export default function HeroBanner() {
     };
   }, [titleDone, shouldReduceMotion]);
 
-  const settledEnd = Math.max(0, bodyCount - BLUR_WINDOW);
+  // Изведени стойности: при reduced-motion показваме целия текст наведнъж,
+  // без анимация и без state мутации в effect.
+  const reduce = !!shouldReduceMotion;
+  const effTitleChars = reduce ? TITLE.split('').map((char, id) => ({ char, id })) : titleChars;
+  const effTitleDone = reduce ? true : titleDone;
+  const effBodyCount = reduce ? BODY.length : bodyCount;
+  const effBodyDone = reduce ? true : bodyDone;
+  const effShowButton = reduce ? true : showButton;
+
+  const settledEnd = Math.max(0, effBodyCount - BLUR_WINDOW);
   const settled = BODY.slice(0, settledEnd);
-  const animating = BODY.slice(settledEnd, bodyCount);
+  const animating = BODY.slice(settledEnd, effBodyCount);
 
   return (
     <section className="relative w-full overflow-x-clip" style={{ backgroundColor: BG }}>
@@ -81,7 +85,7 @@ export default function HeroBanner() {
         className="relative w-full overflow-hidden"
       >
         <Image
-          src="/assets/imgDana/DanaV.png"
+          src="/assets/imgDana/DanaV.webp"
           alt="Dana Vitan — колекция стилизирани носии и бутикови облекла"
           width={2658}
           height={984}
@@ -107,7 +111,7 @@ export default function HeroBanner() {
         <h1 className="relative text-white text-3xl md:text-5xl font-bold leading-tight tracking-normal uppercase mb-6">
           <span aria-hidden className="invisible">{TITLE}</span>
           <span className="absolute inset-0">
-            {titleChars.map(({ char, id }) => (
+            {effTitleChars.map(({ char, id }) => (
               <span key={id} className="char-blur-in">{char}</span>
             ))}
           </span>
@@ -122,11 +126,11 @@ export default function HeroBanner() {
             {animating.split('').map((char, i) => (
               <span key={settledEnd + i} className="char-blur-in">{char}</span>
             ))}
-            {titleDone && !bodyDone && <span className="text-accent animate-pulse">|</span>}
+            {effTitleDone && !effBodyDone && <span className="text-accent animate-pulse">|</span>}
           </span>
         </p>
 
-        <Link href="/shop" className={showButton ? 'animate-fadeIn' : 'invisible'}>
+        <Link href="/shop" className={effShowButton ? 'animate-fadeIn' : 'invisible'}>
           <button
             type="button"
             className="px-10 py-3 bg-accent text-white text-sm uppercase tracking-widest font-medium rounded-full border border-accent transition-all duration-300 cursor-pointer hover:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"

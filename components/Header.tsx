@@ -44,7 +44,6 @@ export default function Header() {
             alt="Dana Vitan Boutique"
             width={140}
             height={48}
-            priority
             className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
           />
         </button>

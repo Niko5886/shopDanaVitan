@@ -55,6 +55,7 @@ export default function ContactsPage() {
                 height="100%"
                 className="border-0 min-h-[260px] w-full h-full"
                 allowFullScreen
+                loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Местоположение на Dana Vitan Boutique"
               />
