@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { checkoutSchema } from "@/lib/checkoutSchema";
 import type { OrderEmailData, OrderItem } from "@/lib/types";
+import { formatPriceLabel } from "@/lib/format";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Rate limiting (best-effort, in-memory). Ограничава спам поръчки по IP.
@@ -113,7 +114,7 @@ export async function POST(req: NextRequest) {
     await resend.emails.send({
       from: "Dana Vitan Boutique <orders@danavitan.com>",
       to: process.env.OWNER_EMAIL!,
-      subject: `Нова поръчка — ${totalItems} артикул${totalItems === 1 ? "" : "а"}, ${totalPrice} €`,
+      subject: `Нова поръчка — ${totalItems} артикул${totalItems === 1 ? "" : "а"}, ${formatPriceLabel(totalPrice)}`,
       html: ownerEmailHtml({
         firstName: data.firstName,
         lastName: data.lastName,
@@ -241,13 +242,13 @@ const itemsTableBlock = (
         <td style="padding:10px 8px 10px 0;color:${TEXT};font-size:14px;vertical-align:top;border-bottom:1px solid rgba(255,255,255,0.06);">${escapeHtml(it.name)}</td>
         <td style="padding:10px 8px;color:${TEXT};font-size:14px;text-align:center;vertical-align:top;border-bottom:1px solid rgba(255,255,255,0.06);">${escapeHtml(it.size)}</td>
         <td style="padding:10px 8px;color:${TEXT};font-size:14px;text-align:center;vertical-align:top;border-bottom:1px solid rgba(255,255,255,0.06);">${it.quantity}</td>
-        <td style="padding:10px 0 10px 8px;color:${TEXT};font-size:14px;text-align:right;vertical-align:top;border-bottom:1px solid rgba(255,255,255,0.06);">${it.price * it.quantity} €</td>
+        <td style="padding:10px 0 10px 8px;color:${TEXT};font-size:14px;text-align:right;vertical-align:top;border-bottom:1px solid rgba(255,255,255,0.06);">${formatPriceLabel(it.price * it.quantity)}</td>
       </tr>`,
         )
         .join("")}
       <tr>
         <td colspan="3" style="padding:14px 8px 0 0;color:${TEXT};font-size:13px;text-transform:uppercase;letter-spacing:2px;font-weight:600;">Общо:</td>
-        <td style="padding:14px 0 0 8px;color:${ACCENT};font-size:16px;text-align:right;font-weight:700;">${totalPrice} €</td>
+        <td style="padding:14px 0 0 8px;color:${ACCENT};font-size:16px;text-align:right;font-weight:700;">${formatPriceLabel(totalPrice)}</td>
       </tr>
     </table>
   </td>

@@ -4,6 +4,7 @@ import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect } from "react";
+import { formatPriceLabel } from "@/lib/format";
 
 export default function CartDrawer() {
   const {
@@ -108,7 +109,7 @@ export default function CartDrawer() {
                         Размер: {item.size}
                       </p>
                       <p className="mt-1 text-sm font-medium text-accent">
-                        {item.price} €
+                        {formatPriceLabel(item.price)}
                       </p>
                     </div>
 
@@ -171,7 +172,7 @@ export default function CartDrawer() {
                 Общо:
               </span>
               <span className="text-xl font-medium text-white">
-                {totalPrice} €
+                {formatPriceLabel(totalPrice)}
               </span>
             </div>
             <Link

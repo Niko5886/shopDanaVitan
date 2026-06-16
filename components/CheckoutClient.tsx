@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { checkoutSchema, type CheckoutFormData } from "../lib/checkoutSchema";
+import { formatPriceLabel } from "../lib/format";
 import { SPEEDY_CITIES } from "../lib/speedy-offices";
 import { ECONT_CITIES } from "../lib/econt-offices";
 
@@ -161,11 +162,11 @@ export default function CheckoutClient() {
                         Размер: <span className="text-white">{item.size}</span>
                       </p>
                       <p className="mt-1 text-white/60">
-                        {item.price} € × {item.quantity}
+                        {formatPriceLabel(item.price)} × {item.quantity}
                       </p>
                     </div>
                     <div className="flex items-center text-sm font-medium text-white">
-                      {item.price * item.quantity} €
+                      {formatPriceLabel(item.price * item.quantity)}
                     </div>
                   </div>
                 ))}
@@ -180,7 +181,7 @@ export default function CheckoutClient() {
 
               <div className="mt-3 flex items-center justify-between">
                 <span className="text-sm font-semibold uppercase tracking-wider text-white/70">ОБЩО:</span>
-                <span className="text-lg font-bold text-accent">{totalPrice} €</span>
+                <span className="text-lg font-bold text-accent">{formatPriceLabel(totalPrice)}</span>
               </div>
             </div>
 

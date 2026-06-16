@@ -3,6 +3,7 @@ import type { SanityImageSource } from "@sanity/image-url";
 
 import type { Product } from "../../data/products";
 import { urlFor } from "./image";
+import { formatPriceLabel } from "../../lib/format";
 
 // ───────────────────────────────────────────────────────────────────────────
 // GROQ заявки. Връщат продукта в СЪЩИЯ shape като интерфейса Product, с две
@@ -72,7 +73,9 @@ export function mapProduct(raw: RawProduct): Product {
     category: raw.category,
     categorySlug: raw.categorySlug,
     price: raw.price,
-    priceLabel: raw.priceLabel,
+    // Форматираме етикета в JS (2 десетични, запетая), вместо суровия GROQ
+    // string(price) — така 24.8 се показва като „24,80 €".
+    priceLabel: formatPriceLabel(raw.price),
     note: raw.note,
     description: raw.description,
     sizes: raw.sizes,
