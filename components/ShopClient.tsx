@@ -256,7 +256,7 @@ export default function ShopClient({ products, comingSoonCount = 0 }: Props) {
       )}
 
       {totalPages > 1 && (
-      <div className="mt-8 flex items-center justify-center gap-3">
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <button
           type="button"
           onClick={(e) => {

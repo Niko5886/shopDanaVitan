@@ -36,12 +36,18 @@ export default function CartDrawer() {
         }`}
       />
 
-      {/* Панелът — изплъзва се отдясно */}
-      <div
-        className={`fixed top-0 right-0 z-[80] flex h-full w-full max-w-md flex-col border-l border-accent/30 bg-[#0a0a0a] transition-transform duration-300 ${
-          isCartOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
+      {/* Обвивка, която клипва изплъзващия се панел. Затворената количка е
+          translate-x-full (извън екрана вдясно); понеже панелът е fixed, body
+          overflow-x-hidden НЕ го клипва и предизвиква хоризонтален скрол.
+          Тази fixed inset-0 + overflow-hidden обвивка го клипва, без да пипа
+          overflow на html/body (което би счупило sticky навигацията). */}
+      <div className="fixed inset-0 z-[80] overflow-hidden pointer-events-none">
+        {/* Панелът — изплъзва се отдясно */}
+        <div
+          className={`pointer-events-auto absolute top-0 right-0 flex h-full w-full max-w-md flex-col border-l border-accent/30 bg-[#0a0a0a] transition-transform duration-300 ${
+            isCartOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
         {/* ГЛАВА на панела */}
         <div className="flex items-center justify-between border-b border-accent/20 px-6 py-5">
           <h2 className="text-lg font-medium uppercase tracking-widest text-white">
@@ -177,6 +183,7 @@ export default function CartDrawer() {
             </Link>
           </div>
         )}
+        </div>
       </div>
     </>
   );

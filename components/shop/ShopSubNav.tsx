@@ -74,9 +74,12 @@ export default function ShopSubNav({ counts }: Props) {
           </span>
           <span className="hidden h-3 w-px shrink-0 bg-white/10 sm:block" />
 
-          {/* Pill бутони — хоризонтален скрол на мобилен без scrollbar */}
+          {/* Pill бутони — хоризонтален скрол на мобилен без scrollbar.
+              min-w-0 е задължително: без него flex-детето отказва да се свие
+              под съдържанието си (min-width:auto) и бута цялата страница
+              настрани, вместо да скролира вътрешно. */}
           <div
-            className="overflow-x-auto"
+            className="min-w-0 flex-1 overflow-x-auto"
             style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}
           >
             <div className="flex items-center gap-0.5 min-w-max">
