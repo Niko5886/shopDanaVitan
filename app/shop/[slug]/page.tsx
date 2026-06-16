@@ -10,6 +10,8 @@ import {
 } from "../../../sanity/lib/queries";
 import ProductDetailClient from "../../../components/ProductDetailClient";
 import { isRealProduct } from "../../../data/realProducts";
+import JsonLd from "../../../components/JsonLd";
+import { SITE_URL, SITE_NAME } from "../../../lib/site";
 
 type Props = {
   params: Promise<{ slug: string }>;

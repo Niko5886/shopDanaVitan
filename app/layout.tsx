@@ -45,6 +45,7 @@ export default function RootLayout({
   return (
     <html lang="bg" className={`${manrope.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col overflow-x-hidden bg-[color:var(--background)]">
+        <JsonLd data={businessJsonLd} />
         <CartProvider>
           <Header />
           <main className="flex-1">{children}</main>
