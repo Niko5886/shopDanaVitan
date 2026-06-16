@@ -21,9 +21,9 @@ export const COMING_SOON_ENABLED = true;
 // Slug-овете на реалните 24 продукта (редът тук няма значение — подредбата в
 // магазина се пази от полето `order` в Sanity).
 export const REAL_PRODUCT_SLUGS: ReadonlySet<string> = new Set([
-  "top-teresiya-1", // Топ Тересия 1
-  "top-dantezikla-2", // Топ Дантезикла 2
-  "top-bendida-3", // Топ Бендида 3
+  "teresiya", // Тересия (преди: top-teresiya-1)
+  "dantezikla", // Дантезикла (преди: top-dantezikla-2)
+  "top-bendida-3", // Бендида
   "alena", // Алена
   "kalina", // Калина
   "rada", // Рада
@@ -33,16 +33,16 @@ export const REAL_PRODUCT_SLUGS: ReadonlySet<string> = new Set([
   "roza", // Роза
   "senka", // Сенка
   "emiliya", // Емилия
-  "roklya-dana", // Рокля Дана
+  "dana", // Дана (преди: roklya-dana)
   "roklya-remetalka", // Реметалка
   "eptaceya", // Ептацея
   "zelmis", // Зелмис
-  "roklya-marta", // Рокля Марта
+  "marta", // Марта (преди: roklya-marta)
   "gasherizon-yantra", // Гащеризон Янтра
   "set-medisa", // Сет Медиса
-  "roklya-satokiya", // Рокля Сатокия
+  "satokiya", // Сатокия (преди: roklya-satokiya)
   "sevda", // Севда
-  "roklya-geta", // Гета
+  "geta", // Гета (преди: roklya-geta)
   "pirula", // Пирула
   "kotis", // Котис
 ]);
