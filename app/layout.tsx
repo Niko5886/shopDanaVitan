@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header";
@@ -35,6 +35,10 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [OG_IMAGE],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0b0b0c",
 };
 
 export default function RootLayout({

@@ -69,5 +69,28 @@ export default async function ProductPage({ params }: Props) {
   // се показват и не са кликваеми никъде в магазина.
   const related = rawRelated.map(mapProduct).filter((p) => isRealProduct(p.slug));
 
-  return <ProductDetailClient product={product} related={related} />;
+  // Product structured data (JSON-LD) — за rich results в Google (цена, наличност).
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    image: product.images.map((src) => (src.startsWith("http") ? src : `${SITE_URL}${src}`)),
+    description: product.description,
+    category: product.category,
+    brand: { "@type": "Brand", name: SITE_NAME },
+    offers: {
+      "@type": "Offer",
+      price: product.price,
+      priceCurrency: "EUR",
+      availability: "https://schema.org/InStock",
+      url: `${SITE_URL}/shop/${product.slug}`,
+    },
+  };
+
+  return (
+    <>
+      <JsonLd data={productJsonLd} />
+      <ProductDetailClient product={product} related={related} />
+    </>
+  );
 }
