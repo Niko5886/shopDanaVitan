@@ -6,7 +6,8 @@ import Footer from "../components/Footer";
 import ScrollToTop from "../components/ScrollToTop";
 import CartDrawer from "@/components/CartDrawer";
 import { CartProvider } from "@/context/CartContext";
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE } from "../lib/site";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE, businessJsonLd } from "../lib/site";
+import JsonLd from "../components/JsonLd";
 
 const manrope = Manrope({
   variable: "--font-manrope",
