@@ -2,7 +2,7 @@ import ShopSubNav from "../../components/shop/ShopSubNav";
 import ShopClient from "../../components/ShopClient";
 import { client } from "../../sanity/lib/client";
 import { allProducts, mapProduct, type RawProduct } from "../../sanity/lib/queries";
-import { isRealProduct } from "../../data/realProducts";
+import { isRealProduct, SHOW_COMING_SOON_CARDS } from "../../data/realProducts";
 
 export const metadata = {
   title: "Магазин",
@@ -22,7 +22,9 @@ export default async function ShopPage() {
   // Реалните пазят оригиналния ред от Sanity; празните стават „coming soon"
   // картички най-отзад. Виж data/realProducts.ts за whitelist-а и как се връща.
   const products = all.filter((p) => isRealProduct(p.slug));
-  const comingSoonCount = all.length - products.length;
+  // Празните карти се показват само ако флагът е включен (виж data/realProducts.ts).
+  // Сега е изключен → в „Всички" се зареждат само реалните продукти.
+  const comingSoonCount = SHOW_COMING_SOON_CARDS ? all.length - products.length : 0;
 
   // Броячите по категории отчитат САМО реалните продукти (празните карти нямат
   // категория — те се показват само в изглед „Всички", най-отзад).
