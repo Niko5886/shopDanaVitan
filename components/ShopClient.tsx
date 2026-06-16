@@ -7,9 +7,16 @@ import Image from "next/image";
 
 type Props = {
   products: Product[];
+  /** Брой празни „coming soon" карти (продукти без реална информация). */
+  comingSoonCount?: number;
 };
 
 const ALL_CATEGORY = "Всички";
+
+// Карта в мрежата: или реален продукт, или празна „coming soon" клетка.
+type Card =
+  | { kind: "product"; product: Product }
+  | { kind: "coming-soon"; id: string };
 
 const SLUG_TO_CATEGORY: Record<string, string> = {
   poli: "Поли",
@@ -112,7 +119,51 @@ function ProductCard({ p }: { p: Product }) {
   );
 }
 
-export default function ShopClient({ products }: Props) {
+// Празна карта — placeholder за продукт, който ще добавим по-късно.
+// Без снимки, без информация, БЕЗ линк (не се кликва — няма какво да отвори).
+// Дизайнът ползва бордо акцента и фирмения монограм като ненатрапчив воден знак.
+function ComingSoonCard() {
+  return (
+    <div
+      aria-hidden="true"
+      className="group relative block cursor-default select-none overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]"
+    >
+      <div className="relative flex aspect-[3/4] w-full items-center justify-center bg-gradient-to-b from-white/[0.04] to-black/40">
+        {/* Деликатна бордо аура */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(139,26,47,0.18),transparent_65%)]" />
+
+        {/* Фирмен монограм като воден знак */}
+        <Image
+          src="/images/Dana_Vitan_png2.png"
+          alt=""
+          width={120}
+          height={120}
+          className="pointer-events-none h-auto w-24 opacity-10 grayscale"
+        />
+
+        {/* Тънка рамка-каре в центъра за усещане за „предстоящо" */}
+        <span className="pointer-events-none absolute inset-6 rounded-xl border border-dashed border-white/10" />
+      </div>
+
+      <div className="p-6">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-accent/70">
+          Нова колекция
+        </p>
+        <div className="mt-2 flex items-center justify-between">
+          <p className="text-base font-semibold text-white/40">Очаквайте скоро</p>
+          <span className="rounded-full border border-accent/40 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-accent/80">
+            Coming soon
+          </span>
+        </div>
+        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-white/25">
+          Нов артикул в подготовка
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default function ShopClient({ products, comingSoonCount = 0 }: Props) {
   const [activeCategory, setActiveCategory] = useState<string>(() => {
     if (typeof window === "undefined") return ALL_CATEGORY;
     const slug = new URLSearchParams(window.location.search).get("category");
@@ -131,12 +182,27 @@ export default function ShopClient({ products }: Props) {
     return () => window.removeEventListener("dana:category-changed", handler);
   }, []);
 
-  const filtered = useMemo(() => {
-    if (activeCategory === ALL_CATEGORY) return products;
-    return products.filter((p) => p.category === activeCategory);
-  }, [products, activeCategory]);
+  // Обединен списък от карти: първо реалните продукти (по реда от Sanity),
+  // после празните „coming soon" карти — само в изглед „Всички". В отделна
+  // категория показваме само реалните артикули от нея (празните нямат категория).
+  const cards = useMemo<Card[]>(() => {
+    const realCards: Card[] =
+      activeCategory === ALL_CATEGORY
+        ? products.map((p) => ({ kind: "product", product: p }))
+        : products
+            .filter((p) => p.category === activeCategory)
+            .map((p) => ({ kind: "product", product: p }));
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+    if (activeCategory !== ALL_CATEGORY) return realCards;
+
+    const placeholders: Card[] = Array.from({ length: comingSoonCount }, (_, i) => ({
+      kind: "coming-soon",
+      id: `cs-${i}`,
+    }));
+    return [...realCards, ...placeholders];
+  }, [products, activeCategory, comingSoonCount]);
+
+  const totalPages = Math.max(1, Math.ceil(cards.length / perPage));
 
   const goToPage = (p: number) => {
     setPage(p);
@@ -145,8 +211,8 @@ export default function ShopClient({ products }: Props) {
 
   const pageItems = useMemo(() => {
     const start = (page - 1) * perPage;
-    return filtered.slice(start, start + perPage);
-  }, [filtered, page]);
+    return cards.slice(start, start + perPage);
+  }, [cards, page]);
 
   return (
     <div className="mx-auto w-full max-w-6xl">
@@ -159,19 +225,37 @@ export default function ShopClient({ products }: Props) {
           transition={{ duration: 0.15, ease: "easeOut" }}
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {pageItems.map((p, i) => (
+          {pageItems.map((card, i) => (
             <motion.div
-              key={p.slug}
+              key={card.kind === "product" ? card.product.slug : card.id}
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: i * 0.05, ease: "easeOut" }}
             >
-              <ProductCard p={p} />
+              {card.kind === "product" ? (
+                <ProductCard p={card.product} />
+              ) : (
+                <ComingSoonCard />
+              )}
             </motion.div>
           ))}
         </motion.div>
       </AnimatePresence>
 
+      {/* Празно състояние — категория без реални продукти (напр. Поли/Сака). */}
+      {cards.length === 0 && (
+        <div className="mx-auto max-w-md rounded-2xl border border-dashed border-white/10 bg-white/[0.03] px-8 py-16 text-center">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-accent/70">
+            Нова колекция
+          </p>
+          <p className="mt-3 text-lg font-semibold text-white/70">Очаквайте скоро</p>
+          <p className="mt-2 text-sm text-white/40">
+            Подготвяме нови артикули за тази категория.
+          </p>
+        </div>
+      )}
+
+      {totalPages > 1 && (
       <div className="mt-8 flex items-center justify-center gap-3">
         <button
           type="button"
@@ -215,6 +299,7 @@ export default function ShopClient({ products }: Props) {
           Следваща
         </button>
       </div>
+      )}
     </div>
   );
 }

@@ -9,6 +9,7 @@ import {
   type RawProduct,
 } from "../../../sanity/lib/queries";
 import ProductDetailClient from "../../../components/ProductDetailClient";
+import { isRealProduct } from "../../../data/realProducts";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -62,7 +63,9 @@ export default async function ProductPage({ params }: Props) {
     { category: product.category, slug: product.slug },
     { next: { revalidate: 60 } }
   );
-  const related = rawRelated.map(mapProduct);
+  // Само реални артикули като „сходни" — празните (coming soon) продукти не
+  // се показват и не са кликваеми никъде в магазина.
+  const related = rawRelated.map(mapProduct).filter((p) => isRealProduct(p.slug));
 
   return <ProductDetailClient product={product} related={related} />;
 }

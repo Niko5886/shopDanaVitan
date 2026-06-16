@@ -108,7 +108,18 @@ export default function Footer() {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row">
           <p>© {year} Dana Vitan Boutique. Всички права запазени.</p>
-          <p className="sm:ml-auto">© 2025 Nymerix LTD. Tech Consulting. All rights reserved.</p>
+          <p className="sm:ml-auto">
+            © 2025{" "}
+            <a
+              href="https://nymerix.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors duration-200 hover:text-white"
+            >
+              nymerix.com
+            </a>{" "}
+            | Tech Consulting. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
