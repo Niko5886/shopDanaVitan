@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 const TITLE = 'ДАНА ВИТАН . КОДЪТ НА ЖИВОТА .';
