@@ -316,7 +316,7 @@ export function clientEmailHtml(d: OrderEmailData): string {
           <tr>
             <td style="padding:18px 22px;color:${TEXT};font-size:14px;line-height:1.6;">
               <strong style="display:block;margin-bottom:4px;letter-spacing:1px;text-transform:uppercase;font-size:12px;">Имате въпроси?</strong>
-              Пишете ни на: <a href="mailto:danavitan@gmail.com" style="color:${TEXT};text-decoration:underline;">danavitan@gmail.com</a>
+              Пишете ни на: <a href="mailto:danageorgieva74@gmail.com" style="color:${TEXT};text-decoration:underline;">danageorgieva74@gmail.com</a>
             </td>
           </tr>
         </table>
