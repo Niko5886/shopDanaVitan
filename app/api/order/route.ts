@@ -3,6 +3,8 @@ import { Resend } from "resend";
 import { checkoutSchema } from "@/lib/checkoutSchema";
 import type { OrderEmailData, OrderItem } from "@/lib/types";
 import { formatPriceLabel } from "@/lib/format";
+import { SPEEDY_OFFICES } from "@/lib/speedy-offices";
+import { ECONT_OFFICES } from "@/lib/econt-offices";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Rate limiting (best-effort, in-memory). Ограничава спам поръчки по IP.
@@ -99,10 +101,18 @@ export async function POST(req: NextRequest) {
     const courierLabel = data.courier === "econt" ? "Еконт" : "Speedy";
     const deliveryLabel = data.deliveryType === "address" ? "До адрес" : "До офис";
 
-    const deliveryDetails =
-      data.deliveryType === "address"
-        ? `${data.city}, ${data.street} ${data.streetNumber}`
-        : data.officeId;
+    // При „до офис" клиентът праща само officeId (напр. „10"). Превръщаме го в
+    // четим адрес: намираме офиса по id в съответния куриерски списък и
+    // ползваме името + адреса му (същия формат като в падащото меню на формата).
+    // Fallback към самото id, ако по някаква причина офисът не се намери.
+    let deliveryDetails: string | undefined;
+    if (data.deliveryType === "address") {
+      deliveryDetails = `${data.city}, ${data.street} ${data.streetNumber}`;
+    } else {
+      const offices = data.courier === "speedy" ? SPEEDY_OFFICES : ECONT_OFFICES;
+      const office = offices.find((o) => o.id === data.officeId);
+      deliveryDetails = office ? `${office.name} — ${office.address}` : data.officeId;
+    }
 
     const orderDate = new Date().toLocaleString("bg-BG", {
       timeZone: "Europe/Sofia",
