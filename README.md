@@ -1,3 +1,9 @@
+# Dana Vitan — Online Shop
+
+🌐 **[Виж сайта на живо → www.danavitan.com](https://www.danavitan.com)**
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
